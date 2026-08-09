@@ -5,7 +5,7 @@ const fs   = require("fs");
 const path = require("path");
 
 const key   = process.env.GROQ_API_KEY   || "";
-const model = process.env.GROQ_MODEL     || "llama-3.1-70b-versatile";
+const model = process.env.GROQ_MODEL     || "openai/gpt-oss-120b";
 const url   = process.env.GROQ_URL       || "https://api.groq.com/openai/v1/chat/completions";
 
 if (!key) {
