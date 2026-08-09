@@ -64,25 +64,45 @@ loadTasks();
 loadStats();
 
 // ──────────── Load Tasks ────────────
+const DEFAULT_TASKS = [
+    { name: "bitonic_sort_6", difficulty: "Ultra", chip: "expert", steps_hint: "~12 swaps", desc: "🚀 WORLD CHANGING: Evolve 6-element Bitonic Parallel Sorting Network.", cases: [[[6,5,4,1,2,3],[1,2,3,4,5,6]],[[3,2,1,6,5,4],[1,2,3,4,5,6]],[[1,6,2,5,3,4],[1,2,3,4,5,6]],[[6,1,5,2,4,3],[1,2,3,4,5,6]]] },
+    { name: "pancake_flip_sort", difficulty: "Ultra", chip: "novel", steps_hint: "~6 flips", desc: "🌌 ULTRA NOVEL: Sort array using only prefix range flips.", cases: [[[4,1,3,2],[1,2,3,4]],[[3,2,4,1],[1,2,3,4]],[[2,4,1,3],[1,2,3,4]],[[4,3,2,1],[1,2,3,4]]] },
+    { name: "wavelet_haar_4", difficulty: "Ultra", chip: "novel", steps_hint: "~8 ops", desc: "🌌 ULTRA NOVEL: Compute 4-point Haar Wavelet averages & differences.", cases: [[[4,8,2,6],[6,4,-2,-2]],[[10,20,30,40],[15,35,-5,-5]]] },
+    { name: "run_length_compress_6", difficulty: "Ultra", chip: "novel", steps_hint: "~10 ops", desc: "🌌 ULTRA NOVEL: Discover Run-Length Sequence Compression.", cases: [[[1,1,1,2,2,3],[1,3,2,2,3,1]],[[5,5,5,5,1,1],[5,4,1,2,0,0]]] },
+    { name: "bit_parity_partition", difficulty: "Ultra", chip: "novel", steps_hint: "~5 ops", desc: "🌌 ULTRA NOVEL: Partition numbers using bitwise parity.", cases: [[[5,8,3,12],[8,12,5,3]],[[1,4,9,6],[4,6,1,9]]] },
+    { name: "cascade_sort_5", difficulty: "Expert", chip: "hard", steps_hint: "~10 swaps", desc: "🔥 EXPERT: Full sort of 5 elements — needs many nested loops!", cases: [[[5,4,3,2,1],[1,2,3,4,5]],[[3,1,4,1,5],[1,1,3,4,5]]] },
+    { name: "cascade_sort_6", difficulty: "Expert", chip: "expert", steps_hint: "~15 swaps", desc: "🔥 EXPERT: Full non-linear 6-element sorting network!", cases: [[[6,5,4,3,2,1],[1,2,3,4,5,6]],[[2,6,1,5,3,4],[1,2,3,4,5,6]]] },
+    { name: "zigzag_sort_4", difficulty: "Hard", chip: "novel", steps_hint: "~6 swaps", desc: "⚡ NOVEL: Arrange as valley-peak-valley-peak pattern.", cases: [[[3,1,4,2],[1,4,2,3]],[[5,8,1,6],[1,8,5,6]]] },
+    { name: "even_odd_partition", difficulty: "Hard", chip: "novel", steps_hint: "~4 swaps", desc: "⚡ NOVEL: Partition even numbers before odd numbers.", cases: [[[3,2,5,4],[2,4,3,5]],[[1,8,6,9],[8,6,1,9]]] },
+    { name: "bisplit_4", difficulty: "Hard", chip: "novel", steps_hint: "~6 swaps", desc: "⚡ NOVEL: Split array into sorted lower and upper halves.", cases: [[[4,1,3,2],[1,2,3,4]],[[7,5,9,6],[5,6,7,9]]] },
+    { name: "sort_4", difficulty: "Medium", chip: "medium", steps_hint: "~5 swaps", desc: "Sort 4 elements. Requires a full sorting network.", cases: [[[4,3,2,1],[1,2,3,4]],[[1,4,2,3],[1,2,3,4]]] },
+    { name: "reverse_3", difficulty: "Medium", chip: "medium", steps_hint: "~2 swaps", desc: "Reverse 3 elements in-place.", cases: [[[1,2,3],[3,2,1]],[[5,4,1],[1,4,5]]] },
+    { name: "max_last_3", difficulty: "Medium", chip: "medium", steps_hint: "~3 swaps", desc: "Push the maximum element to the last position.", cases: [[[3,1,2],[1,2,3]],[[5,9,2],[2,5,9]]] },
+    { name: "sort_3", difficulty: "Easy", chip: "easy", steps_hint: "~3 swaps", desc: "Sort 3 elements. Needs a 3-compare network.", cases: [[[3,2,1],[1,2,3]],[[1,3,2],[1,2,3]]] },
+    { name: "sort_2", difficulty: "Easy", chip: "easy", steps_hint: "~1 swap", desc: "Sort 2 elements. Simplest possible task.", cases: [[[2,1],[1,2]],[[5,3],[3,5]]] }
+];
+
 async function loadTasks() {
     try {
         const r = await fetch("/api/tasks");
+        if (!r.ok) throw new Error("HTTP error " + r.status);
         allTasks = await r.json();
-        const sel = $("taskSelect");
-        sel.innerHTML = "";
-        allTasks.forEach(t => {
-            const o = document.createElement("option");
-            o.value = t.name;
-            o.textContent = `${t.name}  —  ${t.difficulty}`;
-            sel.appendChild(o);
-        });
-        const def = allTasks.find(t => t.name === "bitonic_sort_6") || allTasks.find(t => t.name === "zigzag_sort_4") || allTasks[0];
-        if (def) sel.value = def.name;
-        updateTaskInfo();
-        sel.addEventListener("change", updateTaskInfo);
     } catch (e) {
-        $("taskDesc").textContent = "⚠ Server not running — start with: node server.js";
+        allTasks = DEFAULT_TASKS;
     }
+
+    const sel = $("taskSelect");
+    sel.innerHTML = "";
+    allTasks.forEach(t => {
+        const o = document.createElement("option");
+        o.value = t.name;
+        o.textContent = `${t.name}  —  ${t.difficulty}`;
+        sel.appendChild(o);
+    });
+    const def = allTasks.find(t => t.name === "bitonic_sort_6") || allTasks.find(t => t.name === "zigzag_sort_4") || allTasks[0];
+    if (def) sel.value = def.name;
+    updateTaskInfo();
+    sel.addEventListener("change", updateTaskInfo);
 }
 
 function updateTaskInfo() {
