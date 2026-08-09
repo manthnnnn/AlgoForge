@@ -141,11 +141,18 @@
   </div>
 
   <!-- 7 WORKSPACE TABS -->
+  <!-- WORKSPACE RESEARCH TABS -->
   <div class="tabs">
     <button class="tab on" data-tab="t-lab">
-      <i class="fa-solid fa-flask-vial"></i> Invention Lab
+      <i class="fa-solid fa-flask-vial"></i> Discovery Lab
     </button>
-    <button class="tab" data-tab="t-theory" style="background:linear-gradient(135deg,rgba(2,132,199,0.22),rgba(129,140,248,0.22));border:1.5px solid rgba(56,189,248,0.5);color:#38BDF8">
+    <button class="tab" data-tab="t-research" style="background:linear-gradient(135deg,rgba(2,132,199,0.25),rgba(52,211,153,0.25));border:1.5px solid rgba(56,189,248,0.5);color:#38BDF8">
+      <i class="fa-solid fa-microscope"></i> 🧪 Research Lab
+    </button>
+    <button class="tab" data-tab="t-memory">
+      <i class="fa-solid fa-brain"></i> 🧠 Algorithmic Memory
+    </button>
+    <button class="tab" data-tab="t-theory">
       <i class="fa-solid fa-atom"></i> ⚡ Theory Forge
     </button>
     <button class="tab" data-tab="t-anim">
@@ -345,6 +352,104 @@
           <pre id="exportCode" class="code-out" style="height:320px">// Code will appear here</pre>
         </div>
       </div>
+    </div>
+  </div>
+
+  <!-- ─── RESEARCH LAB TAB ─── -->
+  <div id="t-research" class="tab-body">
+    <div class="card">
+      <div class="card-head">
+        <h3><i class="fa-solid fa-microscope" style="color:var(--sky)"></i> Controlled Experiment Runner</h3>
+        <button id="btn-generate-report" class="btn btn-sky"><i class="fa-solid fa-file-pdf"></i> Generate Paper Report</button>
+      </div>
+
+      <div class="guide-box indigo">
+        <div class="gicon"><i class="fa-solid fa-atom"></i></div>
+        <div class="gcontent">
+          <h4>Research Core: Baseline vs. Memory-Guided Transfer Search</h4>
+          <p>Evaluates whether accumulated strategy knowledge reduces candidate evaluation cost on unseen computational tasks. Rigorously accounts for <strong>Censored Timeouts</strong> and <strong>Benchmark-Specific Solution Thresholds</strong>.</p>
+        </div>
+      </div>
+
+      <div class="g2 mt">
+        <div class="fg">
+          <label class="fl-label"><i class="fa-solid fa-list-check"></i> Select Benchmark Task</label>
+          <select id="exp-problem-select" class="fs">
+            <optgroup label="Training Set (Memory Construction)">
+              <option value="sort_2">sort_2 (2 Elements)</option>
+              <option value="sort_3">sort_3 (3 Elements)</option>
+              <option value="sort_4">sort_4 (4 Elements)</option>
+              <option value="min_first">min_first (Minimum to Front)</option>
+              <option value="reverse_3">reverse_3 (In-place Reverse)</option>
+            </optgroup>
+            <optgroup label="Held-Out Test Set (Unseen Transfer)">
+              <option value="zigzag_sort_4">zigzag_sort_4 (Valley-Peak Sort)</option>
+              <option value="even_odd_partition">even_odd_partition (Parity Partition)</option>
+              <option value="pancake_flip_sort">pancake_flip_sort (Prefix Flips)</option>
+              <option value="bit_parity_partition">bit_parity_partition (Bitwise Parity)</option>
+              <option value="cascade_sort_5">cascade_sort_5 (5-Element Sort)</option>
+            </optgroup>
+          </select>
+        </div>
+
+        <div class="fg">
+          <label class="fl-label"><i class="fa-solid fa-sliders"></i> Experiment Mode</label>
+          <select id="exp-method-select" class="fs">
+            <option value="memory_augmented">ALGOFORGE Memory GP (Mode B)</option>
+            <option value="memoryless_baseline">Memoryless Baseline GP (Mode A)</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="g2">
+        <div class="fg">
+          <label class="fl-label"><i class="fa-solid fa-dice"></i> Random Seeds (Comma-separated)</label>
+          <input type="text" id="exp-seeds-input" class="fi" value="42,101,202,303,404">
+          <span class="hint">5 seeds used for fast acceptance test; 10-30+ supported.</span>
+        </div>
+        <div class="fg" style="display:flex; gap:10px; align-items:flex-end;">
+          <div style="flex:1;">
+            <label class="fl-label">Population</label>
+            <input type="number" id="exp-pop-input" class="fi" value="40">
+          </div>
+          <div style="flex:1;">
+            <label class="fl-label">Generations</label>
+            <input type="number" id="exp-gen-input" class="fi" value="25">
+          </div>
+        </div>
+      </div>
+
+      <div style="display:flex; gap:12px;" class="mt">
+        <button id="btn-run-exp" class="btn btn-primary" style="flex:2;"><i class="fa-solid fa-flask"></i> Execute Controlled Experiment</button>
+        <button id="btn-run-ablation" class="btn btn-ghost" style="flex:1;"><i class="fa-solid fa-layer-group"></i> Run 5-Tier Ablation Study</button>
+      </div>
+    </div>
+
+    <div id="exp-results-card" class="mt"></div>
+    <div id="ablation-results-card" class="mt"></div>
+
+    <div class="card mt">
+      <div class="card-head">
+        <h3><i class="fa-solid fa-database" style="color:var(--sky)"></i> Recorded Experiment Artifacts (ALGOFORGE-EXP-XXX)</h3>
+      </div>
+      <div id="artifacts-list"></div>
+    </div>
+  </div>
+
+  <!-- ─── ALGORITHMIC MEMORY TAB ─── -->
+  <div id="t-memory" class="tab-body">
+    <div class="card">
+      <div class="card-head">
+        <h3><i class="fa-solid fa-brain" style="color:var(--indigo)"></i> Algorithmic Strategy Knowledge Base</h3>
+      </div>
+      <div class="guide-box mint">
+        <div class="gicon"><i class="fa-solid fa-network-wired"></i></div>
+        <div class="gcontent">
+          <h4>Extracted Reusable Structural Strategies</h4>
+          <p>Shows abstract subtree strategies extracted from successful program discoveries. Tracks historical transfer success and positive/negative transfer gain across tasks.</p>
+        </div>
+      </div>
+      <div id="memory-strategies-list"></div>
     </div>
   </div>
 
@@ -770,9 +875,21 @@
 </main>
 </div>
 
+<!-- MODAL REPORT EXPORTER -->
+<div id="modal-report" class="modal-bg" onclick="if(event.target===this)this.classList.remove('on')">
+  <div class="modal-box" style="max-width:800px;">
+    <div class="modal-head">
+      <h3><i class="fa-solid fa-file-pdf" style="color:var(--sky)"></i> Auto-Generated Research Paper Report</h3>
+      <button class="btn-icon" onclick="document.getElementById('modal-report').classList.remove('on')"><i class="fa-solid fa-xmark"></i></button>
+    </div>
+    <div id="report-output"></div>
+  </div>
+</div>
+
 <script src="engine.js?v=3.0"></script>
 <script src="theory.js?v=3.0"></script>
 <script src="discovery.js?v=3.0"></script>
+<script src="research_lab.js?v=3.0"></script>
 <script src="app.js?v=3.0"></script>
 </body>
 </html>

@@ -136,6 +136,41 @@ app.get('/api/stats', (req, res) => {
 });
 
 // ════════════════════════════════════════
+//  API: Research Lab Endpoints
+// ════════════════════════════════════════
+app.post('/api/research/run_experiment', (req, res) => {
+    const { task, method, seeds, pop, gen } = req.body;
+    const args = ['run_experiment', '--task', task || 'sort_3', '--method', method || 'memory_augmented'];
+    if (seeds) args.push('--seeds', Array.isArray(seeds) ? seeds.join(',') : seeds);
+    if (pop) args.push('--pop', String(pop));
+    if (gen) args.push('--gen', String(gen));
+    runBridge(args, res);
+});
+
+app.post('/api/research/run_ablation', (req, res) => {
+    const { task, seeds } = req.body;
+    const args = ['run_ablation', '--task', task || 'sort_3'];
+    if (seeds) args.push('--seeds', Array.isArray(seeds) ? seeds.join(',') : seeds);
+    runBridge(args, res);
+});
+
+app.get('/api/research/memory', (req, res) => {
+    runBridge(['query_memory'], res);
+});
+
+app.post('/api/research/reproduce', (req, res) => {
+    const { exp_id } = req.body;
+    if (!exp_id) return res.status(400).json({ error: 'exp_id required' });
+    runBridge(['reproduce', '--exp_id', exp_id], res);
+});
+
+app.get('/api/research/report', (req, res) => {
+    const args = ['generate_report'];
+    if (req.query.task) args.push('--task', req.query.task);
+    runBridge(args, res);
+});
+
+// ════════════════════════════════════════
 //  Start
 // ════════════════════════════════════════
 app.listen(PORT, () => {

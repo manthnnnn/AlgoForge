@@ -168,6 +168,47 @@ def handle_archive(args):
     }
     print(json.dumps(output), flush=True)
 
+def handle_run_experiment(args):
+    from search.experiment_runner import CanonicalExperimentRunner
+    runner = CanonicalExperimentRunner()
+    seeds = [int(s) for s in args.seeds.split(',')] if args.seeds else [42, 101, 202, 303, 404]
+    res = runner.run_experiment(
+        problem_id=args.task,
+        method=args.method,
+        seeds=seeds,
+        population_size=args.pop,
+        generation_limit=args.gen
+    )
+    print(json.dumps(res), flush=True)
+
+def handle_run_ablation(args):
+    from search.ablation_suite import AblationSuite
+    suite = AblationSuite()
+    seeds = [int(s) for s in args.seeds.split(',')] if args.seeds else [42, 101, 202]
+    res = suite.run_ablation_matrix(problem_id=args.task, seeds=seeds)
+    print(json.dumps(res), flush=True)
+
+def handle_query_memory(args):
+    from memory.algorithmic_memory import AlgorithmicMemory
+    mem = AlgorithmicMemory()
+    strats = [s.to_dict() for s in mem.get_all_strategies()]
+    trans = mem.get_transfer_records()
+    artifacts = [a.to_dict() for a in mem.get_all_experiment_artifacts()]
+    print(json.dumps({"strategies": strats, "transfers": trans, "artifacts": artifacts}), flush=True)
+
+def handle_reproduce(args):
+    from search.experiment_runner import CanonicalExperimentRunner
+    runner = CanonicalExperimentRunner()
+    res = runner.reproduce_experiment(args.exp_id)
+    print(json.dumps(res), flush=True)
+
+def handle_generate_report(args):
+    from search.report_generator import ResearchReportGenerator
+    gen = ResearchReportGenerator()
+    md = gen.generate_markdown_report(problem_id=args.task if hasattr(args, 'task') and args.task else None)
+    latex = gen.generate_latex_report(problem_id=args.task if hasattr(args, 'task') and args.task else None)
+    print(json.dumps({"markdown": md, "latex": latex}), flush=True)
+
 def main():
     parser = argparse.ArgumentParser(description="ALGOFORGE Python API Bridge")
     subparsers = parser.add_subparsers(dest="command")
@@ -196,6 +237,26 @@ def main():
     # Tasks list
     subparsers.add_parser("tasks")
 
+    # Research Lab Subcommands
+    exp_p = subparsers.add_parser("run_experiment")
+    exp_p.add_argument("--task", default="sort_3")
+    exp_p.add_argument("--method", default="memory_augmented")
+    exp_p.add_argument("--seeds", default="42,101,202,303,404")
+    exp_p.add_argument("--pop", type=int, default=40)
+    exp_p.add_argument("--gen", type=int, default=25)
+
+    abl_p = subparsers.add_parser("run_ablation")
+    abl_p.add_argument("--task", default="sort_3")
+    abl_p.add_argument("--seeds", default="42,101,202")
+
+    subparsers.add_parser("query_memory")
+
+    rep_p = subparsers.add_parser("reproduce")
+    rep_p.add_argument("--exp_id", required=True)
+
+    report_p = subparsers.add_parser("generate_report")
+    report_p.add_argument("--task", default="")
+
     args = parser.parse_args()
 
     if args.command == "synthesize":
@@ -204,6 +265,16 @@ def main():
         handle_execute(args)
     elif args.command == "archive":
         handle_archive(args)
+    elif args.command == "run_experiment":
+        handle_run_experiment(args)
+    elif args.command == "run_ablation":
+        handle_run_ablation(args)
+    elif args.command == "query_memory":
+        handle_query_memory(args)
+    elif args.command == "reproduce":
+        handle_reproduce(args)
+    elif args.command == "generate_report":
+        handle_generate_report(args)
     elif args.command == "tasks":
         tasks = get_benchmark_tasks()
         task_list = []
@@ -224,3 +295,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+

@@ -18,6 +18,9 @@ class EvolutionResult:
     history: List[Dict[str, Any]]
     converged: bool
     total_generations: int
+    total_evaluations: int = 0
+    evaluations_to_solution: int = 0
+    run_status: str = "FAILED"
 
 @dataclass
 class SubtreeRef:

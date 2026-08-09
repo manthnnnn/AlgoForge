@@ -8086,5 +8086,362 @@
       "time_seconds": 0.6803390979766846,
       "seed": null
     }
+  },
+  {
+    "id": 114,
+    "task_name": "bitonic_sort_6",
+    "fitness": 99.24,
+    "steps_taken": 0,
+    "ast_depth": 3,
+    "generation": 60,
+    "timestamp": 1786259575.5882134,
+    "program_ast": {
+      "type": "ProgramNode",
+      "statements": [
+        {
+          "type": "CompareSwapNode",
+          "idx1": {
+            "type": "ConstNode",
+            "value": 0
+          },
+          "idx2": {
+            "type": "ConstNode",
+            "value": 1
+          }
+        },
+        {
+          "type": "CompareSwapNode",
+          "idx1": {
+            "type": "ConstNode",
+            "value": 0
+          },
+          "idx2": {
+            "type": "ConstNode",
+            "value": 2
+          }
+        },
+        {
+          "type": "CompareSwapNode",
+          "idx1": {
+            "type": "ConstNode",
+            "value": 0
+          },
+          "idx2": {
+            "type": "ConstNode",
+            "value": 3
+          }
+        },
+        {
+          "type": "CompareSwapNode",
+          "idx1": {
+            "type": "ConstNode",
+            "value": 0
+          },
+          "idx2": {
+            "type": "ConstNode",
+            "value": 4
+          }
+        },
+        {
+          "type": "CompareSwapNode",
+          "idx1": {
+            "type": "ConstNode",
+            "value": 0
+          },
+          "idx2": {
+            "type": "ConstNode",
+            "value": 5
+          }
+        },
+        {
+          "type": "CompareSwapNode",
+          "idx1": {
+            "type": "ConstNode",
+            "value": 1
+          },
+          "idx2": {
+            "type": "ConstNode",
+            "value": 2
+          }
+        },
+        {
+          "type": "CompareSwapNode",
+          "idx1": {
+            "type": "ConstNode",
+            "value": 1
+          },
+          "idx2": {
+            "type": "ConstNode",
+            "value": 3
+          }
+        },
+        {
+          "type": "CompareSwapNode",
+          "idx1": {
+            "type": "ConstNode",
+            "value": 1
+          },
+          "idx2": {
+            "type": "ConstNode",
+            "value": 4
+          }
+        },
+        {
+          "type": "CompareSwapNode",
+          "idx1": {
+            "type": "ConstNode",
+            "value": 1
+          },
+          "idx2": {
+            "type": "ConstNode",
+            "value": 5
+          }
+        },
+        {
+          "type": "CompareSwapNode",
+          "idx1": {
+            "type": "ConstNode",
+            "value": 2
+          },
+          "idx2": {
+            "type": "ConstNode",
+            "value": 3
+          }
+        },
+        {
+          "type": "CompareSwapNode",
+          "idx1": {
+            "type": "ConstNode",
+            "value": 2
+          },
+          "idx2": {
+            "type": "ConstNode",
+            "value": 4
+          }
+        },
+        {
+          "type": "CompareSwapNode",
+          "idx1": {
+            "type": "ConstNode",
+            "value": 2
+          },
+          "idx2": {
+            "type": "ConstNode",
+            "value": 5
+          }
+        },
+        {
+          "type": "CompareSwapNode",
+          "idx1": {
+            "type": "ConstNode",
+            "value": 3
+          },
+          "idx2": {
+            "type": "ConstNode",
+            "value": 4
+          }
+        },
+        {
+          "type": "CompareSwapNode",
+          "idx1": {
+            "type": "ConstNode",
+            "value": 3
+          },
+          "idx2": {
+            "type": "ConstNode",
+            "value": 5
+          }
+        },
+        {
+          "type": "CompareSwapNode",
+          "idx1": {
+            "type": "ConstNode",
+            "value": 4
+          },
+          "idx2": {
+            "type": "ConstNode",
+            "value": 5
+          }
+        }
+      ]
+    },
+    "is_duplicate": false,
+    "is_best": false,
+    "metadata": {
+      "time_seconds": 0.681288480758667,
+      "seed": null
+    }
+  },
+  {
+    "id": 115,
+    "task_name": "bitonic_sort_6",
+    "fitness": 99.36,
+    "steps_taken": 0,
+    "ast_depth": 3,
+    "generation": 60,
+    "timestamp": 1786259701.041618,
+    "program_ast": {
+      "type": "ProgramNode",
+      "statements": [
+        {
+          "type": "CompareSwapNode",
+          "idx1": {
+            "type": "ConstNode",
+            "value": 1
+          },
+          "idx2": {
+            "type": "ConstNode",
+            "value": 4
+          }
+        },
+        {
+          "type": "CompareSwapNode",
+          "idx1": {
+            "type": "ConstNode",
+            "value": 0
+          },
+          "idx2": {
+            "type": "ConstNode",
+            "value": 2
+          }
+        },
+        {
+          "type": "CompareSwapNode",
+          "idx1": {
+            "type": "ConstNode",
+            "value": 0
+          },
+          "idx2": {
+            "type": "ConstNode",
+            "value": 3
+          }
+        },
+        {
+          "type": "CompareSwapNode",
+          "idx1": {
+            "type": "ConstNode",
+            "value": 1
+          },
+          "idx2": {
+            "type": "ConstNode",
+            "value": 2
+          }
+        },
+        {
+          "type": "CompareSwapNode",
+          "idx1": {
+            "type": "ConstNode",
+            "value": 0
+          },
+          "idx2": {
+            "type": "ConstNode",
+            "value": 1
+          }
+        },
+        {
+          "type": "CompareSwapNode",
+          "idx1": {
+            "type": "ConstNode",
+            "value": 2
+          },
+          "idx2": {
+            "type": "ConstNode",
+            "value": 3
+          }
+        },
+        {
+          "type": "CompareSwapNode",
+          "idx1": {
+            "type": "ConstNode",
+            "value": 2
+          },
+          "idx2": {
+            "type": "ConstNode",
+            "value": 4
+          }
+        },
+        {
+          "type": "CompareSwapNode",
+          "idx1": {
+            "type": "ConstNode",
+            "value": 2
+          },
+          "idx2": {
+            "type": "ConstNode",
+            "value": 5
+          }
+        },
+        {
+          "type": "CompareSwapNode",
+          "idx1": {
+            "type": "ConstNode",
+            "value": 3
+          },
+          "idx2": {
+            "type": "ConstNode",
+            "value": 4
+          }
+        },
+        {
+          "type": "CompareSwapNode",
+          "idx1": {
+            "type": "ConstNode",
+            "value": 3
+          },
+          "idx2": {
+            "type": "ConstNode",
+            "value": 5
+          }
+        },
+        {
+          "type": "CompareSwapNode",
+          "idx1": {
+            "type": "ConstNode",
+            "value": 4
+          },
+          "idx2": {
+            "type": "ConstNode",
+            "value": 5
+          }
+        }
+      ]
+    },
+    "is_duplicate": false,
+    "is_best": false,
+    "metadata": {
+      "time_seconds": 0.651078462600708,
+      "seed": null
+    }
+  },
+  {
+    "id": 116,
+    "task_name": "sort_2",
+    "fitness": 99.66,
+    "steps_taken": 0,
+    "ast_depth": 3,
+    "generation": 4,
+    "timestamp": 1786267813.1425016,
+    "program_ast": {
+      "type": "ProgramNode",
+      "statements": [
+        {
+          "type": "CompareSwapNode",
+          "idx1": {
+            "type": "ConstNode",
+            "value": 0
+          },
+          "idx2": {
+            "type": "ConstNode",
+            "value": 1
+          }
+        }
+      ]
+    },
+    "is_duplicate": true,
+    "is_best": false,
+    "metadata": {
+      "time_seconds": 0.01102590560913086,
+      "seed": 42
+    }
   }
 ]
