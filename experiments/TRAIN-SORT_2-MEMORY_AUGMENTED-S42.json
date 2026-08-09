@@ -1,5 +1,5 @@
 {
-  "experiment_id": "ABLATION-E_GP_Plus_Memory_Repair-SORT_2-MEMORY_AUGMENTED-S42",
+  "experiment_id": "TRAIN-SORT_2-MEMORY_AUGMENTED-S42",
   "version": "2.0.0",
   "problem_id": "sort_2",
   "method": "memory_augmented",
@@ -15,9 +15,9 @@
   "run_status": "SUCCESS",
   "verified": true,
   "verification_method": "EXHAUSTIVE",
-  "strategy_used": "STRAT-TRAI-90D989",
-  "runtime_seconds": 0.06,
-  "timestamp": 1786269929.9337258,
+  "strategy_used": null,
+  "runtime_seconds": 0.032,
+  "timestamp": 1786269996.0734196,
   "hardware_metadata": {
     "python_version": "3.11.15",
     "os": "Windows"

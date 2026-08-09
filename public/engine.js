@@ -292,6 +292,191 @@
         return program;
     }
 
+    // ──────────── Seeded PRNG (Mulberry32) ────────────
+    function makePRNG(seed) {
+        let s = seed >>> 0;
+        return function() {
+            s += 0x6D2B79F5;
+            let t = s;
+            t = Math.imul(t ^ (t >>> 15), t | 1);
+            t ^= t + Math.imul(t ^ (t >>> 7), t | 61);
+            return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+        };
+    }
+
+    // ──────────── Random AST Generator ────────────
+    function randomAST(rand, maxDepth, n) {
+        // Generate a random sorting-oriented program
+        const stmts = [];
+        const stmtCount = Math.floor(rand() * (n * 2)) + 1;
+        for (let k = 0; k < stmtCount; k++) {
+            stmts.push(randomStmt(rand, maxDepth - 1, n));
+        }
+        return new ProgramNode(stmts);
+    }
+
+    function randomStmt(rand, depth, n) {
+        if (depth <= 0 || rand() < 0.65) {
+            // Leaf: compare-swap with random indices
+            const i = Math.floor(rand() * n);
+            let j = Math.floor(rand() * n);
+            if (j === i) j = (i + 1) % n;
+            return new CompareSwapNode(new ConstNode(i), new ConstNode(j));
+        }
+        const r = rand();
+        if (r < 0.5) {
+            // Swap node
+            const i = Math.floor(rand() * n);
+            let j = Math.floor(rand() * n);
+            if (j === i) j = (i + 1) % n;
+            return new SwapNode(new ConstNode(i), new ConstNode(j));
+        }
+        if (r < 0.75 && n >= 3) {
+            // Loop
+            const start = Math.floor(rand() * (n - 1));
+            const end = start + 1 + Math.floor(rand() * (n - start - 1));
+            const body = [];
+            const bodyLen = Math.floor(rand() * 3) + 1;
+            for (let b = 0; b < bodyLen; b++) {
+                const ii = Math.floor(rand() * n);
+                let jj = Math.floor(rand() * n);
+                if (jj === ii) jj = (ii + 1) % n;
+                body.push(new CompareSwapNode(new ConstNode(ii), new ConstNode(jj)));
+            }
+            return new LoopNode("i", new ConstNode(start), new ConstNode(end), body);
+        }
+        // Default: compare-swap
+        const i = Math.floor(rand() * n);
+        let j = Math.floor(rand() * n);
+        if (j === i) j = (i + 1) % n;
+        return new CompareSwapNode(new ConstNode(i), new ConstNode(j));
+    }
+
+    // ──────────── Mutate AST ────────────
+    function mutateAST(program, rand, n) {
+        const clone = cloneAST(program);
+        const stmts = clone.statements;
+        if (!stmts || stmts.length === 0) return clone;
+
+        const r = rand();
+        if (r < 0.3 && stmts.length < 20) {
+            // Add a random statement
+            const i = Math.floor(rand() * n);
+            let j = Math.floor(rand() * n);
+            if (j === i) j = (i + 1) % n;
+            stmts.push(new CompareSwapNode(new ConstNode(i), new ConstNode(j)));
+        } else if (r < 0.55 && stmts.length > 1) {
+            // Remove a random statement
+            const idx = Math.floor(rand() * stmts.length);
+            stmts.splice(idx, 1);
+        } else {
+            // Mutate a random statement's indices
+            const idx = Math.floor(rand() * stmts.length);
+            const i = Math.floor(rand() * n);
+            let j = Math.floor(rand() * n);
+            if (j === i) j = (i + 1) % n;
+            stmts[idx] = new CompareSwapNode(new ConstNode(i), new ConstNode(j));
+        }
+        return clone;
+    }
+
+    // ──────────── Crossover ────────────
+    function crossover(a, b, rand) {
+        const sa = a.statements || [];
+        const sb = b.statements || [];
+        if (sa.length === 0) return cloneAST(b);
+        if (sb.length === 0) return cloneAST(a);
+        const cut = Math.floor(rand() * sa.length);
+        const newStmts = [
+            ...sa.slice(0, cut).map(cloneAST),
+            ...sb.slice(cut).map(cloneAST)
+        ];
+        return new ProgramNode(newStmts.length > 0 ? newStmts : sa.map(cloneAST));
+    }
+
+    // ──────────── Genetic Engine ────────────
+    class GeneticEngine {
+        constructor(options = {}) {
+            this.popSize      = options.popSize      || 60;
+            this.maxGen       = options.maxGen       || 80;
+            this.mutRate      = options.mutRate      || 0.35;
+            this.crsRate      = options.crsRate      || 0.6;
+            this.maxDepth     = options.maxDepth     || 6;
+            this.seed         = options.seed         || Math.floor(Math.random() * 99999) + 1;
+            this.onGeneration = options.onGeneration || null; // callback(gen, bestFit, avgFit, bestProg)
+            this.rand         = makePRNG(this.seed);
+        }
+
+        run(testCases) {
+            const n = testCases[0][0].length;
+            const rand = this.rand;
+
+            // Initialise population
+            let population = [];
+            for (let i = 0; i < this.popSize; i++) {
+                population.push(randomAST(rand, this.maxDepth, n));
+            }
+
+            let bestProg = population[0];
+            let bestFit  = -Infinity;
+
+            for (let gen = 1; gen <= this.maxGen; gen++) {
+                // Evaluate
+                const scored = population.map(p => ({ prog: p, fit: evaluateFitness(p, testCases) }));
+                scored.sort((a, b) => b.fit - a.fit);
+
+                if (scored[0].fit > bestFit) {
+                    bestFit = scored[0].fit;
+                    bestProg = scored[0].prog;
+                }
+
+                const avgFit = scored.reduce((s, x) => s + x.fit, 0) / scored.length;
+
+                if (this.onGeneration) {
+                    this.onGeneration(gen, Math.max(0, bestFit), Math.max(0, avgFit), bestProg);
+                }
+
+                // Early exit if perfect
+                if (bestFit >= 99) break;
+
+                // Build next generation
+                const elite = scored.slice(0, Math.max(2, Math.floor(this.popSize * 0.1)));
+                const next  = elite.map(e => cloneAST(e.prog));
+
+                while (next.length < this.popSize) {
+                    // Tournament selection
+                    const pick = () => {
+                        const a = scored[Math.floor(rand() * scored.length)];
+                        const b = scored[Math.floor(rand() * scored.length)];
+                        return a.fit >= b.fit ? a.prog : b.prog;
+                    };
+                    const p1 = pick(), p2 = pick();
+                    let child;
+                    if (rand() < this.crsRate) {
+                        child = crossover(p1, p2, rand);
+                    } else {
+                        child = cloneAST(rand() < 0.5 ? p1 : p2);
+                    }
+                    if (rand() < this.mutRate) {
+                        child = mutateAST(child, rand, n);
+                    }
+                    next.push(child);
+                }
+                population = next;
+            }
+
+            // Final repair pass
+            const repaired = localRepair(bestProg, testCases);
+            const finalFit = evaluateFitness(repaired, testCases);
+            if (finalFit > bestFit) {
+                bestProg = repaired;
+                bestFit  = finalFit;
+            }
+
+            return { bestProg, bestFit: Math.min(100, Math.max(0, bestFit)) };
+        }
+    }
+
     // ──────────── Exports for Browser / Node ────────────
     exports.ConstNode = ConstNode;
     exports.VariableNode = VariableNode;
@@ -307,5 +492,6 @@
     exports.Interpreter = Interpreter;
     exports.evaluateFitness = evaluateFitness;
     exports.localRepair = localRepair;
+    exports.GeneticEngine = GeneticEngine;
 
 })(typeof exports !== "undefined" ? exports : (window.AlgoEngine = {}));
