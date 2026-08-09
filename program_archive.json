@@ -1,0 +1,8090 @@
+[
+  {
+    "id": 1,
+    "task_name": "sort_2",
+    "fitness": 39.67,
+    "steps_taken": 0,
+    "ast_depth": 3,
+    "generation": 15,
+    "timestamp": 1786206623.343808,
+    "program_ast": {
+      "type": "ProgramNode",
+      "statements": [
+        {
+          "type": "AssignNode",
+          "var_name": "j",
+          "value": {
+            "type": "ConstNode",
+            "value": 0
+          }
+        }
+      ]
+    },
+    "metadata": {
+      "time_seconds": 0.03490447998046875
+    }
+  },
+  {
+    "id": 2,
+    "task_name": "sort_3",
+    "fitness": 38.5589,
+    "steps_taken": 0,
+    "ast_depth": 3,
+    "generation": 15,
+    "timestamp": 1786206623.385516,
+    "program_ast": {
+      "type": "ProgramNode",
+      "statements": [
+        {
+          "type": "AssignNode",
+          "var_name": "j",
+          "value": {
+            "type": "ConstNode",
+            "value": 0
+          }
+        }
+      ]
+    },
+    "metadata": {
+      "time_seconds": 0.03469038009643555
+    }
+  },
+  {
+    "id": 3,
+    "task_name": "reverse_3",
+    "fitness": 33.0033,
+    "steps_taken": 0,
+    "ast_depth": 3,
+    "generation": 15,
+    "timestamp": 1786206623.4132583,
+    "program_ast": {
+      "type": "ProgramNode",
+      "statements": [
+        {
+          "type": "AssignNode",
+          "var_name": "j",
+          "value": {
+            "type": "ConstNode",
+            "value": 0
+          }
+        }
+      ]
+    },
+    "metadata": {
+      "time_seconds": 0.027742385864257812
+    }
+  },
+  {
+    "id": 4,
+    "task_name": "min_first",
+    "fitness": 55.2256,
+    "steps_taken": 0,
+    "ast_depth": 3,
+    "generation": 15,
+    "timestamp": 1786206623.448082,
+    "program_ast": {
+      "type": "ProgramNode",
+      "statements": [
+        {
+          "type": "AssignNode",
+          "var_name": "j",
+          "value": {
+            "type": "ConstNode",
+            "value": 0
+          }
+        }
+      ]
+    },
+    "metadata": {
+      "time_seconds": 0.03482365608215332
+    }
+  },
+  {
+    "id": 5,
+    "task_name": "sort_2",
+    "fitness": 99.25,
+    "steps_taken": 0,
+    "ast_depth": 5,
+    "generation": 1,
+    "timestamp": 1786208460.7658136,
+    "program_ast": {
+      "type": "ProgramNode",
+      "statements": [
+        {
+          "type": "AssignNode",
+          "var_name": "j",
+          "value": {
+            "type": "BinaryOpNode",
+            "left": {
+              "type": "BinaryOpNode",
+              "left": {
+                "type": "ConstNode",
+                "value": 0
+              },
+              "op": "+",
+              "right": {
+                "type": "ConstNode",
+                "value": 1
+              }
+            },
+            "op": "-",
+            "right": {
+              "type": "ConstNode",
+              "value": 1
+            }
+          }
+        },
+        {
+          "type": "LoopNode",
+          "var_name": "i",
+          "start": {
+            "type": "VariableNode",
+            "name": "j"
+          },
+          "end": {
+            "type": "VariableNode",
+            "name": "len"
+          },
+          "body": [
+            {
+              "type": "CompareSwapNode",
+              "idx1": {
+                "type": "VariableNode",
+                "name": "i"
+              },
+              "idx2": {
+                "type": "VariableNode",
+                "name": "j"
+              }
+            }
+          ]
+        },
+        {
+          "type": "LoopNode",
+          "var_name": "i",
+          "start": {
+            "type": "ConstNode",
+            "value": 0
+          },
+          "end": {
+            "type": "VariableNode",
+            "name": "len"
+          },
+          "body": [
+            {
+              "type": "CompareSwapNode",
+              "idx1": {
+                "type": "ConstNode",
+                "value": 0
+              },
+              "idx2": {
+                "type": "ConstNode",
+                "value": 1
+              }
+            }
+          ]
+        }
+      ]
+    },
+    "metadata": {
+      "time_seconds": 0.03226304054260254
+    }
+  },
+  {
+    "id": 6,
+    "task_name": "sort_2",
+    "fitness": 99.25,
+    "steps_taken": 0,
+    "ast_depth": 5,
+    "generation": 1,
+    "timestamp": 1786208906.8344767,
+    "program_ast": {
+      "type": "ProgramNode",
+      "statements": [
+        {
+          "type": "AssignNode",
+          "var_name": "j",
+          "value": {
+            "type": "BinaryOpNode",
+            "left": {
+              "type": "BinaryOpNode",
+              "left": {
+                "type": "ConstNode",
+                "value": 0
+              },
+              "op": "+",
+              "right": {
+                "type": "ConstNode",
+                "value": 1
+              }
+            },
+            "op": "-",
+            "right": {
+              "type": "ConstNode",
+              "value": 1
+            }
+          }
+        },
+        {
+          "type": "LoopNode",
+          "var_name": "i",
+          "start": {
+            "type": "VariableNode",
+            "name": "j"
+          },
+          "end": {
+            "type": "VariableNode",
+            "name": "len"
+          },
+          "body": [
+            {
+              "type": "CompareSwapNode",
+              "idx1": {
+                "type": "VariableNode",
+                "name": "i"
+              },
+              "idx2": {
+                "type": "VariableNode",
+                "name": "j"
+              }
+            }
+          ]
+        },
+        {
+          "type": "LoopNode",
+          "var_name": "i",
+          "start": {
+            "type": "ConstNode",
+            "value": 0
+          },
+          "end": {
+            "type": "VariableNode",
+            "name": "len"
+          },
+          "body": [
+            {
+              "type": "CompareSwapNode",
+              "idx1": {
+                "type": "ConstNode",
+                "value": 0
+              },
+              "idx2": {
+                "type": "ConstNode",
+                "value": 1
+              }
+            }
+          ]
+        }
+      ]
+    },
+    "metadata": {
+      "time_seconds": 0.04583001136779785
+    }
+  },
+  {
+    "id": 7,
+    "task_name": "sort_2",
+    "fitness": 99.25,
+    "steps_taken": 0,
+    "ast_depth": 5,
+    "generation": 1,
+    "timestamp": 1786208911.1341143,
+    "program_ast": {
+      "type": "ProgramNode",
+      "statements": [
+        {
+          "type": "AssignNode",
+          "var_name": "j",
+          "value": {
+            "type": "BinaryOpNode",
+            "left": {
+              "type": "BinaryOpNode",
+              "left": {
+                "type": "ConstNode",
+                "value": 0
+              },
+              "op": "+",
+              "right": {
+                "type": "ConstNode",
+                "value": 1
+              }
+            },
+            "op": "-",
+            "right": {
+              "type": "ConstNode",
+              "value": 1
+            }
+          }
+        },
+        {
+          "type": "LoopNode",
+          "var_name": "i",
+          "start": {
+            "type": "VariableNode",
+            "name": "j"
+          },
+          "end": {
+            "type": "VariableNode",
+            "name": "len"
+          },
+          "body": [
+            {
+              "type": "CompareSwapNode",
+              "idx1": {
+                "type": "VariableNode",
+                "name": "i"
+              },
+              "idx2": {
+                "type": "VariableNode",
+                "name": "j"
+              }
+            }
+          ]
+        },
+        {
+          "type": "LoopNode",
+          "var_name": "i",
+          "start": {
+            "type": "ConstNode",
+            "value": 0
+          },
+          "end": {
+            "type": "VariableNode",
+            "name": "len"
+          },
+          "body": [
+            {
+              "type": "CompareSwapNode",
+              "idx1": {
+                "type": "ConstNode",
+                "value": 0
+              },
+              "idx2": {
+                "type": "ConstNode",
+                "value": 1
+              }
+            }
+          ]
+        }
+      ]
+    },
+    "metadata": {
+      "time_seconds": 0.04022407531738281
+    }
+  },
+  {
+    "id": 8,
+    "task_name": "sort_2",
+    "fitness": 99.25,
+    "steps_taken": 0,
+    "ast_depth": 5,
+    "generation": 1,
+    "timestamp": 1786208914.4211159,
+    "program_ast": {
+      "type": "ProgramNode",
+      "statements": [
+        {
+          "type": "AssignNode",
+          "var_name": "j",
+          "value": {
+            "type": "BinaryOpNode",
+            "left": {
+              "type": "BinaryOpNode",
+              "left": {
+                "type": "ConstNode",
+                "value": 0
+              },
+              "op": "+",
+              "right": {
+                "type": "ConstNode",
+                "value": 1
+              }
+            },
+            "op": "-",
+            "right": {
+              "type": "ConstNode",
+              "value": 1
+            }
+          }
+        },
+        {
+          "type": "LoopNode",
+          "var_name": "i",
+          "start": {
+            "type": "VariableNode",
+            "name": "j"
+          },
+          "end": {
+            "type": "VariableNode",
+            "name": "len"
+          },
+          "body": [
+            {
+              "type": "CompareSwapNode",
+              "idx1": {
+                "type": "VariableNode",
+                "name": "i"
+              },
+              "idx2": {
+                "type": "VariableNode",
+                "name": "j"
+              }
+            }
+          ]
+        },
+        {
+          "type": "LoopNode",
+          "var_name": "i",
+          "start": {
+            "type": "ConstNode",
+            "value": 0
+          },
+          "end": {
+            "type": "VariableNode",
+            "name": "len"
+          },
+          "body": [
+            {
+              "type": "CompareSwapNode",
+              "idx1": {
+                "type": "ConstNode",
+                "value": 0
+              },
+              "idx2": {
+                "type": "ConstNode",
+                "value": 1
+              }
+            }
+          ]
+        }
+      ]
+    },
+    "metadata": {
+      "time_seconds": 0.0368802547454834
+    }
+  },
+  {
+    "id": 9,
+    "task_name": "sort_2",
+    "fitness": 99.25,
+    "steps_taken": 0,
+    "ast_depth": 5,
+    "generation": 1,
+    "timestamp": 1786208923.9472868,
+    "program_ast": {
+      "type": "ProgramNode",
+      "statements": [
+        {
+          "type": "AssignNode",
+          "var_name": "j",
+          "value": {
+            "type": "BinaryOpNode",
+            "left": {
+              "type": "BinaryOpNode",
+              "left": {
+                "type": "ConstNode",
+                "value": 0
+              },
+              "op": "+",
+              "right": {
+                "type": "ConstNode",
+                "value": 1
+              }
+            },
+            "op": "-",
+            "right": {
+              "type": "ConstNode",
+              "value": 1
+            }
+          }
+        },
+        {
+          "type": "LoopNode",
+          "var_name": "i",
+          "start": {
+            "type": "VariableNode",
+            "name": "j"
+          },
+          "end": {
+            "type": "VariableNode",
+            "name": "len"
+          },
+          "body": [
+            {
+              "type": "CompareSwapNode",
+              "idx1": {
+                "type": "VariableNode",
+                "name": "i"
+              },
+              "idx2": {
+                "type": "VariableNode",
+                "name": "j"
+              }
+            }
+          ]
+        },
+        {
+          "type": "LoopNode",
+          "var_name": "i",
+          "start": {
+            "type": "ConstNode",
+            "value": 0
+          },
+          "end": {
+            "type": "VariableNode",
+            "name": "len"
+          },
+          "body": [
+            {
+              "type": "CompareSwapNode",
+              "idx1": {
+                "type": "ConstNode",
+                "value": 0
+              },
+              "idx2": {
+                "type": "ConstNode",
+                "value": 1
+              }
+            }
+          ]
+        }
+      ]
+    },
+    "metadata": {
+      "time_seconds": 0.028724193572998047
+    }
+  },
+  {
+    "id": 10,
+    "task_name": "reverse_3",
+    "fitness": 77.2278,
+    "steps_taken": 0,
+    "ast_depth": 4,
+    "generation": 25,
+    "timestamp": 1786208937.29665,
+    "program_ast": {
+      "type": "ProgramNode",
+      "statements": [
+        {
+          "type": "AssignNode",
+          "var_name": "j",
+          "value": {
+            "type": "ConstNode",
+            "value": 0
+          }
+        },
+        {
+          "type": "LoopNode",
+          "var_name": "i",
+          "start": {
+            "type": "ConstNode",
+            "value": 2
+          },
+          "end": {
+            "type": "VariableNode",
+            "name": "len"
+          },
+          "body": [
+            {
+              "type": "CompareSwapNode",
+              "idx1": {
+                "type": "ConstNode",
+                "value": 0
+              },
+              "idx2": {
+                "type": "ConstNode",
+                "value": 0
+              }
+            },
+            {
+              "type": "CompareSwapNode",
+              "idx1": {
+                "type": "VariableNode",
+                "name": "i"
+              },
+              "idx2": {
+                "type": "VariableNode",
+                "name": "j"
+              }
+            }
+          ]
+        },
+        {
+          "type": "CompareSwapNode",
+          "idx1": {
+            "type": "ConstNode",
+            "value": 0
+          },
+          "idx2": {
+            "type": "ConstNode",
+            "value": 0
+          }
+        }
+      ]
+    },
+    "metadata": {
+      "time_seconds": 1.1299691200256348
+    }
+  },
+  {
+    "id": 11,
+    "task_name": "sort_2",
+    "fitness": 99.25,
+    "steps_taken": 0,
+    "ast_depth": 5,
+    "generation": 1,
+    "timestamp": 1786209440.4817936,
+    "program_ast": {
+      "type": "ProgramNode",
+      "statements": [
+        {
+          "type": "AssignNode",
+          "var_name": "j",
+          "value": {
+            "type": "BinaryOpNode",
+            "left": {
+              "type": "BinaryOpNode",
+              "left": {
+                "type": "ConstNode",
+                "value": 0
+              },
+              "op": "+",
+              "right": {
+                "type": "ConstNode",
+                "value": 1
+              }
+            },
+            "op": "-",
+            "right": {
+              "type": "ConstNode",
+              "value": 1
+            }
+          }
+        },
+        {
+          "type": "LoopNode",
+          "var_name": "i",
+          "start": {
+            "type": "VariableNode",
+            "name": "j"
+          },
+          "end": {
+            "type": "VariableNode",
+            "name": "len"
+          },
+          "body": [
+            {
+              "type": "CompareSwapNode",
+              "idx1": {
+                "type": "VariableNode",
+                "name": "j"
+              },
+              "idx2": {
+                "type": "VariableNode",
+                "name": "i"
+              }
+            }
+          ]
+        },
+        {
+          "type": "LoopNode",
+          "var_name": "i",
+          "start": {
+            "type": "ConstNode",
+            "value": 0
+          },
+          "end": {
+            "type": "VariableNode",
+            "name": "len"
+          },
+          "body": [
+            {
+              "type": "CompareSwapNode",
+              "idx1": {
+                "type": "ConstNode",
+                "value": 0
+              },
+              "idx2": {
+                "type": "ConstNode",
+                "value": 1
+              }
+            }
+          ]
+        }
+      ]
+    },
+    "metadata": {
+      "time_seconds": 0.002777576446533203
+    }
+  },
+  {
+    "id": 12,
+    "task_name": "sort_2",
+    "fitness": 99.25,
+    "steps_taken": 0,
+    "ast_depth": 5,
+    "generation": 1,
+    "timestamp": 1786209442.6660311,
+    "program_ast": {
+      "type": "ProgramNode",
+      "statements": [
+        {
+          "type": "AssignNode",
+          "var_name": "j",
+          "value": {
+            "type": "BinaryOpNode",
+            "left": {
+              "type": "BinaryOpNode",
+              "left": {
+                "type": "ConstNode",
+                "value": 0
+              },
+              "op": "+",
+              "right": {
+                "type": "ConstNode",
+                "value": 1
+              }
+            },
+            "op": "-",
+            "right": {
+              "type": "ConstNode",
+              "value": 1
+            }
+          }
+        },
+        {
+          "type": "LoopNode",
+          "var_name": "i",
+          "start": {
+            "type": "VariableNode",
+            "name": "j"
+          },
+          "end": {
+            "type": "VariableNode",
+            "name": "len"
+          },
+          "body": [
+            {
+              "type": "CompareSwapNode",
+              "idx1": {
+                "type": "VariableNode",
+                "name": "i"
+              },
+              "idx2": {
+                "type": "VariableNode",
+                "name": "j"
+              }
+            }
+          ]
+        },
+        {
+          "type": "LoopNode",
+          "var_name": "i",
+          "start": {
+            "type": "ConstNode",
+            "value": 0
+          },
+          "end": {
+            "type": "VariableNode",
+            "name": "len"
+          },
+          "body": [
+            {
+              "type": "CompareSwapNode",
+              "idx1": {
+                "type": "ConstNode",
+                "value": 0
+              },
+              "idx2": {
+                "type": "ConstNode",
+                "value": 1
+              }
+            }
+          ]
+        }
+      ]
+    },
+    "metadata": {
+      "time_seconds": 0.005064725875854492
+    }
+  },
+  {
+    "id": 13,
+    "task_name": "sort_2",
+    "fitness": 99.25,
+    "steps_taken": 0,
+    "ast_depth": 5,
+    "generation": 1,
+    "timestamp": 1786209451.8092535,
+    "program_ast": {
+      "type": "ProgramNode",
+      "statements": [
+        {
+          "type": "AssignNode",
+          "var_name": "j",
+          "value": {
+            "type": "BinaryOpNode",
+            "left": {
+              "type": "BinaryOpNode",
+              "left": {
+                "type": "ConstNode",
+                "value": 0
+              },
+              "op": "+",
+              "right": {
+                "type": "ConstNode",
+                "value": 1
+              }
+            },
+            "op": "-",
+            "right": {
+              "type": "ConstNode",
+              "value": 1
+            }
+          }
+        },
+        {
+          "type": "LoopNode",
+          "var_name": "i",
+          "start": {
+            "type": "VariableNode",
+            "name": "j"
+          },
+          "end": {
+            "type": "VariableNode",
+            "name": "len"
+          },
+          "body": [
+            {
+              "type": "CompareSwapNode",
+              "idx1": {
+                "type": "VariableNode",
+                "name": "i"
+              },
+              "idx2": {
+                "type": "VariableNode",
+                "name": "j"
+              }
+            }
+          ]
+        },
+        {
+          "type": "LoopNode",
+          "var_name": "i",
+          "start": {
+            "type": "ConstNode",
+            "value": 0
+          },
+          "end": {
+            "type": "VariableNode",
+            "name": "len"
+          },
+          "body": [
+            {
+              "type": "CompareSwapNode",
+              "idx1": {
+                "type": "ConstNode",
+                "value": 0
+              },
+              "idx2": {
+                "type": "ConstNode",
+                "value": 1
+              }
+            }
+          ]
+        }
+      ]
+    },
+    "metadata": {
+      "time_seconds": 0.004483461380004883
+    }
+  },
+  {
+    "id": 14,
+    "task_name": "sort_2",
+    "fitness": 99.25,
+    "steps_taken": 0,
+    "ast_depth": 5,
+    "generation": 1,
+    "timestamp": 1786209452.2350876,
+    "program_ast": {
+      "type": "ProgramNode",
+      "statements": [
+        {
+          "type": "AssignNode",
+          "var_name": "j",
+          "value": {
+            "type": "BinaryOpNode",
+            "left": {
+              "type": "BinaryOpNode",
+              "left": {
+                "type": "ConstNode",
+                "value": 0
+              },
+              "op": "+",
+              "right": {
+                "type": "ConstNode",
+                "value": 1
+              }
+            },
+            "op": "-",
+            "right": {
+              "type": "ConstNode",
+              "value": 1
+            }
+          }
+        },
+        {
+          "type": "LoopNode",
+          "var_name": "i",
+          "start": {
+            "type": "VariableNode",
+            "name": "j"
+          },
+          "end": {
+            "type": "VariableNode",
+            "name": "len"
+          },
+          "body": [
+            {
+              "type": "CompareSwapNode",
+              "idx1": {
+                "type": "VariableNode",
+                "name": "i"
+              },
+              "idx2": {
+                "type": "VariableNode",
+                "name": "j"
+              }
+            }
+          ]
+        },
+        {
+          "type": "LoopNode",
+          "var_name": "i",
+          "start": {
+            "type": "ConstNode",
+            "value": 0
+          },
+          "end": {
+            "type": "VariableNode",
+            "name": "len"
+          },
+          "body": [
+            {
+              "type": "CompareSwapNode",
+              "idx1": {
+                "type": "ConstNode",
+                "value": 0
+              },
+              "idx2": {
+                "type": "ConstNode",
+                "value": 1
+              }
+            }
+          ]
+        }
+      ]
+    },
+    "metadata": {
+      "time_seconds": 0.005370616912841797
+    }
+  },
+  {
+    "id": 15,
+    "task_name": "sort_2",
+    "fitness": 99.66,
+    "steps_taken": 0,
+    "ast_depth": 3,
+    "generation": 1,
+    "timestamp": 1786209457.1850922,
+    "program_ast": {
+      "type": "ProgramNode",
+      "statements": [
+        {
+          "type": "CompareSwapNode",
+          "idx1": {
+            "type": "ConstNode",
+            "value": 0
+          },
+          "idx2": {
+            "type": "ConstNode",
+            "value": 1
+          }
+        }
+      ]
+    },
+    "metadata": {
+      "time_seconds": 0.0029582977294921875
+    }
+  },
+  {
+    "id": 16,
+    "task_name": "zigzag_sort_4",
+    "fitness": 89.1,
+    "steps_taken": 0,
+    "ast_depth": 5,
+    "generation": 40,
+    "timestamp": 1786212357.7966533,
+    "program_ast": {
+      "type": "ProgramNode",
+      "statements": [
+        {
+          "type": "LoopNode",
+          "var_name": "i",
+          "start": {
+            "type": "ConstNode",
+            "value": 1
+          },
+          "end": {
+            "type": "VariableNode",
+            "name": "len"
+          },
+          "body": [
+            {
+              "type": "IfNode",
+              "condition": {
+                "type": "BinaryOpNode",
+                "left": {
+                  "type": "VariableNode",
+                  "name": "i"
+                },
+                "op": "==",
+                "right": {
+                  "type": "ConstNode",
+                  "value": 1
+                }
+              },
+              "then_body": [
+                {
+                  "type": "AssignNode",
+                  "var_name": "j",
+                  "value": {
+                    "type": "VariableNode",
+                    "name": "i"
+                  }
+                }
+              ],
+              "else_body": []
+            }
+          ]
+        },
+        {
+          "type": "LoopNode",
+          "var_name": "k",
+          "start": {
+            "type": "VariableNode",
+            "name": "j"
+          },
+          "end": {
+            "type": "ConstNode",
+            "value": 2
+          },
+          "body": [
+            {
+              "type": "LoopNode",
+              "var_name": "i",
+              "start": {
+                "type": "VariableNode",
+                "name": "k"
+              },
+              "end": {
+                "type": "BinaryOpNode",
+                "left": {
+                  "type": "VariableNode",
+                  "name": "len"
+                },
+                "op": "-",
+                "right": {
+                  "type": "ConstNode",
+                  "value": 1
+                }
+              },
+              "body": [
+                {
+                  "type": "CompareSwapNode",
+                  "idx1": {
+                    "type": "ConstNode",
+                    "value": 0
+                  },
+                  "idx2": {
+                    "type": "VariableNode",
+                    "name": "i"
+                  }
+                }
+              ]
+            },
+            {
+              "type": "CompareSwapNode",
+              "idx1": {
+                "type": "VariableNode",
+                "name": "i"
+              },
+              "idx2": {
+                "type": "BinaryOpNode",
+                "left": {
+                  "type": "VariableNode",
+                  "name": "j"
+                },
+                "op": "+",
+                "right": {
+                  "type": "VariableNode",
+                  "name": "i"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "CompareSwapNode",
+          "idx1": {
+            "type": "VariableNode",
+            "name": "i"
+          },
+          "idx2": {
+            "type": "ConstNode",
+            "value": 1
+          }
+        }
+      ]
+    },
+    "metadata": {
+      "time_seconds": 1.0368499755859375
+    }
+  },
+  {
+    "id": 17,
+    "task_name": "zigzag_sort_4",
+    "fitness": 99.15,
+    "steps_taken": 0,
+    "ast_depth": 5,
+    "generation": 25,
+    "timestamp": 1786212378.3233569,
+    "program_ast": {
+      "type": "ProgramNode",
+      "statements": [
+        {
+          "type": "LoopNode",
+          "var_name": "j",
+          "start": {
+            "type": "BinaryOpNode",
+            "left": {
+              "type": "ConstNode",
+              "value": 2
+            },
+            "op": "-",
+            "right": {
+              "type": "BinaryOpNode",
+              "left": {
+                "type": "ConstNode",
+                "value": 2
+              },
+              "op": "-",
+              "right": {
+                "type": "ConstNode",
+                "value": 0
+              }
+            }
+          },
+          "end": {
+            "type": "VariableNode",
+            "name": "len"
+          },
+          "body": [
+            {
+              "type": "CompareSwapNode",
+              "idx1": {
+                "type": "ConstNode",
+                "value": 1
+              },
+              "idx2": {
+                "type": "ConstNode",
+                "value": 2
+              }
+            },
+            {
+              "type": "CompareSwapNode",
+              "idx1": {
+                "type": "ConstNode",
+                "value": 2
+              },
+              "idx2": {
+                "type": "VariableNode",
+                "name": "j"
+              }
+            }
+          ]
+        },
+        {
+          "type": "CompareSwapNode",
+          "idx1": {
+            "type": "ConstNode",
+            "value": 0
+          },
+          "idx2": {
+            "type": "ConstNode",
+            "value": 1
+          }
+        }
+      ]
+    },
+    "metadata": {
+      "time_seconds": 0.3237919807434082
+    }
+  },
+  {
+    "id": 18,
+    "task_name": "sort_2",
+    "fitness": 99.25,
+    "steps_taken": 0,
+    "ast_depth": 5,
+    "generation": 1,
+    "timestamp": 1786212628.5601435,
+    "program_ast": {
+      "type": "ProgramNode",
+      "statements": [
+        {
+          "type": "AssignNode",
+          "var_name": "j",
+          "value": {
+            "type": "BinaryOpNode",
+            "left": {
+              "type": "BinaryOpNode",
+              "left": {
+                "type": "ConstNode",
+                "value": 0
+              },
+              "op": "+",
+              "right": {
+                "type": "ConstNode",
+                "value": 1
+              }
+            },
+            "op": "-",
+            "right": {
+              "type": "ConstNode",
+              "value": 1
+            }
+          }
+        },
+        {
+          "type": "LoopNode",
+          "var_name": "i",
+          "start": {
+            "type": "VariableNode",
+            "name": "j"
+          },
+          "end": {
+            "type": "VariableNode",
+            "name": "len"
+          },
+          "body": [
+            {
+              "type": "CompareSwapNode",
+              "idx1": {
+                "type": "VariableNode",
+                "name": "i"
+              },
+              "idx2": {
+                "type": "VariableNode",
+                "name": "j"
+              }
+            }
+          ]
+        },
+        {
+          "type": "LoopNode",
+          "var_name": "i",
+          "start": {
+            "type": "ConstNode",
+            "value": 0
+          },
+          "end": {
+            "type": "VariableNode",
+            "name": "len"
+          },
+          "body": [
+            {
+              "type": "CompareSwapNode",
+              "idx1": {
+                "type": "ConstNode",
+                "value": 0
+              },
+              "idx2": {
+                "type": "ConstNode",
+                "value": 1
+              }
+            }
+          ]
+        }
+      ]
+    },
+    "metadata": {
+      "time_seconds": 0.0015861988067626953
+    }
+  },
+  {
+    "id": 19,
+    "task_name": "sort_2",
+    "fitness": 99.25,
+    "steps_taken": 0,
+    "ast_depth": 5,
+    "generation": 1,
+    "timestamp": 1786212630.0228386,
+    "program_ast": {
+      "type": "ProgramNode",
+      "statements": [
+        {
+          "type": "AssignNode",
+          "var_name": "j",
+          "value": {
+            "type": "BinaryOpNode",
+            "left": {
+              "type": "BinaryOpNode",
+              "left": {
+                "type": "ConstNode",
+                "value": 0
+              },
+              "op": "+",
+              "right": {
+                "type": "ConstNode",
+                "value": 1
+              }
+            },
+            "op": "-",
+            "right": {
+              "type": "ConstNode",
+              "value": 1
+            }
+          }
+        },
+        {
+          "type": "LoopNode",
+          "var_name": "i",
+          "start": {
+            "type": "VariableNode",
+            "name": "j"
+          },
+          "end": {
+            "type": "VariableNode",
+            "name": "len"
+          },
+          "body": [
+            {
+              "type": "CompareSwapNode",
+              "idx1": {
+                "type": "VariableNode",
+                "name": "i"
+              },
+              "idx2": {
+                "type": "VariableNode",
+                "name": "j"
+              }
+            }
+          ]
+        },
+        {
+          "type": "LoopNode",
+          "var_name": "i",
+          "start": {
+            "type": "ConstNode",
+            "value": 0
+          },
+          "end": {
+            "type": "VariableNode",
+            "name": "len"
+          },
+          "body": [
+            {
+              "type": "CompareSwapNode",
+              "idx1": {
+                "type": "ConstNode",
+                "value": 0
+              },
+              "idx2": {
+                "type": "ConstNode",
+                "value": 1
+              }
+            }
+          ]
+        }
+      ]
+    },
+    "metadata": {
+      "time_seconds": 0.002675771713256836
+    }
+  },
+  {
+    "id": 20,
+    "task_name": "sort_2",
+    "fitness": 99.25,
+    "steps_taken": 0,
+    "ast_depth": 5,
+    "generation": 1,
+    "timestamp": 1786212630.8499324,
+    "program_ast": {
+      "type": "ProgramNode",
+      "statements": [
+        {
+          "type": "AssignNode",
+          "var_name": "j",
+          "value": {
+            "type": "BinaryOpNode",
+            "left": {
+              "type": "BinaryOpNode",
+              "left": {
+                "type": "ConstNode",
+                "value": 0
+              },
+              "op": "+",
+              "right": {
+                "type": "ConstNode",
+                "value": 1
+              }
+            },
+            "op": "-",
+            "right": {
+              "type": "ConstNode",
+              "value": 1
+            }
+          }
+        },
+        {
+          "type": "LoopNode",
+          "var_name": "i",
+          "start": {
+            "type": "VariableNode",
+            "name": "j"
+          },
+          "end": {
+            "type": "VariableNode",
+            "name": "len"
+          },
+          "body": [
+            {
+              "type": "CompareSwapNode",
+              "idx1": {
+                "type": "VariableNode",
+                "name": "i"
+              },
+              "idx2": {
+                "type": "VariableNode",
+                "name": "j"
+              }
+            }
+          ]
+        },
+        {
+          "type": "LoopNode",
+          "var_name": "i",
+          "start": {
+            "type": "ConstNode",
+            "value": 0
+          },
+          "end": {
+            "type": "VariableNode",
+            "name": "len"
+          },
+          "body": [
+            {
+              "type": "CompareSwapNode",
+              "idx1": {
+                "type": "ConstNode",
+                "value": 0
+              },
+              "idx2": {
+                "type": "ConstNode",
+                "value": 1
+              }
+            }
+          ]
+        }
+      ]
+    },
+    "metadata": {
+      "time_seconds": 0.0014717578887939453
+    }
+  },
+  {
+    "id": 21,
+    "task_name": "sort_2",
+    "fitness": 99.25,
+    "steps_taken": 0,
+    "ast_depth": 5,
+    "generation": 1,
+    "timestamp": 1786212631.8623195,
+    "program_ast": {
+      "type": "ProgramNode",
+      "statements": [
+        {
+          "type": "AssignNode",
+          "var_name": "j",
+          "value": {
+            "type": "BinaryOpNode",
+            "left": {
+              "type": "BinaryOpNode",
+              "left": {
+                "type": "ConstNode",
+                "value": 0
+              },
+              "op": "+",
+              "right": {
+                "type": "ConstNode",
+                "value": 1
+              }
+            },
+            "op": "-",
+            "right": {
+              "type": "ConstNode",
+              "value": 1
+            }
+          }
+        },
+        {
+          "type": "LoopNode",
+          "var_name": "i",
+          "start": {
+            "type": "VariableNode",
+            "name": "j"
+          },
+          "end": {
+            "type": "VariableNode",
+            "name": "len"
+          },
+          "body": [
+            {
+              "type": "CompareSwapNode",
+              "idx1": {
+                "type": "VariableNode",
+                "name": "i"
+              },
+              "idx2": {
+                "type": "VariableNode",
+                "name": "j"
+              }
+            }
+          ]
+        },
+        {
+          "type": "LoopNode",
+          "var_name": "i",
+          "start": {
+            "type": "ConstNode",
+            "value": 0
+          },
+          "end": {
+            "type": "VariableNode",
+            "name": "len"
+          },
+          "body": [
+            {
+              "type": "CompareSwapNode",
+              "idx1": {
+                "type": "ConstNode",
+                "value": 0
+              },
+              "idx2": {
+                "type": "ConstNode",
+                "value": 1
+              }
+            }
+          ]
+        }
+      ]
+    },
+    "metadata": {
+      "time_seconds": 0.0014240741729736328
+    }
+  },
+  {
+    "id": 22,
+    "task_name": "sort_2",
+    "fitness": 99.25,
+    "steps_taken": 0,
+    "ast_depth": 5,
+    "generation": 1,
+    "timestamp": 1786212632.493693,
+    "program_ast": {
+      "type": "ProgramNode",
+      "statements": [
+        {
+          "type": "AssignNode",
+          "var_name": "j",
+          "value": {
+            "type": "BinaryOpNode",
+            "left": {
+              "type": "BinaryOpNode",
+              "left": {
+                "type": "ConstNode",
+                "value": 0
+              },
+              "op": "+",
+              "right": {
+                "type": "ConstNode",
+                "value": 1
+              }
+            },
+            "op": "-",
+            "right": {
+              "type": "ConstNode",
+              "value": 1
+            }
+          }
+        },
+        {
+          "type": "LoopNode",
+          "var_name": "i",
+          "start": {
+            "type": "VariableNode",
+            "name": "j"
+          },
+          "end": {
+            "type": "VariableNode",
+            "name": "len"
+          },
+          "body": [
+            {
+              "type": "CompareSwapNode",
+              "idx1": {
+                "type": "VariableNode",
+                "name": "i"
+              },
+              "idx2": {
+                "type": "VariableNode",
+                "name": "j"
+              }
+            }
+          ]
+        },
+        {
+          "type": "LoopNode",
+          "var_name": "i",
+          "start": {
+            "type": "ConstNode",
+            "value": 0
+          },
+          "end": {
+            "type": "VariableNode",
+            "name": "len"
+          },
+          "body": [
+            {
+              "type": "CompareSwapNode",
+              "idx1": {
+                "type": "ConstNode",
+                "value": 0
+              },
+              "idx2": {
+                "type": "ConstNode",
+                "value": 1
+              }
+            }
+          ]
+        }
+      ]
+    },
+    "metadata": {
+      "time_seconds": 0.0
+    }
+  },
+  {
+    "id": 23,
+    "task_name": "sort_2",
+    "fitness": 99.25,
+    "steps_taken": 0,
+    "ast_depth": 5,
+    "generation": 1,
+    "timestamp": 1786212633.6882555,
+    "program_ast": {
+      "type": "ProgramNode",
+      "statements": [
+        {
+          "type": "AssignNode",
+          "var_name": "j",
+          "value": {
+            "type": "BinaryOpNode",
+            "left": {
+              "type": "BinaryOpNode",
+              "left": {
+                "type": "ConstNode",
+                "value": 0
+              },
+              "op": "+",
+              "right": {
+                "type": "ConstNode",
+                "value": 1
+              }
+            },
+            "op": "-",
+            "right": {
+              "type": "ConstNode",
+              "value": 1
+            }
+          }
+        },
+        {
+          "type": "LoopNode",
+          "var_name": "i",
+          "start": {
+            "type": "VariableNode",
+            "name": "j"
+          },
+          "end": {
+            "type": "VariableNode",
+            "name": "len"
+          },
+          "body": [
+            {
+              "type": "CompareSwapNode",
+              "idx1": {
+                "type": "VariableNode",
+                "name": "j"
+              },
+              "idx2": {
+                "type": "VariableNode",
+                "name": "i"
+              }
+            }
+          ]
+        },
+        {
+          "type": "LoopNode",
+          "var_name": "i",
+          "start": {
+            "type": "ConstNode",
+            "value": 0
+          },
+          "end": {
+            "type": "VariableNode",
+            "name": "len"
+          },
+          "body": [
+            {
+              "type": "CompareSwapNode",
+              "idx1": {
+                "type": "ConstNode",
+                "value": 0
+              },
+              "idx2": {
+                "type": "ConstNode",
+                "value": 1
+              }
+            }
+          ]
+        }
+      ]
+    },
+    "metadata": {
+      "time_seconds": 0.00099945068359375
+    }
+  },
+  {
+    "id": 24,
+    "task_name": "sort_2",
+    "fitness": 99.25,
+    "steps_taken": 0,
+    "ast_depth": 5,
+    "generation": 1,
+    "timestamp": 1786212634.8681636,
+    "program_ast": {
+      "type": "ProgramNode",
+      "statements": [
+        {
+          "type": "AssignNode",
+          "var_name": "j",
+          "value": {
+            "type": "BinaryOpNode",
+            "left": {
+              "type": "BinaryOpNode",
+              "left": {
+                "type": "ConstNode",
+                "value": 0
+              },
+              "op": "+",
+              "right": {
+                "type": "ConstNode",
+                "value": 1
+              }
+            },
+            "op": "-",
+            "right": {
+              "type": "ConstNode",
+              "value": 1
+            }
+          }
+        },
+        {
+          "type": "LoopNode",
+          "var_name": "i",
+          "start": {
+            "type": "VariableNode",
+            "name": "j"
+          },
+          "end": {
+            "type": "VariableNode",
+            "name": "len"
+          },
+          "body": [
+            {
+              "type": "CompareSwapNode",
+              "idx1": {
+                "type": "VariableNode",
+                "name": "j"
+              },
+              "idx2": {
+                "type": "VariableNode",
+                "name": "i"
+              }
+            }
+          ]
+        },
+        {
+          "type": "LoopNode",
+          "var_name": "i",
+          "start": {
+            "type": "ConstNode",
+            "value": 0
+          },
+          "end": {
+            "type": "VariableNode",
+            "name": "len"
+          },
+          "body": [
+            {
+              "type": "CompareSwapNode",
+              "idx1": {
+                "type": "ConstNode",
+                "value": 0
+              },
+              "idx2": {
+                "type": "ConstNode",
+                "value": 1
+              }
+            }
+          ]
+        }
+      ]
+    },
+    "metadata": {
+      "time_seconds": 0.0009987354278564453
+    }
+  },
+  {
+    "id": 25,
+    "task_name": "sort_2",
+    "fitness": 99.25,
+    "steps_taken": 0,
+    "ast_depth": 5,
+    "generation": 1,
+    "timestamp": 1786212635.8786235,
+    "program_ast": {
+      "type": "ProgramNode",
+      "statements": [
+        {
+          "type": "AssignNode",
+          "var_name": "j",
+          "value": {
+            "type": "BinaryOpNode",
+            "left": {
+              "type": "BinaryOpNode",
+              "left": {
+                "type": "ConstNode",
+                "value": 0
+              },
+              "op": "+",
+              "right": {
+                "type": "ConstNode",
+                "value": 1
+              }
+            },
+            "op": "-",
+            "right": {
+              "type": "ConstNode",
+              "value": 1
+            }
+          }
+        },
+        {
+          "type": "LoopNode",
+          "var_name": "i",
+          "start": {
+            "type": "VariableNode",
+            "name": "j"
+          },
+          "end": {
+            "type": "VariableNode",
+            "name": "len"
+          },
+          "body": [
+            {
+              "type": "CompareSwapNode",
+              "idx1": {
+                "type": "VariableNode",
+                "name": "j"
+              },
+              "idx2": {
+                "type": "VariableNode",
+                "name": "i"
+              }
+            }
+          ]
+        },
+        {
+          "type": "LoopNode",
+          "var_name": "i",
+          "start": {
+            "type": "ConstNode",
+            "value": 0
+          },
+          "end": {
+            "type": "VariableNode",
+            "name": "len"
+          },
+          "body": [
+            {
+              "type": "CompareSwapNode",
+              "idx1": {
+                "type": "ConstNode",
+                "value": 0
+              },
+              "idx2": {
+                "type": "ConstNode",
+                "value": 1
+              }
+            }
+          ]
+        }
+      ]
+    },
+    "metadata": {
+      "time_seconds": 0.007199764251708984
+    }
+  },
+  {
+    "id": 26,
+    "task_name": "sort_2",
+    "fitness": 99.25,
+    "steps_taken": 0,
+    "ast_depth": 5,
+    "generation": 1,
+    "timestamp": 1786212639.902808,
+    "program_ast": {
+      "type": "ProgramNode",
+      "statements": [
+        {
+          "type": "AssignNode",
+          "var_name": "j",
+          "value": {
+            "type": "BinaryOpNode",
+            "left": {
+              "type": "BinaryOpNode",
+              "left": {
+                "type": "ConstNode",
+                "value": 0
+              },
+              "op": "+",
+              "right": {
+                "type": "ConstNode",
+                "value": 1
+              }
+            },
+            "op": "-",
+            "right": {
+              "type": "ConstNode",
+              "value": 1
+            }
+          }
+        },
+        {
+          "type": "LoopNode",
+          "var_name": "i",
+          "start": {
+            "type": "VariableNode",
+            "name": "j"
+          },
+          "end": {
+            "type": "VariableNode",
+            "name": "len"
+          },
+          "body": [
+            {
+              "type": "CompareSwapNode",
+              "idx1": {
+                "type": "VariableNode",
+                "name": "j"
+              },
+              "idx2": {
+                "type": "VariableNode",
+                "name": "i"
+              }
+            }
+          ]
+        },
+        {
+          "type": "LoopNode",
+          "var_name": "i",
+          "start": {
+            "type": "ConstNode",
+            "value": 0
+          },
+          "end": {
+            "type": "VariableNode",
+            "name": "len"
+          },
+          "body": [
+            {
+              "type": "CompareSwapNode",
+              "idx1": {
+                "type": "ConstNode",
+                "value": 0
+              },
+              "idx2": {
+                "type": "ConstNode",
+                "value": 1
+              }
+            }
+          ]
+        }
+      ]
+    },
+    "metadata": {
+      "time_seconds": 0.0020134449005126953
+    }
+  },
+  {
+    "id": 27,
+    "task_name": "sort_2",
+    "fitness": 99.25,
+    "steps_taken": 0,
+    "ast_depth": 5,
+    "generation": 1,
+    "timestamp": 1786212641.4816792,
+    "program_ast": {
+      "type": "ProgramNode",
+      "statements": [
+        {
+          "type": "AssignNode",
+          "var_name": "j",
+          "value": {
+            "type": "BinaryOpNode",
+            "left": {
+              "type": "BinaryOpNode",
+              "left": {
+                "type": "ConstNode",
+                "value": 0
+              },
+              "op": "+",
+              "right": {
+                "type": "ConstNode",
+                "value": 1
+              }
+            },
+            "op": "-",
+            "right": {
+              "type": "ConstNode",
+              "value": 1
+            }
+          }
+        },
+        {
+          "type": "LoopNode",
+          "var_name": "i",
+          "start": {
+            "type": "VariableNode",
+            "name": "j"
+          },
+          "end": {
+            "type": "VariableNode",
+            "name": "len"
+          },
+          "body": [
+            {
+              "type": "CompareSwapNode",
+              "idx1": {
+                "type": "VariableNode",
+                "name": "i"
+              },
+              "idx2": {
+                "type": "VariableNode",
+                "name": "j"
+              }
+            }
+          ]
+        },
+        {
+          "type": "LoopNode",
+          "var_name": "i",
+          "start": {
+            "type": "ConstNode",
+            "value": 0
+          },
+          "end": {
+            "type": "VariableNode",
+            "name": "len"
+          },
+          "body": [
+            {
+              "type": "CompareSwapNode",
+              "idx1": {
+                "type": "ConstNode",
+                "value": 0
+              },
+              "idx2": {
+                "type": "ConstNode",
+                "value": 1
+              }
+            }
+          ]
+        }
+      ]
+    },
+    "metadata": {
+      "time_seconds": 0.0029611587524414062
+    }
+  },
+  {
+    "id": 28,
+    "task_name": "reverse_3",
+    "fitness": 77.4378,
+    "steps_taken": 0,
+    "ast_depth": 3,
+    "generation": 100,
+    "timestamp": 1786212715.3637295,
+    "program_ast": {
+      "type": "ProgramNode",
+      "statements": [
+        {
+          "type": "CompareSwapNode",
+          "idx1": {
+            "type": "ConstNode",
+            "value": 2
+          },
+          "idx2": {
+            "type": "ConstNode",
+            "value": 0
+          }
+        }
+      ]
+    },
+    "metadata": {
+      "time_seconds": 0.6327147483825684
+    }
+  },
+  {
+    "id": 29,
+    "task_name": "reverse_3",
+    "fitness": 33.0033,
+    "steps_taken": 0,
+    "ast_depth": 3,
+    "generation": 100,
+    "timestamp": 1786212717.8233664,
+    "program_ast": {
+      "type": "ProgramNode",
+      "statements": [
+        {
+          "type": "AssignNode",
+          "var_name": "i",
+          "value": {
+            "type": "ConstNode",
+            "value": 0
+          }
+        }
+      ]
+    },
+    "metadata": {
+      "time_seconds": 0.24254798889160156
+    }
+  },
+  {
+    "id": 30,
+    "task_name": "reverse_3",
+    "fitness": 33.0033,
+    "steps_taken": 0,
+    "ast_depth": 3,
+    "generation": 100,
+    "timestamp": 1786212722.8847506,
+    "program_ast": {
+      "type": "ProgramNode",
+      "statements": [
+        {
+          "type": "AssignNode",
+          "var_name": "i",
+          "value": {
+            "type": "ConstNode",
+            "value": 1
+          }
+        }
+      ]
+    },
+    "metadata": {
+      "time_seconds": 0.2283620834350586
+    }
+  },
+  {
+    "id": 31,
+    "task_name": "sort_2",
+    "fitness": 99.25,
+    "steps_taken": 0,
+    "ast_depth": 5,
+    "generation": 1,
+    "timestamp": 1786213295.3267727,
+    "program_ast": {
+      "type": "ProgramNode",
+      "statements": [
+        {
+          "type": "AssignNode",
+          "var_name": "j",
+          "value": {
+            "type": "BinaryOpNode",
+            "left": {
+              "type": "BinaryOpNode",
+              "left": {
+                "type": "ConstNode",
+                "value": 0
+              },
+              "op": "+",
+              "right": {
+                "type": "ConstNode",
+                "value": 1
+              }
+            },
+            "op": "-",
+            "right": {
+              "type": "ConstNode",
+              "value": 1
+            }
+          }
+        },
+        {
+          "type": "LoopNode",
+          "var_name": "i",
+          "start": {
+            "type": "VariableNode",
+            "name": "j"
+          },
+          "end": {
+            "type": "VariableNode",
+            "name": "len"
+          },
+          "body": [
+            {
+              "type": "CompareSwapNode",
+              "idx1": {
+                "type": "VariableNode",
+                "name": "i"
+              },
+              "idx2": {
+                "type": "VariableNode",
+                "name": "j"
+              }
+            }
+          ]
+        },
+        {
+          "type": "LoopNode",
+          "var_name": "i",
+          "start": {
+            "type": "ConstNode",
+            "value": 0
+          },
+          "end": {
+            "type": "VariableNode",
+            "name": "len"
+          },
+          "body": [
+            {
+              "type": "CompareSwapNode",
+              "idx1": {
+                "type": "ConstNode",
+                "value": 0
+              },
+              "idx2": {
+                "type": "ConstNode",
+                "value": 1
+              }
+            }
+          ]
+        }
+      ]
+    },
+    "metadata": {
+      "time_seconds": 0.0020024776458740234
+    }
+  },
+  {
+    "id": 32,
+    "task_name": "sort_2",
+    "fitness": 99.25,
+    "steps_taken": 0,
+    "ast_depth": 5,
+    "generation": 1,
+    "timestamp": 1786213296.7251792,
+    "program_ast": {
+      "type": "ProgramNode",
+      "statements": [
+        {
+          "type": "AssignNode",
+          "var_name": "j",
+          "value": {
+            "type": "BinaryOpNode",
+            "left": {
+              "type": "BinaryOpNode",
+              "left": {
+                "type": "ConstNode",
+                "value": 0
+              },
+              "op": "+",
+              "right": {
+                "type": "ConstNode",
+                "value": 1
+              }
+            },
+            "op": "-",
+            "right": {
+              "type": "ConstNode",
+              "value": 1
+            }
+          }
+        },
+        {
+          "type": "LoopNode",
+          "var_name": "i",
+          "start": {
+            "type": "VariableNode",
+            "name": "j"
+          },
+          "end": {
+            "type": "VariableNode",
+            "name": "len"
+          },
+          "body": [
+            {
+              "type": "CompareSwapNode",
+              "idx1": {
+                "type": "VariableNode",
+                "name": "j"
+              },
+              "idx2": {
+                "type": "VariableNode",
+                "name": "i"
+              }
+            }
+          ]
+        },
+        {
+          "type": "LoopNode",
+          "var_name": "i",
+          "start": {
+            "type": "ConstNode",
+            "value": 0
+          },
+          "end": {
+            "type": "VariableNode",
+            "name": "len"
+          },
+          "body": [
+            {
+              "type": "CompareSwapNode",
+              "idx1": {
+                "type": "ConstNode",
+                "value": 0
+              },
+              "idx2": {
+                "type": "ConstNode",
+                "value": 1
+              }
+            }
+          ]
+        }
+      ]
+    },
+    "metadata": {
+      "time_seconds": 0.0
+    }
+  },
+  {
+    "id": 33,
+    "task_name": "sort_2",
+    "fitness": 99.25,
+    "steps_taken": 0,
+    "ast_depth": 5,
+    "generation": 1,
+    "timestamp": 1786213297.8091712,
+    "program_ast": {
+      "type": "ProgramNode",
+      "statements": [
+        {
+          "type": "AssignNode",
+          "var_name": "j",
+          "value": {
+            "type": "BinaryOpNode",
+            "left": {
+              "type": "BinaryOpNode",
+              "left": {
+                "type": "ConstNode",
+                "value": 0
+              },
+              "op": "+",
+              "right": {
+                "type": "ConstNode",
+                "value": 1
+              }
+            },
+            "op": "-",
+            "right": {
+              "type": "ConstNode",
+              "value": 1
+            }
+          }
+        },
+        {
+          "type": "LoopNode",
+          "var_name": "i",
+          "start": {
+            "type": "VariableNode",
+            "name": "j"
+          },
+          "end": {
+            "type": "VariableNode",
+            "name": "len"
+          },
+          "body": [
+            {
+              "type": "CompareSwapNode",
+              "idx1": {
+                "type": "VariableNode",
+                "name": "j"
+              },
+              "idx2": {
+                "type": "VariableNode",
+                "name": "i"
+              }
+            }
+          ]
+        },
+        {
+          "type": "LoopNode",
+          "var_name": "i",
+          "start": {
+            "type": "ConstNode",
+            "value": 0
+          },
+          "end": {
+            "type": "VariableNode",
+            "name": "len"
+          },
+          "body": [
+            {
+              "type": "CompareSwapNode",
+              "idx1": {
+                "type": "ConstNode",
+                "value": 0
+              },
+              "idx2": {
+                "type": "ConstNode",
+                "value": 1
+              }
+            }
+          ]
+        }
+      ]
+    },
+    "metadata": {
+      "time_seconds": 0.0034749507904052734
+    }
+  },
+  {
+    "id": 34,
+    "task_name": "sort_2",
+    "fitness": 99.25,
+    "steps_taken": 0,
+    "ast_depth": 5,
+    "generation": 1,
+    "timestamp": 1786213299.7744286,
+    "program_ast": {
+      "type": "ProgramNode",
+      "statements": [
+        {
+          "type": "AssignNode",
+          "var_name": "j",
+          "value": {
+            "type": "BinaryOpNode",
+            "left": {
+              "type": "BinaryOpNode",
+              "left": {
+                "type": "ConstNode",
+                "value": 0
+              },
+              "op": "+",
+              "right": {
+                "type": "ConstNode",
+                "value": 1
+              }
+            },
+            "op": "-",
+            "right": {
+              "type": "ConstNode",
+              "value": 1
+            }
+          }
+        },
+        {
+          "type": "LoopNode",
+          "var_name": "i",
+          "start": {
+            "type": "VariableNode",
+            "name": "j"
+          },
+          "end": {
+            "type": "VariableNode",
+            "name": "len"
+          },
+          "body": [
+            {
+              "type": "CompareSwapNode",
+              "idx1": {
+                "type": "VariableNode",
+                "name": "j"
+              },
+              "idx2": {
+                "type": "VariableNode",
+                "name": "i"
+              }
+            }
+          ]
+        },
+        {
+          "type": "LoopNode",
+          "var_name": "i",
+          "start": {
+            "type": "ConstNode",
+            "value": 0
+          },
+          "end": {
+            "type": "VariableNode",
+            "name": "len"
+          },
+          "body": [
+            {
+              "type": "CompareSwapNode",
+              "idx1": {
+                "type": "ConstNode",
+                "value": 0
+              },
+              "idx2": {
+                "type": "ConstNode",
+                "value": 1
+              }
+            }
+          ]
+        }
+      ]
+    },
+    "metadata": {
+      "time_seconds": 0.0020093917846679688
+    }
+  },
+  {
+    "id": 35,
+    "task_name": "sort_2",
+    "fitness": 99.25,
+    "steps_taken": 0,
+    "ast_depth": 5,
+    "generation": 1,
+    "timestamp": 1786213301.297593,
+    "program_ast": {
+      "type": "ProgramNode",
+      "statements": [
+        {
+          "type": "AssignNode",
+          "var_name": "j",
+          "value": {
+            "type": "BinaryOpNode",
+            "left": {
+              "type": "BinaryOpNode",
+              "left": {
+                "type": "ConstNode",
+                "value": 0
+              },
+              "op": "+",
+              "right": {
+                "type": "ConstNode",
+                "value": 1
+              }
+            },
+            "op": "-",
+            "right": {
+              "type": "ConstNode",
+              "value": 1
+            }
+          }
+        },
+        {
+          "type": "LoopNode",
+          "var_name": "i",
+          "start": {
+            "type": "VariableNode",
+            "name": "j"
+          },
+          "end": {
+            "type": "VariableNode",
+            "name": "len"
+          },
+          "body": [
+            {
+              "type": "CompareSwapNode",
+              "idx1": {
+                "type": "VariableNode",
+                "name": "j"
+              },
+              "idx2": {
+                "type": "VariableNode",
+                "name": "i"
+              }
+            }
+          ]
+        },
+        {
+          "type": "LoopNode",
+          "var_name": "i",
+          "start": {
+            "type": "ConstNode",
+            "value": 0
+          },
+          "end": {
+            "type": "VariableNode",
+            "name": "len"
+          },
+          "body": [
+            {
+              "type": "CompareSwapNode",
+              "idx1": {
+                "type": "ConstNode",
+                "value": 0
+              },
+              "idx2": {
+                "type": "ConstNode",
+                "value": 1
+              }
+            }
+          ]
+        }
+      ]
+    },
+    "metadata": {
+      "time_seconds": 0.0018901824951171875
+    }
+  },
+  {
+    "id": 36,
+    "task_name": "sort_2",
+    "fitness": 99.25,
+    "steps_taken": 0,
+    "ast_depth": 5,
+    "generation": 1,
+    "timestamp": 1786213450.5974252,
+    "program_ast": {
+      "type": "ProgramNode",
+      "statements": [
+        {
+          "type": "AssignNode",
+          "var_name": "j",
+          "value": {
+            "type": "BinaryOpNode",
+            "left": {
+              "type": "BinaryOpNode",
+              "left": {
+                "type": "ConstNode",
+                "value": 0
+              },
+              "op": "+",
+              "right": {
+                "type": "ConstNode",
+                "value": 1
+              }
+            },
+            "op": "-",
+            "right": {
+              "type": "ConstNode",
+              "value": 1
+            }
+          }
+        },
+        {
+          "type": "LoopNode",
+          "var_name": "i",
+          "start": {
+            "type": "VariableNode",
+            "name": "j"
+          },
+          "end": {
+            "type": "VariableNode",
+            "name": "len"
+          },
+          "body": [
+            {
+              "type": "CompareSwapNode",
+              "idx1": {
+                "type": "VariableNode",
+                "name": "i"
+              },
+              "idx2": {
+                "type": "VariableNode",
+                "name": "j"
+              }
+            }
+          ]
+        },
+        {
+          "type": "LoopNode",
+          "var_name": "i",
+          "start": {
+            "type": "ConstNode",
+            "value": 0
+          },
+          "end": {
+            "type": "VariableNode",
+            "name": "len"
+          },
+          "body": [
+            {
+              "type": "CompareSwapNode",
+              "idx1": {
+                "type": "ConstNode",
+                "value": 0
+              },
+              "idx2": {
+                "type": "ConstNode",
+                "value": 1
+              }
+            }
+          ]
+        }
+      ]
+    },
+    "metadata": {
+      "time_seconds": 0.0032546520233154297
+    }
+  },
+  {
+    "id": 37,
+    "task_name": "sort_2",
+    "fitness": 99.25,
+    "steps_taken": 0,
+    "ast_depth": 5,
+    "generation": 1,
+    "timestamp": 1786214253.854782,
+    "program_ast": {
+      "type": "ProgramNode",
+      "statements": [
+        {
+          "type": "AssignNode",
+          "var_name": "j",
+          "value": {
+            "type": "BinaryOpNode",
+            "left": {
+              "type": "BinaryOpNode",
+              "left": {
+                "type": "ConstNode",
+                "value": 0
+              },
+              "op": "+",
+              "right": {
+                "type": "ConstNode",
+                "value": 1
+              }
+            },
+            "op": "-",
+            "right": {
+              "type": "ConstNode",
+              "value": 1
+            }
+          }
+        },
+        {
+          "type": "LoopNode",
+          "var_name": "i",
+          "start": {
+            "type": "VariableNode",
+            "name": "j"
+          },
+          "end": {
+            "type": "VariableNode",
+            "name": "len"
+          },
+          "body": [
+            {
+              "type": "CompareSwapNode",
+              "idx1": {
+                "type": "VariableNode",
+                "name": "j"
+              },
+              "idx2": {
+                "type": "VariableNode",
+                "name": "i"
+              }
+            }
+          ]
+        },
+        {
+          "type": "LoopNode",
+          "var_name": "i",
+          "start": {
+            "type": "ConstNode",
+            "value": 0
+          },
+          "end": {
+            "type": "VariableNode",
+            "name": "len"
+          },
+          "body": [
+            {
+              "type": "CompareSwapNode",
+              "idx1": {
+                "type": "ConstNode",
+                "value": 0
+              },
+              "idx2": {
+                "type": "ConstNode",
+                "value": 1
+              }
+            }
+          ]
+        }
+      ]
+    },
+    "metadata": {
+      "time_seconds": 0.0015442371368408203
+    }
+  },
+  {
+    "id": 38,
+    "task_name": "sort_2",
+    "fitness": 99.25,
+    "steps_taken": 0,
+    "ast_depth": 5,
+    "generation": 1,
+    "timestamp": 1786214269.3403044,
+    "program_ast": {
+      "type": "ProgramNode",
+      "statements": [
+        {
+          "type": "AssignNode",
+          "var_name": "j",
+          "value": {
+            "type": "BinaryOpNode",
+            "left": {
+              "type": "BinaryOpNode",
+              "left": {
+                "type": "ConstNode",
+                "value": 0
+              },
+              "op": "+",
+              "right": {
+                "type": "ConstNode",
+                "value": 1
+              }
+            },
+            "op": "-",
+            "right": {
+              "type": "ConstNode",
+              "value": 1
+            }
+          }
+        },
+        {
+          "type": "LoopNode",
+          "var_name": "i",
+          "start": {
+            "type": "VariableNode",
+            "name": "j"
+          },
+          "end": {
+            "type": "VariableNode",
+            "name": "len"
+          },
+          "body": [
+            {
+              "type": "CompareSwapNode",
+              "idx1": {
+                "type": "VariableNode",
+                "name": "j"
+              },
+              "idx2": {
+                "type": "VariableNode",
+                "name": "i"
+              }
+            }
+          ]
+        },
+        {
+          "type": "LoopNode",
+          "var_name": "i",
+          "start": {
+            "type": "ConstNode",
+            "value": 0
+          },
+          "end": {
+            "type": "VariableNode",
+            "name": "len"
+          },
+          "body": [
+            {
+              "type": "CompareSwapNode",
+              "idx1": {
+                "type": "ConstNode",
+                "value": 0
+              },
+              "idx2": {
+                "type": "ConstNode",
+                "value": 1
+              }
+            }
+          ]
+        }
+      ]
+    },
+    "metadata": {
+      "time_seconds": 0.0025191307067871094
+    }
+  },
+  {
+    "id": 39,
+    "task_name": "sort_2",
+    "fitness": 99.25,
+    "steps_taken": 0,
+    "ast_depth": 5,
+    "generation": 1,
+    "timestamp": 1786214274.3660297,
+    "program_ast": {
+      "type": "ProgramNode",
+      "statements": [
+        {
+          "type": "AssignNode",
+          "var_name": "j",
+          "value": {
+            "type": "BinaryOpNode",
+            "left": {
+              "type": "BinaryOpNode",
+              "left": {
+                "type": "ConstNode",
+                "value": 0
+              },
+              "op": "+",
+              "right": {
+                "type": "ConstNode",
+                "value": 1
+              }
+            },
+            "op": "-",
+            "right": {
+              "type": "ConstNode",
+              "value": 1
+            }
+          }
+        },
+        {
+          "type": "LoopNode",
+          "var_name": "i",
+          "start": {
+            "type": "VariableNode",
+            "name": "j"
+          },
+          "end": {
+            "type": "VariableNode",
+            "name": "len"
+          },
+          "body": [
+            {
+              "type": "CompareSwapNode",
+              "idx1": {
+                "type": "VariableNode",
+                "name": "i"
+              },
+              "idx2": {
+                "type": "VariableNode",
+                "name": "j"
+              }
+            }
+          ]
+        },
+        {
+          "type": "LoopNode",
+          "var_name": "i",
+          "start": {
+            "type": "ConstNode",
+            "value": 0
+          },
+          "end": {
+            "type": "VariableNode",
+            "name": "len"
+          },
+          "body": [
+            {
+              "type": "CompareSwapNode",
+              "idx1": {
+                "type": "ConstNode",
+                "value": 0
+              },
+              "idx2": {
+                "type": "ConstNode",
+                "value": 1
+              }
+            }
+          ]
+        }
+      ]
+    },
+    "metadata": {
+      "time_seconds": 0.0
+    }
+  },
+  {
+    "id": 40,
+    "task_name": "sort_2",
+    "fitness": 99.25,
+    "steps_taken": 0,
+    "ast_depth": 5,
+    "generation": 1,
+    "timestamp": 1786214278.1258986,
+    "program_ast": {
+      "type": "ProgramNode",
+      "statements": [
+        {
+          "type": "AssignNode",
+          "var_name": "j",
+          "value": {
+            "type": "BinaryOpNode",
+            "left": {
+              "type": "BinaryOpNode",
+              "left": {
+                "type": "ConstNode",
+                "value": 0
+              },
+              "op": "+",
+              "right": {
+                "type": "ConstNode",
+                "value": 1
+              }
+            },
+            "op": "-",
+            "right": {
+              "type": "ConstNode",
+              "value": 1
+            }
+          }
+        },
+        {
+          "type": "LoopNode",
+          "var_name": "i",
+          "start": {
+            "type": "VariableNode",
+            "name": "j"
+          },
+          "end": {
+            "type": "VariableNode",
+            "name": "len"
+          },
+          "body": [
+            {
+              "type": "CompareSwapNode",
+              "idx1": {
+                "type": "VariableNode",
+                "name": "i"
+              },
+              "idx2": {
+                "type": "VariableNode",
+                "name": "j"
+              }
+            }
+          ]
+        },
+        {
+          "type": "LoopNode",
+          "var_name": "i",
+          "start": {
+            "type": "ConstNode",
+            "value": 0
+          },
+          "end": {
+            "type": "VariableNode",
+            "name": "len"
+          },
+          "body": [
+            {
+              "type": "CompareSwapNode",
+              "idx1": {
+                "type": "ConstNode",
+                "value": 0
+              },
+              "idx2": {
+                "type": "ConstNode",
+                "value": 1
+              }
+            }
+          ]
+        }
+      ]
+    },
+    "metadata": {
+      "time_seconds": 0.0024840831756591797
+    }
+  },
+  {
+    "id": 41,
+    "task_name": "sort_2",
+    "fitness": 99.25,
+    "steps_taken": 0,
+    "ast_depth": 5,
+    "generation": 1,
+    "timestamp": 1786214283.8976214,
+    "program_ast": {
+      "type": "ProgramNode",
+      "statements": [
+        {
+          "type": "AssignNode",
+          "var_name": "j",
+          "value": {
+            "type": "BinaryOpNode",
+            "left": {
+              "type": "BinaryOpNode",
+              "left": {
+                "type": "ConstNode",
+                "value": 0
+              },
+              "op": "+",
+              "right": {
+                "type": "ConstNode",
+                "value": 1
+              }
+            },
+            "op": "-",
+            "right": {
+              "type": "ConstNode",
+              "value": 1
+            }
+          }
+        },
+        {
+          "type": "LoopNode",
+          "var_name": "i",
+          "start": {
+            "type": "VariableNode",
+            "name": "j"
+          },
+          "end": {
+            "type": "VariableNode",
+            "name": "len"
+          },
+          "body": [
+            {
+              "type": "CompareSwapNode",
+              "idx1": {
+                "type": "VariableNode",
+                "name": "j"
+              },
+              "idx2": {
+                "type": "VariableNode",
+                "name": "i"
+              }
+            }
+          ]
+        },
+        {
+          "type": "LoopNode",
+          "var_name": "i",
+          "start": {
+            "type": "ConstNode",
+            "value": 0
+          },
+          "end": {
+            "type": "VariableNode",
+            "name": "len"
+          },
+          "body": [
+            {
+              "type": "CompareSwapNode",
+              "idx1": {
+                "type": "ConstNode",
+                "value": 0
+              },
+              "idx2": {
+                "type": "ConstNode",
+                "value": 1
+              }
+            }
+          ]
+        }
+      ]
+    },
+    "metadata": {
+      "time_seconds": 0.001705169677734375
+    }
+  },
+  {
+    "id": 42,
+    "task_name": "sort_2",
+    "fitness": 99.25,
+    "steps_taken": 0,
+    "ast_depth": 5,
+    "generation": 1,
+    "timestamp": 1786214367.5516336,
+    "program_ast": {
+      "type": "ProgramNode",
+      "statements": [
+        {
+          "type": "AssignNode",
+          "var_name": "j",
+          "value": {
+            "type": "BinaryOpNode",
+            "left": {
+              "type": "BinaryOpNode",
+              "left": {
+                "type": "ConstNode",
+                "value": 0
+              },
+              "op": "+",
+              "right": {
+                "type": "ConstNode",
+                "value": 1
+              }
+            },
+            "op": "-",
+            "right": {
+              "type": "ConstNode",
+              "value": 1
+            }
+          }
+        },
+        {
+          "type": "LoopNode",
+          "var_name": "i",
+          "start": {
+            "type": "VariableNode",
+            "name": "j"
+          },
+          "end": {
+            "type": "VariableNode",
+            "name": "len"
+          },
+          "body": [
+            {
+              "type": "CompareSwapNode",
+              "idx1": {
+                "type": "VariableNode",
+                "name": "i"
+              },
+              "idx2": {
+                "type": "VariableNode",
+                "name": "j"
+              }
+            }
+          ]
+        },
+        {
+          "type": "LoopNode",
+          "var_name": "i",
+          "start": {
+            "type": "ConstNode",
+            "value": 0
+          },
+          "end": {
+            "type": "VariableNode",
+            "name": "len"
+          },
+          "body": [
+            {
+              "type": "CompareSwapNode",
+              "idx1": {
+                "type": "ConstNode",
+                "value": 0
+              },
+              "idx2": {
+                "type": "ConstNode",
+                "value": 1
+              }
+            }
+          ]
+        }
+      ]
+    },
+    "metadata": {
+      "time_seconds": 0.003361940383911133
+    }
+  },
+  {
+    "id": 43,
+    "task_name": "sort_2",
+    "fitness": 99.25,
+    "steps_taken": 0,
+    "ast_depth": 5,
+    "generation": 1,
+    "timestamp": 1786214506.9046235,
+    "program_ast": {
+      "type": "ProgramNode",
+      "statements": [
+        {
+          "type": "AssignNode",
+          "var_name": "j",
+          "value": {
+            "type": "BinaryOpNode",
+            "left": {
+              "type": "BinaryOpNode",
+              "left": {
+                "type": "ConstNode",
+                "value": 0
+              },
+              "op": "+",
+              "right": {
+                "type": "ConstNode",
+                "value": 1
+              }
+            },
+            "op": "-",
+            "right": {
+              "type": "ConstNode",
+              "value": 1
+            }
+          }
+        },
+        {
+          "type": "LoopNode",
+          "var_name": "i",
+          "start": {
+            "type": "VariableNode",
+            "name": "j"
+          },
+          "end": {
+            "type": "VariableNode",
+            "name": "len"
+          },
+          "body": [
+            {
+              "type": "CompareSwapNode",
+              "idx1": {
+                "type": "VariableNode",
+                "name": "i"
+              },
+              "idx2": {
+                "type": "VariableNode",
+                "name": "j"
+              }
+            }
+          ]
+        },
+        {
+          "type": "LoopNode",
+          "var_name": "i",
+          "start": {
+            "type": "ConstNode",
+            "value": 0
+          },
+          "end": {
+            "type": "VariableNode",
+            "name": "len"
+          },
+          "body": [
+            {
+              "type": "CompareSwapNode",
+              "idx1": {
+                "type": "ConstNode",
+                "value": 0
+              },
+              "idx2": {
+                "type": "ConstNode",
+                "value": 1
+              }
+            }
+          ]
+        }
+      ]
+    },
+    "metadata": {
+      "time_seconds": 0.0035848617553710938
+    }
+  },
+  {
+    "id": 44,
+    "task_name": "sort_2",
+    "fitness": 99.25,
+    "steps_taken": 0,
+    "ast_depth": 5,
+    "generation": 1,
+    "timestamp": 1786214812.7612393,
+    "program_ast": {
+      "type": "ProgramNode",
+      "statements": [
+        {
+          "type": "AssignNode",
+          "var_name": "j",
+          "value": {
+            "type": "BinaryOpNode",
+            "left": {
+              "type": "BinaryOpNode",
+              "left": {
+                "type": "ConstNode",
+                "value": 0
+              },
+              "op": "+",
+              "right": {
+                "type": "ConstNode",
+                "value": 1
+              }
+            },
+            "op": "-",
+            "right": {
+              "type": "ConstNode",
+              "value": 1
+            }
+          }
+        },
+        {
+          "type": "LoopNode",
+          "var_name": "i",
+          "start": {
+            "type": "VariableNode",
+            "name": "j"
+          },
+          "end": {
+            "type": "VariableNode",
+            "name": "len"
+          },
+          "body": [
+            {
+              "type": "CompareSwapNode",
+              "idx1": {
+                "type": "VariableNode",
+                "name": "j"
+              },
+              "idx2": {
+                "type": "VariableNode",
+                "name": "i"
+              }
+            }
+          ]
+        },
+        {
+          "type": "LoopNode",
+          "var_name": "i",
+          "start": {
+            "type": "ConstNode",
+            "value": 0
+          },
+          "end": {
+            "type": "VariableNode",
+            "name": "len"
+          },
+          "body": [
+            {
+              "type": "CompareSwapNode",
+              "idx1": {
+                "type": "ConstNode",
+                "value": 0
+              },
+              "idx2": {
+                "type": "ConstNode",
+                "value": 1
+              }
+            }
+          ]
+        }
+      ]
+    },
+    "metadata": {
+      "time_seconds": 0.0
+    }
+  },
+  {
+    "id": 45,
+    "task_name": "sort_2",
+    "fitness": 99.25,
+    "steps_taken": 0,
+    "ast_depth": 5,
+    "generation": 1,
+    "timestamp": 1786214814.310681,
+    "program_ast": {
+      "type": "ProgramNode",
+      "statements": [
+        {
+          "type": "AssignNode",
+          "var_name": "j",
+          "value": {
+            "type": "BinaryOpNode",
+            "left": {
+              "type": "BinaryOpNode",
+              "left": {
+                "type": "ConstNode",
+                "value": 0
+              },
+              "op": "+",
+              "right": {
+                "type": "ConstNode",
+                "value": 1
+              }
+            },
+            "op": "-",
+            "right": {
+              "type": "ConstNode",
+              "value": 1
+            }
+          }
+        },
+        {
+          "type": "LoopNode",
+          "var_name": "i",
+          "start": {
+            "type": "VariableNode",
+            "name": "j"
+          },
+          "end": {
+            "type": "VariableNode",
+            "name": "len"
+          },
+          "body": [
+            {
+              "type": "CompareSwapNode",
+              "idx1": {
+                "type": "VariableNode",
+                "name": "i"
+              },
+              "idx2": {
+                "type": "VariableNode",
+                "name": "j"
+              }
+            }
+          ]
+        },
+        {
+          "type": "LoopNode",
+          "var_name": "i",
+          "start": {
+            "type": "ConstNode",
+            "value": 0
+          },
+          "end": {
+            "type": "VariableNode",
+            "name": "len"
+          },
+          "body": [
+            {
+              "type": "CompareSwapNode",
+              "idx1": {
+                "type": "ConstNode",
+                "value": 0
+              },
+              "idx2": {
+                "type": "ConstNode",
+                "value": 1
+              }
+            }
+          ]
+        }
+      ]
+    },
+    "metadata": {
+      "time_seconds": 0.0025517940521240234
+    }
+  },
+  {
+    "id": 46,
+    "task_name": "sort_2",
+    "fitness": 99.48,
+    "steps_taken": 0,
+    "ast_depth": 4,
+    "generation": 20,
+    "timestamp": 1786214820.9963257,
+    "program_ast": {
+      "type": "ProgramNode",
+      "statements": [
+        {
+          "type": "LoopNode",
+          "var_name": "j",
+          "start": {
+            "type": "ConstNode",
+            "value": 0
+          },
+          "end": {
+            "type": "VariableNode",
+            "name": "len"
+          },
+          "body": [
+            {
+              "type": "CompareSwapNode",
+              "idx1": {
+                "type": "VariableNode",
+                "name": "j"
+              },
+              "idx2": {
+                "type": "ConstNode",
+                "value": 1
+              }
+            }
+          ]
+        },
+        {
+          "type": "AssignNode",
+          "var_name": "j",
+          "value": {
+            "type": "ConstNode",
+            "value": 0
+          }
+        }
+      ]
+    },
+    "metadata": {
+      "time_seconds": 0.05617356300354004
+    }
+  },
+  {
+    "id": 47,
+    "task_name": "zigzag_sort_4",
+    "fitness": 74.41,
+    "steps_taken": 0,
+    "ast_depth": 4,
+    "generation": 50,
+    "timestamp": 1786215143.7790644,
+    "program_ast": {
+      "type": "ProgramNode",
+      "statements": [
+        {
+          "type": "LoopNode",
+          "var_name": "k",
+          "start": {
+            "type": "ConstNode",
+            "value": 1
+          },
+          "end": {
+            "type": "BinaryOpNode",
+            "left": {
+              "type": "VariableNode",
+              "name": "len"
+            },
+            "op": "-",
+            "right": {
+              "type": "ConstNode",
+              "value": 1
+            }
+          },
+          "body": [
+            {
+              "type": "CompareSwapNode",
+              "idx1": {
+                "type": "ConstNode",
+                "value": 0
+              },
+              "idx2": {
+                "type": "VariableNode",
+                "name": "k"
+              }
+            },
+            {
+              "type": "AssignNode",
+              "var_name": "j",
+              "value": {
+                "type": "ConstNode",
+                "value": 1
+              }
+            }
+          ]
+        },
+        {
+          "type": "CompareSwapNode",
+          "idx1": {
+            "type": "VariableNode",
+            "name": "k"
+          },
+          "idx2": {
+            "type": "ConstNode",
+            "value": 1
+          }
+        }
+      ]
+    },
+    "metadata": {
+      "time_seconds": 0.5717027187347412
+    }
+  },
+  {
+    "id": 48,
+    "task_name": "sort_3",
+    "fitness": 66.3267,
+    "steps_taken": 0,
+    "ast_depth": 3,
+    "generation": 20,
+    "timestamp": 1786215515.660238,
+    "program_ast": {
+      "type": "ProgramNode",
+      "statements": [
+        {
+          "type": "CompareSwapNode",
+          "idx1": {
+            "type": "ConstNode",
+            "value": 0
+          },
+          "idx2": {
+            "type": "ConstNode",
+            "value": 2
+          }
+        }
+      ]
+    },
+    "metadata": {
+      "time_seconds": 0.0969080924987793
+    }
+  },
+  {
+    "id": 49,
+    "task_name": "zigzag_sort_4",
+    "fitness": 82.9333,
+    "steps_taken": 0,
+    "ast_depth": 3,
+    "generation": 30,
+    "timestamp": 1786215936.75863,
+    "program_ast": {
+      "type": "ProgramNode",
+      "statements": [
+        {
+          "type": "CompareSwapNode",
+          "idx1": {
+            "type": "ConstNode",
+            "value": 2
+          },
+          "idx2": {
+            "type": "ConstNode",
+            "value": 1
+          }
+        },
+        {
+          "type": "CompareSwapNode",
+          "idx1": {
+            "type": "ConstNode",
+            "value": 0
+          },
+          "idx2": {
+            "type": "ConstNode",
+            "value": 2
+          }
+        },
+        {
+          "type": "CompareSwapNode",
+          "idx1": {
+            "type": "ConstNode",
+            "value": 2
+          },
+          "idx2": {
+            "type": "ConstNode",
+            "value": 3
+          }
+        }
+      ]
+    },
+    "metadata": {
+      "time_seconds": 0.1847515106201172
+    }
+  },
+  {
+    "id": 50,
+    "task_name": "sort_2",
+    "fitness": 99.38,
+    "steps_taken": 0,
+    "ast_depth": 5,
+    "generation": 4,
+    "timestamp": 1786215955.6652045,
+    "program_ast": {
+      "type": "ProgramNode",
+      "statements": [
+        {
+          "type": "IfNode",
+          "condition": {
+            "type": "BinaryOpNode",
+            "left": {
+              "type": "BinaryOpNode",
+              "left": {
+                "type": "ConstNode",
+                "value": 0
+              },
+              "op": "-",
+              "right": {
+                "type": "ConstNode",
+                "value": 0
+              }
+            },
+            "op": "<=",
+            "right": {
+              "type": "ConstNode",
+              "value": 1
+            }
+          },
+          "then_body": [
+            {
+              "type": "AssignNode",
+              "var_name": "i",
+              "value": {
+                "type": "ConstNode",
+                "value": 0
+              }
+            }
+          ],
+          "else_body": []
+        },
+        {
+          "type": "CompareSwapNode",
+          "idx1": {
+            "type": "VariableNode",
+            "name": "i"
+          },
+          "idx2": {
+            "type": "ConstNode",
+            "value": 1
+          }
+        }
+      ]
+    },
+    "metadata": {
+      "time_seconds": 0.014641523361206055
+    }
+  },
+  {
+    "id": 51,
+    "task_name": "sort_2",
+    "fitness": 99.38,
+    "steps_taken": 0,
+    "ast_depth": 5,
+    "generation": 4,
+    "timestamp": 1786215957.3364182,
+    "program_ast": {
+      "type": "ProgramNode",
+      "statements": [
+        {
+          "type": "IfNode",
+          "condition": {
+            "type": "BinaryOpNode",
+            "left": {
+              "type": "BinaryOpNode",
+              "left": {
+                "type": "ConstNode",
+                "value": 0
+              },
+              "op": "-",
+              "right": {
+                "type": "ConstNode",
+                "value": 0
+              }
+            },
+            "op": "<=",
+            "right": {
+              "type": "ConstNode",
+              "value": 1
+            }
+          },
+          "then_body": [
+            {
+              "type": "AssignNode",
+              "var_name": "i",
+              "value": {
+                "type": "ConstNode",
+                "value": 0
+              }
+            }
+          ],
+          "else_body": []
+        },
+        {
+          "type": "CompareSwapNode",
+          "idx1": {
+            "type": "VariableNode",
+            "name": "i"
+          },
+          "idx2": {
+            "type": "ConstNode",
+            "value": 1
+          }
+        }
+      ]
+    },
+    "metadata": {
+      "time_seconds": 0.014812707901000977
+    }
+  },
+  {
+    "id": 52,
+    "task_name": "bisplit_4",
+    "fitness": 24.66,
+    "steps_taken": 0,
+    "ast_depth": 3,
+    "generation": 30,
+    "timestamp": 1786216002.7584622,
+    "program_ast": {
+      "type": "ProgramNode",
+      "statements": [
+        {
+          "type": "CompareSwapNode",
+          "idx1": {
+            "type": "ConstNode",
+            "value": 0
+          },
+          "idx2": {
+            "type": "ConstNode",
+            "value": 1
+          }
+        }
+      ]
+    },
+    "metadata": {
+      "time_seconds": 0.09362649917602539
+    }
+  },
+  {
+    "id": 53,
+    "task_name": "sort_2",
+    "fitness": -1000.0,
+    "steps_taken": 0,
+    "ast_depth": 5,
+    "generation": 5,
+    "timestamp": 1786216075.124833,
+    "program_ast": {
+      "type": "ProgramNode",
+      "statements": [
+        {
+          "type": "CompareSwapNode",
+          "idx1": {
+            "type": "BinaryOpNode",
+            "left": {
+              "type": "VariableNode",
+              "name": "i"
+            },
+            "op": "+",
+            "right": {
+              "type": "BinaryOpNode",
+              "left": {
+                "type": "ConstNode",
+                "value": 0
+              },
+              "op": "+",
+              "right": {
+                "type": "VariableNode",
+                "name": "i"
+              }
+            }
+          },
+          "idx2": {
+            "type": "VariableNode",
+            "name": "i"
+          }
+        }
+      ]
+    },
+    "metadata": {
+      "time_seconds": 0.004446268081665039
+    }
+  },
+  {
+    "id": 54,
+    "task_name": "sort_2",
+    "fitness": 99.66,
+    "steps_taken": 0,
+    "ast_depth": 3,
+    "generation": 5,
+    "timestamp": 1786216260.8634963,
+    "program_ast": {
+      "type": "ProgramNode",
+      "statements": [
+        {
+          "type": "CompareSwapNode",
+          "idx1": {
+            "type": "ConstNode",
+            "value": 0
+          },
+          "idx2": {
+            "type": "ConstNode",
+            "value": 1
+          }
+        }
+      ]
+    },
+    "is_duplicate": true,
+    "is_best": false,
+    "metadata": {
+      "time_seconds": 0.015498876571655273
+    }
+  },
+  {
+    "id": 55,
+    "task_name": "sort_2",
+    "fitness": 99.64,
+    "steps_taken": 0,
+    "ast_depth": 3,
+    "generation": 3,
+    "timestamp": 1786216348.9784555,
+    "program_ast": {
+      "type": "ProgramNode",
+      "statements": [
+        {
+          "type": "AssignNode",
+          "var_name": "j",
+          "value": {
+            "type": "ConstNode",
+            "value": 0
+          }
+        },
+        {
+          "type": "CompareSwapNode",
+          "idx1": {
+            "type": "VariableNode",
+            "name": "j"
+          },
+          "idx2": {
+            "type": "ConstNode",
+            "value": 1
+          }
+        }
+      ]
+    },
+    "is_duplicate": false,
+    "is_best": false,
+    "metadata": {
+      "time_seconds": 0.009439468383789062
+    }
+  },
+  {
+    "id": 56,
+    "task_name": "sort_2",
+    "fitness": 99.64,
+    "steps_taken": 0,
+    "ast_depth": 3,
+    "generation": 10,
+    "timestamp": 1786216352.9629605,
+    "program_ast": {
+      "type": "ProgramNode",
+      "statements": [
+        {
+          "type": "AssignNode",
+          "var_name": "i",
+          "value": {
+            "type": "ConstNode",
+            "value": 1
+          }
+        },
+        {
+          "type": "CompareSwapNode",
+          "idx1": {
+            "type": "ConstNode",
+            "value": 0
+          },
+          "idx2": {
+            "type": "ConstNode",
+            "value": 1
+          }
+        }
+      ]
+    },
+    "is_duplicate": false,
+    "is_best": false,
+    "metadata": {
+      "time_seconds": 0.03472256660461426
+    }
+  },
+  {
+    "id": 57,
+    "task_name": "zigzag_sort_4",
+    "fitness": 99.1,
+    "steps_taken": 0,
+    "ast_depth": 5,
+    "generation": 37,
+    "timestamp": 1786216365.548144,
+    "program_ast": {
+      "type": "ProgramNode",
+      "statements": [
+        {
+          "type": "LoopNode",
+          "var_name": "j",
+          "start": {
+            "type": "ConstNode",
+            "value": 2
+          },
+          "end": {
+            "type": "VariableNode",
+            "name": "len"
+          },
+          "body": [
+            {
+              "type": "CompareSwapNode",
+              "idx1": {
+                "type": "ConstNode",
+                "value": 0
+              },
+              "idx2": {
+                "type": "ConstNode",
+                "value": 2
+              }
+            },
+            {
+              "type": "LoopNode",
+              "var_name": "j",
+              "start": {
+                "type": "ConstNode",
+                "value": 2
+              },
+              "end": {
+                "type": "VariableNode",
+                "name": "len"
+              },
+              "body": [
+                {
+                  "type": "CompareSwapNode",
+                  "idx1": {
+                    "type": "ConstNode",
+                    "value": 0
+                  },
+                  "idx2": {
+                    "type": "VariableNode",
+                    "name": "j"
+                  }
+                },
+                {
+                  "type": "CompareSwapNode",
+                  "idx1": {
+                    "type": "ConstNode",
+                    "value": 2
+                  },
+                  "idx2": {
+                    "type": "ConstNode",
+                    "value": 1
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "is_duplicate": false,
+    "is_best": false,
+    "metadata": {
+      "time_seconds": 0.6664028167724609
+    }
+  },
+  {
+    "id": 58,
+    "task_name": "zigzag_sort_4",
+    "fitness": 66.2967,
+    "steps_taken": 0,
+    "ast_depth": 3,
+    "generation": 90,
+    "timestamp": 1786216506.1292078,
+    "program_ast": {
+      "type": "ProgramNode",
+      "statements": [
+        {
+          "type": "CompareSwapNode",
+          "idx1": {
+            "type": "ConstNode",
+            "value": 0
+          },
+          "idx2": {
+            "type": "ConstNode",
+            "value": 1
+          }
+        },
+        {
+          "type": "CompareSwapNode",
+          "idx1": {
+            "type": "ConstNode",
+            "value": 2
+          },
+          "idx2": {
+            "type": "ConstNode",
+            "value": 1
+          }
+        }
+      ]
+    },
+    "is_duplicate": false,
+    "is_best": false,
+    "metadata": {
+      "time_seconds": 0.672680139541626
+    }
+  },
+  {
+    "id": 59,
+    "task_name": "zigzag_sort_4",
+    "fitness": 99.17,
+    "steps_taken": 0,
+    "ast_depth": 5,
+    "generation": 55,
+    "timestamp": 1786216536.2595909,
+    "program_ast": {
+      "type": "ProgramNode",
+      "statements": [
+        {
+          "type": "LoopNode",
+          "var_name": "j",
+          "start": {
+            "type": "ConstNode",
+            "value": 1
+          },
+          "end": {
+            "type": "ConstNode",
+            "value": 2
+          },
+          "body": [
+            {
+              "type": "AssignNode",
+              "var_name": "j",
+              "value": {
+                "type": "VariableNode",
+                "name": "j"
+              }
+            }
+          ]
+        },
+        {
+          "type": "LoopNode",
+          "var_name": "j",
+          "start": {
+            "type": "VariableNode",
+            "name": "j"
+          },
+          "end": {
+            "type": "BinaryOpNode",
+            "left": {
+              "type": "VariableNode",
+              "name": "len"
+            },
+            "op": "-",
+            "right": {
+              "type": "ConstNode",
+              "value": 1
+            }
+          },
+          "body": [
+            {
+              "type": "LoopNode",
+              "var_name": "k",
+              "start": {
+                "type": "ConstNode",
+                "value": 1
+              },
+              "end": {
+                "type": "VariableNode",
+                "name": "j"
+              },
+              "body": [
+                {
+                  "type": "CompareSwapNode",
+                  "idx1": {
+                    "type": "VariableNode",
+                    "name": "j"
+                  },
+                  "idx2": {
+                    "type": "ConstNode",
+                    "value": 1
+                  }
+                },
+                {
+                  "type": "AssignNode",
+                  "var_name": "i",
+                  "value": {
+                    "type": "ConstNode",
+                    "value": 1
+                  }
+                }
+              ]
+            },
+            {
+              "type": "CompareSwapNode",
+              "idx1": {
+                "type": "ConstNode",
+                "value": 0
+              },
+              "idx2": {
+                "type": "VariableNode",
+                "name": "j"
+              }
+            }
+          ]
+        },
+        {
+          "type": "CompareSwapNode",
+          "idx1": {
+            "type": "VariableNode",
+            "name": "j"
+          },
+          "idx2": {
+            "type": "BinaryOpNode",
+            "left": {
+              "type": "VariableNode",
+              "name": "len"
+            },
+            "op": "-",
+            "right": {
+              "type": "ConstNode",
+              "value": 1
+            }
+          }
+        }
+      ]
+    },
+    "is_duplicate": false,
+    "is_best": true,
+    "metadata": {
+      "time_seconds": 2.1042251586914062
+    }
+  },
+  {
+    "id": 60,
+    "task_name": "zigzag_sort_4",
+    "fitness": 98.86,
+    "steps_taken": 0,
+    "ast_depth": 5,
+    "generation": 43,
+    "timestamp": 1786216636.9722645,
+    "program_ast": {
+      "type": "ProgramNode",
+      "statements": [
+        {
+          "type": "LoopNode",
+          "var_name": "j",
+          "start": {
+            "type": "BinaryOpNode",
+            "left": {
+              "type": "ConstNode",
+              "value": 1
+            },
+            "op": "+",
+            "right": {
+              "type": "ConstNode",
+              "value": -1
+            }
+          },
+          "end": {
+            "type": "ConstNode",
+            "value": 2
+          },
+          "body": [
+            {
+              "type": "LoopNode",
+              "var_name": "j",
+              "start": {
+                "type": "VariableNode",
+                "name": "j"
+              },
+              "end": {
+                "type": "BinaryOpNode",
+                "left": {
+                  "type": "VariableNode",
+                  "name": "len"
+                },
+                "op": "-",
+                "right": {
+                  "type": "ConstNode",
+                  "value": 1
+                }
+              },
+              "body": [
+                {
+                  "type": "CompareSwapNode",
+                  "idx1": {
+                    "type": "VariableNode",
+                    "name": "j"
+                  },
+                  "idx2": {
+                    "type": "ConstNode",
+                    "value": 1
+                  }
+                },
+                {
+                  "type": "AssignNode",
+                  "var_name": "i",
+                  "value": {
+                    "type": "VariableNode",
+                    "name": "j"
+                  }
+                }
+              ]
+            },
+            {
+              "type": "AssignNode",
+              "var_name": "j",
+              "value": {
+                "type": "ConstNode",
+                "value": 0
+              }
+            }
+          ]
+        },
+        {
+          "type": "LoopNode",
+          "var_name": "k",
+          "start": {
+            "type": "VariableNode",
+            "name": "i"
+          },
+          "end": {
+            "type": "VariableNode",
+            "name": "len"
+          },
+          "body": [
+            {
+              "type": "CompareSwapNode",
+              "idx1": {
+                "type": "VariableNode",
+                "name": "j"
+              },
+              "idx2": {
+                "type": "ConstNode",
+                "value": 2
+              }
+            },
+            {
+              "type": "CompareSwapNode",
+              "idx1": {
+                "type": "VariableNode",
+                "name": "i"
+              },
+              "idx2": {
+                "type": "BinaryOpNode",
+                "left": {
+                  "type": "VariableNode",
+                  "name": "j"
+                },
+                "op": "+",
+                "right": {
+                  "type": "VariableNode",
+                  "name": "k"
+                }
+              }
+            }
+          ]
+        }
+      ]
+    },
+    "is_duplicate": false,
+    "is_best": false,
+    "metadata": {
+      "time_seconds": 1.4421253204345703
+    }
+  },
+  {
+    "id": 61,
+    "task_name": "sort_3",
+    "fitness": 44.0844,
+    "steps_taken": 0,
+    "ast_depth": 3,
+    "generation": 15,
+    "timestamp": 1786254286.954164,
+    "program_ast": {
+      "type": "ProgramNode",
+      "statements": [
+        {
+          "type": "AssignNode",
+          "var_name": "j",
+          "value": {
+            "type": "ConstNode",
+            "value": 1
+          }
+        },
+        {
+          "type": "CompareSwapNode",
+          "idx1": {
+            "type": "ConstNode",
+            "value": 0
+          },
+          "idx2": {
+            "type": "VariableNode",
+            "name": "j"
+          }
+        }
+      ]
+    },
+    "is_duplicate": false,
+    "is_best": false,
+    "metadata": {
+      "time_seconds": 0.04713582992553711,
+      "seed": 777
+    }
+  },
+  {
+    "id": 62,
+    "task_name": "zigzag_sort_4",
+    "fitness": 45.4933,
+    "steps_taken": 0,
+    "ast_depth": 3,
+    "generation": 50,
+    "timestamp": 1786254716.7891414,
+    "program_ast": {
+      "type": "ProgramNode",
+      "statements": [
+        {
+          "type": "CompareSwapNode",
+          "idx1": {
+            "type": "ConstNode",
+            "value": 0
+          },
+          "idx2": {
+            "type": "ConstNode",
+            "value": 1
+          }
+        }
+      ]
+    },
+    "is_duplicate": false,
+    "is_best": false,
+    "metadata": {
+      "time_seconds": 0.22786641120910645,
+      "seed": null
+    }
+  },
+  {
+    "id": 63,
+    "task_name": "zigzag_sort_4",
+    "fitness": 82.9333,
+    "steps_taken": 0,
+    "ast_depth": 3,
+    "generation": 50,
+    "timestamp": 1786254732.4907308,
+    "program_ast": {
+      "type": "ProgramNode",
+      "statements": [
+        {
+          "type": "CompareSwapNode",
+          "idx1": {
+            "type": "ConstNode",
+            "value": 0
+          },
+          "idx2": {
+            "type": "ConstNode",
+            "value": 3
+          }
+        },
+        {
+          "type": "CompareSwapNode",
+          "idx1": {
+            "type": "ConstNode",
+            "value": 2
+          },
+          "idx2": {
+            "type": "ConstNode",
+            "value": 1
+          }
+        },
+        {
+          "type": "CompareSwapNode",
+          "idx1": {
+            "type": "ConstNode",
+            "value": 0
+          },
+          "idx2": {
+            "type": "ConstNode",
+            "value": 2
+          }
+        }
+      ]
+    },
+    "is_duplicate": false,
+    "is_best": false,
+    "metadata": {
+      "time_seconds": 0.3932335376739502,
+      "seed": null
+    }
+  },
+  {
+    "id": 64,
+    "task_name": "zigzag_sort_4",
+    "fitness": 98.22,
+    "steps_taken": 0,
+    "ast_depth": 6,
+    "generation": 43,
+    "timestamp": 1786254736.643071,
+    "program_ast": {
+      "type": "ProgramNode",
+      "statements": [
+        {
+          "type": "LoopNode",
+          "var_name": "i",
+          "start": {
+            "type": "ConstNode",
+            "value": 1
+          },
+          "end": {
+            "type": "VariableNode",
+            "name": "len"
+          },
+          "body": [
+            {
+              "type": "LoopNode",
+              "var_name": "i",
+              "start": {
+                "type": "ConstNode",
+                "value": 2
+              },
+              "end": {
+                "type": "VariableNode",
+                "name": "len"
+              },
+              "body": [
+                {
+                  "type": "CompareSwapNode",
+                  "idx1": {
+                    "type": "ConstNode",
+                    "value": 0
+                  },
+                  "idx2": {
+                    "type": "VariableNode",
+                    "name": "i"
+                  }
+                },
+                {
+                  "type": "LoopNode",
+                  "var_name": "j",
+                  "start": {
+                    "type": "ConstNode",
+                    "value": 1
+                  },
+                  "end": {
+                    "type": "VariableNode",
+                    "name": "i"
+                  },
+                  "body": [
+                    {
+                      "type": "AssignNode",
+                      "var_name": "i",
+                      "value": {
+                        "type": "VariableNode",
+                        "name": "j"
+                      }
+                    },
+                    {
+                      "type": "CompareSwapNode",
+                      "idx1": {
+                        "type": "VariableNode",
+                        "name": "i"
+                      },
+                      "idx2": {
+                        "type": "ConstNode",
+                        "value": 1
+                      }
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "LoopNode",
+              "var_name": "j",
+              "start": {
+                "type": "ConstNode",
+                "value": 1
+              },
+              "end": {
+                "type": "VariableNode",
+                "name": "i"
+              },
+              "body": [
+                {
+                  "type": "AssignNode",
+                  "var_name": "i",
+                  "value": {
+                    "type": "VariableNode",
+                    "name": "j"
+                  }
+                },
+                {
+                  "type": "CompareSwapNode",
+                  "idx1": {
+                    "type": "VariableNode",
+                    "name": "i"
+                  },
+                  "idx2": {
+                    "type": "ConstNode",
+                    "value": 1
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "is_duplicate": false,
+    "is_best": false,
+    "metadata": {
+      "time_seconds": 1.3611011505126953,
+      "seed": null
+    }
+  },
+  {
+    "id": 65,
+    "task_name": "zigzag_sort_4",
+    "fitness": 65.9167,
+    "steps_taken": 0,
+    "ast_depth": 5,
+    "generation": 50,
+    "timestamp": 1786254839.3268974,
+    "program_ast": {
+      "type": "ProgramNode",
+      "statements": [
+        {
+          "type": "LoopNode",
+          "var_name": "j",
+          "start": {
+            "type": "ConstNode",
+            "value": 2
+          },
+          "end": {
+            "type": "VariableNode",
+            "name": "len"
+          },
+          "body": [
+            {
+              "type": "LoopNode",
+              "var_name": "j",
+              "start": {
+                "type": "ConstNode",
+                "value": 0
+              },
+              "end": {
+                "type": "VariableNode",
+                "name": "j"
+              },
+              "body": [
+                {
+                  "type": "CompareSwapNode",
+                  "idx1": {
+                    "type": "VariableNode",
+                    "name": "j"
+                  },
+                  "idx2": {
+                    "type": "ConstNode",
+                    "value": 1
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "is_duplicate": false,
+    "is_best": false,
+    "metadata": {
+      "time_seconds": 0.47275614738464355,
+      "seed": null
+    }
+  },
+  {
+    "id": 66,
+    "task_name": "sort_2",
+    "fitness": 98.87,
+    "steps_taken": 0,
+    "ast_depth": 6,
+    "generation": 1,
+    "timestamp": 1786255288.2960155,
+    "program_ast": {
+      "type": "ProgramNode",
+      "statements": [
+        {
+          "type": "LoopNode",
+          "var_name": "k",
+          "start": {
+            "type": "ConstNode",
+            "value": 0
+          },
+          "end": {
+            "type": "BinaryOpNode",
+            "left": {
+              "type": "VariableNode",
+              "name": "len"
+            },
+            "op": "-",
+            "right": {
+              "type": "ConstNode",
+              "value": 1
+            }
+          },
+          "body": [
+            {
+              "type": "LoopNode",
+              "var_name": "j",
+              "start": {
+                "type": "VariableNode",
+                "name": "k"
+              },
+              "end": {
+                "type": "BinaryOpNode",
+                "left": {
+                  "type": "VariableNode",
+                  "name": "len"
+                },
+                "op": "-",
+                "right": {
+                  "type": "ConstNode",
+                  "value": 1
+                }
+              },
+              "body": [
+                {
+                  "type": "CompareSwapNode",
+                  "idx1": {
+                    "type": "VariableNode",
+                    "name": "j"
+                  },
+                  "idx2": {
+                    "type": "ConstNode",
+                    "value": 1
+                  }
+                }
+              ]
+            },
+            {
+              "type": "CompareSwapNode",
+              "idx1": {
+                "type": "VariableNode",
+                "name": "k"
+              },
+              "idx2": {
+                "type": "ConstNode",
+                "value": 0
+              }
+            }
+          ]
+        },
+        {
+          "type": "IfNode",
+          "condition": {
+            "type": "BinaryOpNode",
+            "left": {
+              "type": "BinaryOpNode",
+              "left": {
+                "type": "ConstNode",
+                "value": 1
+              },
+              "op": "+",
+              "right": {
+                "type": "BinaryOpNode",
+                "left": {
+                  "type": "ConstNode",
+                  "value": 1
+                },
+                "op": "+",
+                "right": {
+                  "type": "VariableNode",
+                  "name": "j"
+                }
+              }
+            },
+            "op": "<",
+            "right": {
+              "type": "ConstNode",
+              "value": 0
+            }
+          },
+          "then_body": [
+            {
+              "type": "LoopNode",
+              "var_name": "j",
+              "start": {
+                "type": "BinaryOpNode",
+                "left": {
+                  "type": "VariableNode",
+                  "name": "i"
+                },
+                "op": "-",
+                "right": {
+                  "type": "ConstNode",
+                  "value": 1
+                }
+              },
+              "end": {
+                "type": "ConstNode",
+                "value": 2
+              },
+              "body": [
+                {
+                  "type": "CompareSwapNode",
+                  "idx1": {
+                    "type": "ConstNode",
+                    "value": 0
+                  },
+                  "idx2": {
+                    "type": "ConstNode",
+                    "value": 1
+                  }
+                },
+                {
+                  "type": "CompareSwapNode",
+                  "idx1": {
+                    "type": "ConstNode",
+                    "value": 1
+                  },
+                  "idx2": {
+                    "type": "ConstNode",
+                    "value": 0
+                  }
+                }
+              ]
+            },
+            {
+              "type": "IfNode",
+              "condition": {
+                "type": "BinaryOpNode",
+                "left": {
+                  "type": "VariableNode",
+                  "name": "j"
+                },
+                "op": "==",
+                "right": {
+                  "type": "ConstNode",
+                  "value": 0
+                }
+              },
+              "then_body": [
+                {
+                  "type": "AssignNode",
+                  "var_name": "j",
+                  "value": {
+                    "type": "VariableNode",
+                    "name": "i"
+                  }
+                }
+              ],
+              "else_body": [
+                {
+                  "type": "AssignNode",
+                  "var_name": "i",
+                  "value": {
+                    "type": "VariableNode",
+                    "name": "i"
+                  }
+                }
+              ]
+            }
+          ],
+          "else_body": []
+        },
+        {
+          "type": "IfNode",
+          "condition": {
+            "type": "BinaryOpNode",
+            "left": {
+              "type": "BinaryOpNode",
+              "left": {
+                "type": "ConstNode",
+                "value": 0
+              },
+              "op": "-",
+              "right": {
+                "type": "ConstNode",
+                "value": 1
+              }
+            },
+            "op": "==",
+            "right": {
+              "type": "BinaryOpNode",
+              "left": {
+                "type": "BinaryOpNode",
+                "left": {
+                  "type": "VariableNode",
+                  "name": "j"
+                },
+                "op": "+",
+                "right": {
+                  "type": "ConstNode",
+                  "value": 0
+                }
+              },
+              "op": "-",
+              "right": {
+                "type": "VariableNode",
+                "name": "j"
+              }
+            }
+          },
+          "then_body": [
+            {
+              "type": "LoopNode",
+              "var_name": "i",
+              "start": {
+                "type": "BinaryOpNode",
+                "left": {
+                  "type": "ConstNode",
+                  "value": 0
+                },
+                "op": "-",
+                "right": {
+                  "type": "VariableNode",
+                  "name": "j"
+                }
+              },
+              "end": {
+                "type": "ConstNode",
+                "value": 2
+              },
+              "body": [
+                {
+                  "type": "CompareSwapNode",
+                  "idx1": {
+                    "type": "ConstNode",
+                    "value": 1
+                  },
+                  "idx2": {
+                    "type": "VariableNode",
+                    "name": "j"
+                  }
+                },
+                {
+                  "type": "AssignNode",
+                  "var_name": "i",
+                  "value": {
+                    "type": "ConstNode",
+                    "value": 0
+                  }
+                }
+              ]
+            },
+            {
+              "type": "LoopNode",
+              "var_name": "i",
+              "start": {
+                "type": "BinaryOpNode",
+                "left": {
+                  "type": "ConstNode",
+                  "value": 0
+                },
+                "op": "-",
+                "right": {
+                  "type": "ConstNode",
+                  "value": 0
+                }
+              },
+              "end": {
+                "type": "BinaryOpNode",
+                "left": {
+                  "type": "VariableNode",
+                  "name": "len"
+                },
+                "op": "-",
+                "right": {
+                  "type": "ConstNode",
+                  "value": 1
+                }
+              },
+              "body": [
+                {
+                  "type": "AssignNode",
+                  "var_name": "j",
+                  "value": {
+                    "type": "VariableNode",
+                    "name": "i"
+                  }
+                }
+              ]
+            }
+          ],
+          "else_body": []
+        },
+        {
+          "type": "IfNode",
+          "condition": {
+            "type": "BinaryOpNode",
+            "left": {
+              "type": "VariableNode",
+              "name": "j"
+            },
+            "op": "==",
+            "right": {
+              "type": "ConstNode",
+              "value": 0
+            }
+          },
+          "then_body": [
+            {
+              "type": "LoopNode",
+              "var_name": "k",
+              "start": {
+                "type": "BinaryOpNode",
+                "left": {
+                  "type": "ConstNode",
+                  "value": 1
+                },
+                "op": "+",
+                "right": {
+                  "type": "ConstNode",
+                  "value": 0
+                }
+              },
+              "end": {
+                "type": "ConstNode",
+                "value": 2
+              },
+              "body": [
+                {
+                  "type": "AssignNode",
+                  "var_name": "j",
+                  "value": {
+                    "type": "ConstNode",
+                    "value": 0
+                  }
+                },
+                {
+                  "type": "AssignNode",
+                  "var_name": "i",
+                  "value": {
+                    "type": "VariableNode",
+                    "name": "k"
+                  }
+                }
+              ]
+            },
+            {
+              "type": "LoopNode",
+              "var_name": "k",
+              "start": {
+                "type": "ConstNode",
+                "value": 1
+              },
+              "end": {
+                "type": "VariableNode",
+                "name": "len"
+              },
+              "body": [
+                {
+                  "type": "AssignNode",
+                  "var_name": "j",
+                  "value": {
+                    "type": "ConstNode",
+                    "value": 1
+                  }
+                }
+              ]
+            }
+          ],
+          "else_body": []
+        }
+      ]
+    },
+    "is_duplicate": false,
+    "is_best": false,
+    "metadata": {
+      "time_seconds": 0.011766910552978516,
+      "seed": 42
+    }
+  },
+  {
+    "id": 67,
+    "task_name": "zigzag_sort_4",
+    "fitness": 98.82,
+    "steps_taken": 0,
+    "ast_depth": 5,
+    "generation": 8,
+    "timestamp": 1786256488.1030397,
+    "program_ast": {
+      "type": "ProgramNode",
+      "statements": [
+        {
+          "type": "LoopNode",
+          "var_name": "k",
+          "start": {
+            "type": "ConstNode",
+            "value": 0
+          },
+          "end": {
+            "type": "BinaryOpNode",
+            "left": {
+              "type": "VariableNode",
+              "name": "len"
+            },
+            "op": "-",
+            "right": {
+              "type": "ConstNode",
+              "value": 1
+            }
+          },
+          "body": [
+            {
+              "type": "LoopNode",
+              "var_name": "j",
+              "start": {
+                "type": "ConstNode",
+                "value": 1
+              },
+              "end": {
+                "type": "BinaryOpNode",
+                "left": {
+                  "type": "VariableNode",
+                  "name": "len"
+                },
+                "op": "-",
+                "right": {
+                  "type": "ConstNode",
+                  "value": 0
+                }
+              },
+              "body": [
+                {
+                  "type": "AssignNode",
+                  "var_name": "j",
+                  "value": {
+                    "type": "VariableNode",
+                    "name": "j"
+                  }
+                },
+                {
+                  "type": "CompareSwapNode",
+                  "idx1": {
+                    "type": "VariableNode",
+                    "name": "k"
+                  },
+                  "idx2": {
+                    "type": "VariableNode",
+                    "name": "j"
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "AssignNode",
+          "var_name": "i",
+          "value": {
+            "type": "VariableNode",
+            "name": "j"
+          }
+        }
+      ]
+    },
+    "is_duplicate": false,
+    "is_best": false,
+    "metadata": {
+      "time_seconds": 0.11783599853515625,
+      "seed": null
+    }
+  },
+  {
+    "id": 68,
+    "task_name": "even_odd_partition",
+    "fitness": 66.1567,
+    "steps_taken": 0,
+    "ast_depth": 4,
+    "generation": 60,
+    "timestamp": 1786256568.4968605,
+    "program_ast": {
+      "type": "ProgramNode",
+      "statements": [
+        {
+          "type": "IfNode",
+          "condition": {
+            "type": "ConstNode",
+            "value": 1
+          },
+          "then_body": [
+            {
+              "type": "CompareSwapNode",
+              "idx1": {
+                "type": "ConstNode",
+                "value": 1
+              },
+              "idx2": {
+                "type": "ConstNode",
+                "value": 0
+              }
+            },
+            {
+              "type": "AssignNode",
+              "var_name": "i",
+              "value": {
+                "type": "ConstNode",
+                "value": 1
+              }
+            },
+            {
+              "type": "CompareSwapNode",
+              "idx1": {
+                "type": "ConstNode",
+                "value": 2
+              },
+              "idx2": {
+                "type": "ConstNode",
+                "value": 1
+              }
+            }
+          ],
+          "else_body": []
+        }
+      ]
+    },
+    "is_duplicate": false,
+    "is_best": true,
+    "metadata": {
+      "time_seconds": 0.869520902633667,
+      "seed": null
+    }
+  },
+  {
+    "id": 69,
+    "task_name": "even_odd_partition",
+    "fitness": 66.2967,
+    "steps_taken": 0,
+    "ast_depth": 3,
+    "generation": 60,
+    "timestamp": 1786256576.1036146,
+    "program_ast": {
+      "type": "ProgramNode",
+      "statements": [
+        {
+          "type": "CompareSwapNode",
+          "idx1": {
+            "type": "ConstNode",
+            "value": 1
+          },
+          "idx2": {
+            "type": "ConstNode",
+            "value": 0
+          }
+        },
+        {
+          "type": "CompareSwapNode",
+          "idx1": {
+            "type": "ConstNode",
+            "value": 2
+          },
+          "idx2": {
+            "type": "ConstNode",
+            "value": 1
+          }
+        }
+      ]
+    },
+    "is_duplicate": false,
+    "is_best": true,
+    "metadata": {
+      "time_seconds": 0.4044332504272461,
+      "seed": null
+    }
+  },
+  {
+    "id": 70,
+    "task_name": "even_odd_partition",
+    "fitness": 66.0667,
+    "steps_taken": 0,
+    "ast_depth": 4,
+    "generation": 60,
+    "timestamp": 1786256577.8958306,
+    "program_ast": {
+      "type": "ProgramNode",
+      "statements": [
+        {
+          "type": "AssignNode",
+          "var_name": "j",
+          "value": {
+            "type": "ConstNode",
+            "value": 1
+          }
+        },
+        {
+          "type": "LoopNode",
+          "var_name": "j",
+          "start": {
+            "type": "VariableNode",
+            "name": "j"
+          },
+          "end": {
+            "type": "BinaryOpNode",
+            "left": {
+              "type": "VariableNode",
+              "name": "len"
+            },
+            "op": "-",
+            "right": {
+              "type": "ConstNode",
+              "value": 1
+            }
+          },
+          "body": [
+            {
+              "type": "CompareSwapNode",
+              "idx1": {
+                "type": "VariableNode",
+                "name": "j"
+              },
+              "idx2": {
+                "type": "ConstNode",
+                "value": 1
+              }
+            },
+            {
+              "type": "CompareSwapNode",
+              "idx1": {
+                "type": "VariableNode",
+                "name": "j"
+              },
+              "idx2": {
+                "type": "ConstNode",
+                "value": 0
+              }
+            }
+          ]
+        }
+      ]
+    },
+    "is_duplicate": false,
+    "is_best": false,
+    "metadata": {
+      "time_seconds": 0.7509312629699707,
+      "seed": null
+    }
+  },
+  {
+    "id": 71,
+    "task_name": "even_odd_partition",
+    "fitness": 66.1467,
+    "steps_taken": 0,
+    "ast_depth": 4,
+    "generation": 60,
+    "timestamp": 1786256579.318418,
+    "program_ast": {
+      "type": "ProgramNode",
+      "statements": [
+        {
+          "type": "LoopNode",
+          "var_name": "i",
+          "start": {
+            "type": "ConstNode",
+            "value": 1
+          },
+          "end": {
+            "type": "ConstNode",
+            "value": 2
+          },
+          "body": [
+            {
+              "type": "CompareSwapNode",
+              "idx1": {
+                "type": "VariableNode",
+                "name": "i"
+              },
+              "idx2": {
+                "type": "ConstNode",
+                "value": 0
+              }
+            },
+            {
+              "type": "AssignNode",
+              "var_name": "j",
+              "value": {
+                "type": "ConstNode",
+                "value": 0
+              }
+            }
+          ]
+        },
+        {
+          "type": "CompareSwapNode",
+          "idx1": {
+            "type": "ConstNode",
+            "value": 2
+          },
+          "idx2": {
+            "type": "ConstNode",
+            "value": 1
+          }
+        }
+      ]
+    },
+    "is_duplicate": false,
+    "is_best": false,
+    "metadata": {
+      "time_seconds": 0.6319732666015625,
+      "seed": null
+    }
+  },
+  {
+    "id": 72,
+    "task_name": "even_odd_partition",
+    "fitness": 66.2967,
+    "steps_taken": 0,
+    "ast_depth": 3,
+    "generation": 60,
+    "timestamp": 1786256580.457552,
+    "program_ast": {
+      "type": "ProgramNode",
+      "statements": [
+        {
+          "type": "CompareSwapNode",
+          "idx1": {
+            "type": "ConstNode",
+            "value": 1
+          },
+          "idx2": {
+            "type": "ConstNode",
+            "value": 0
+          }
+        },
+        {
+          "type": "CompareSwapNode",
+          "idx1": {
+            "type": "ConstNode",
+            "value": 2
+          },
+          "idx2": {
+            "type": "ConstNode",
+            "value": 1
+          }
+        }
+      ]
+    },
+    "is_duplicate": true,
+    "is_best": false,
+    "metadata": {
+      "time_seconds": 0.2568929195404053,
+      "seed": null
+    }
+  },
+  {
+    "id": 73,
+    "task_name": "even_odd_partition",
+    "fitness": 66.2967,
+    "steps_taken": 0,
+    "ast_depth": 3,
+    "generation": 60,
+    "timestamp": 1786256582.0423038,
+    "program_ast": {
+      "type": "ProgramNode",
+      "statements": [
+        {
+          "type": "CompareSwapNode",
+          "idx1": {
+            "type": "ConstNode",
+            "value": 2
+          },
+          "idx2": {
+            "type": "ConstNode",
+            "value": 0
+          }
+        },
+        {
+          "type": "CompareSwapNode",
+          "idx1": {
+            "type": "ConstNode",
+            "value": 0
+          },
+          "idx2": {
+            "type": "ConstNode",
+            "value": 1
+          }
+        }
+      ]
+    },
+    "is_duplicate": false,
+    "is_best": false,
+    "metadata": {
+      "time_seconds": 0.27702903747558594,
+      "seed": null
+    }
+  },
+  {
+    "id": 74,
+    "task_name": "even_odd_partition",
+    "fitness": 41.3267,
+    "steps_taken": 0,
+    "ast_depth": 3,
+    "generation": 60,
+    "timestamp": 1786256583.1121345,
+    "program_ast": {
+      "type": "ProgramNode",
+      "statements": [
+        {
+          "type": "CompareSwapNode",
+          "idx1": {
+            "type": "ConstNode",
+            "value": 2
+          },
+          "idx2": {
+            "type": "ConstNode",
+            "value": 0
+          }
+        }
+      ]
+    },
+    "is_duplicate": false,
+    "is_best": false,
+    "metadata": {
+      "time_seconds": 0.23511362075805664,
+      "seed": null
+    }
+  },
+  {
+    "id": 75,
+    "task_name": "even_odd_partition",
+    "fitness": 66.2967,
+    "steps_taken": 0,
+    "ast_depth": 3,
+    "generation": 60,
+    "timestamp": 1786256590.628597,
+    "program_ast": {
+      "type": "ProgramNode",
+      "statements": [
+        {
+          "type": "CompareSwapNode",
+          "idx1": {
+            "type": "ConstNode",
+            "value": 1
+          },
+          "idx2": {
+            "type": "ConstNode",
+            "value": 0
+          }
+        },
+        {
+          "type": "CompareSwapNode",
+          "idx1": {
+            "type": "ConstNode",
+            "value": 2
+          },
+          "idx2": {
+            "type": "ConstNode",
+            "value": 1
+          }
+        }
+      ]
+    },
+    "is_duplicate": true,
+    "is_best": false,
+    "metadata": {
+      "time_seconds": 0.31903934478759766,
+      "seed": null
+    }
+  },
+  {
+    "id": 76,
+    "task_name": "even_odd_partition",
+    "fitness": 66.1667,
+    "steps_taken": 0,
+    "ast_depth": 4,
+    "generation": 60,
+    "timestamp": 1786256593.2178712,
+    "program_ast": {
+      "type": "ProgramNode",
+      "statements": [
+        {
+          "type": "LoopNode",
+          "var_name": "i",
+          "start": {
+            "type": "ConstNode",
+            "value": 0
+          },
+          "end": {
+            "type": "ConstNode",
+            "value": 1
+          },
+          "body": [
+            {
+              "type": "CompareSwapNode",
+              "idx1": {
+                "type": "ConstNode",
+                "value": 2
+              },
+              "idx2": {
+                "type": "VariableNode",
+                "name": "i"
+              }
+            },
+            {
+              "type": "CompareSwapNode",
+              "idx1": {
+                "type": "ConstNode",
+                "value": 0
+              },
+              "idx2": {
+                "type": "ConstNode",
+                "value": 1
+              }
+            }
+          ]
+        }
+      ]
+    },
+    "is_duplicate": false,
+    "is_best": false,
+    "metadata": {
+      "time_seconds": 0.46517419815063477,
+      "seed": null
+    }
+  },
+  {
+    "id": 77,
+    "task_name": "even_odd_partition",
+    "fitness": 65.8567,
+    "steps_taken": 0,
+    "ast_depth": 5,
+    "generation": 60,
+    "timestamp": 1786256594.605518,
+    "program_ast": {
+      "type": "ProgramNode",
+      "statements": [
+        {
+          "type": "CompareSwapNode",
+          "idx1": {
+            "type": "ConstNode",
+            "value": 2
+          },
+          "idx2": {
+            "type": "ConstNode",
+            "value": 0
+          }
+        },
+        {
+          "type": "LoopNode",
+          "var_name": "j",
+          "start": {
+            "type": "ConstNode",
+            "value": 0
+          },
+          "end": {
+            "type": "ConstNode",
+            "value": 2
+          },
+          "body": [
+            {
+              "type": "IfNode",
+              "condition": {
+                "type": "BinaryOpNode",
+                "left": {
+                  "type": "VariableNode",
+                  "name": "j"
+                },
+                "op": "<=",
+                "right": {
+                  "type": "ConstNode",
+                  "value": 1
+                }
+              },
+              "then_body": [
+                {
+                  "type": "CompareSwapNode",
+                  "idx1": {
+                    "type": "ConstNode",
+                    "value": 1
+                  },
+                  "idx2": {
+                    "type": "VariableNode",
+                    "name": "j"
+                  }
+                },
+                {
+                  "type": "AssignNode",
+                  "var_name": "i",
+                  "value": {
+                    "type": "ConstNode",
+                    "value": 1
+                  }
+                }
+              ],
+              "else_body": []
+            }
+          ]
+        },
+        {
+          "type": "CompareSwapNode",
+          "idx1": {
+            "type": "ConstNode",
+            "value": 0
+          },
+          "idx2": {
+            "type": "VariableNode",
+            "name": "i"
+          }
+        },
+        {
+          "type": "CompareSwapNode",
+          "idx1": {
+            "type": "ConstNode",
+            "value": 0
+          },
+          "idx2": {
+            "type": "VariableNode",
+            "name": "j"
+          }
+        }
+      ]
+    },
+    "is_duplicate": false,
+    "is_best": false,
+    "metadata": {
+      "time_seconds": 0.2489457130432129,
+      "seed": null
+    }
+  },
+  {
+    "id": 78,
+    "task_name": "even_odd_partition",
+    "fitness": 66.0167,
+    "steps_taken": 0,
+    "ast_depth": 5,
+    "generation": 60,
+    "timestamp": 1786256596.210373,
+    "program_ast": {
+      "type": "ProgramNode",
+      "statements": [
+        {
+          "type": "LoopNode",
+          "var_name": "j",
+          "start": {
+            "type": "ConstNode",
+            "value": 1
+          },
+          "end": {
+            "type": "ConstNode",
+            "value": 2
+          },
+          "body": [
+            {
+              "type": "AssignNode",
+              "var_name": "j",
+              "value": {
+                "type": "VariableNode",
+                "name": "j"
+              }
+            },
+            {
+              "type": "LoopNode",
+              "var_name": "k",
+              "start": {
+                "type": "VariableNode",
+                "name": "j"
+              },
+              "end": {
+                "type": "ConstNode",
+                "value": 2
+              },
+              "body": [
+                {
+                  "type": "CompareSwapNode",
+                  "idx1": {
+                    "type": "ConstNode",
+                    "value": 1
+                  },
+                  "idx2": {
+                    "type": "ConstNode",
+                    "value": 0
+                  }
+                },
+                {
+                  "type": "CompareSwapNode",
+                  "idx1": {
+                    "type": "ConstNode",
+                    "value": 2
+                  },
+                  "idx2": {
+                    "type": "VariableNode",
+                    "name": "k"
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "is_duplicate": false,
+    "is_best": false,
+    "metadata": {
+      "time_seconds": 0.5625309944152832,
+      "seed": null
+    }
+  },
+  {
+    "id": 79,
+    "task_name": "even_odd_partition",
+    "fitness": 66.2967,
+    "steps_taken": 0,
+    "ast_depth": 3,
+    "generation": 60,
+    "timestamp": 1786256601.927179,
+    "program_ast": {
+      "type": "ProgramNode",
+      "statements": [
+        {
+          "type": "CompareSwapNode",
+          "idx1": {
+            "type": "ConstNode",
+            "value": 2
+          },
+          "idx2": {
+            "type": "ConstNode",
+            "value": 0
+          }
+        },
+        {
+          "type": "CompareSwapNode",
+          "idx1": {
+            "type": "ConstNode",
+            "value": 0
+          },
+          "idx2": {
+            "type": "ConstNode",
+            "value": 1
+          }
+        }
+      ]
+    },
+    "is_duplicate": true,
+    "is_best": false,
+    "metadata": {
+      "time_seconds": 0.2684307098388672,
+      "seed": null
+    }
+  },
+  {
+    "id": 80,
+    "task_name": "even_odd_partition",
+    "fitness": 57.8333,
+    "steps_taken": 0,
+    "ast_depth": 4,
+    "generation": 60,
+    "timestamp": 1786256610.700512,
+    "program_ast": {
+      "type": "ProgramNode",
+      "statements": [
+        {
+          "type": "LoopNode",
+          "var_name": "i",
+          "start": {
+            "type": "ConstNode",
+            "value": 1
+          },
+          "end": {
+            "type": "ConstNode",
+            "value": 2
+          },
+          "body": [
+            {
+              "type": "CompareSwapNode",
+              "idx1": {
+                "type": "VariableNode",
+                "name": "i"
+              },
+              "idx2": {
+                "type": "ConstNode",
+                "value": 2
+              }
+            }
+          ]
+        },
+        {
+          "type": "CompareSwapNode",
+          "idx1": {
+            "type": "ConstNode",
+            "value": 2
+          },
+          "idx2": {
+            "type": "ConstNode",
+            "value": 0
+          }
+        }
+      ]
+    },
+    "is_duplicate": false,
+    "is_best": false,
+    "metadata": {
+      "time_seconds": 0.2899489402770996,
+      "seed": null
+    }
+  },
+  {
+    "id": 81,
+    "task_name": "even_odd_partition",
+    "fitness": 66.2967,
+    "steps_taken": 0,
+    "ast_depth": 3,
+    "generation": 200,
+    "timestamp": 1786256618.361458,
+    "program_ast": {
+      "type": "ProgramNode",
+      "statements": [
+        {
+          "type": "CompareSwapNode",
+          "idx1": {
+            "type": "ConstNode",
+            "value": 1
+          },
+          "idx2": {
+            "type": "ConstNode",
+            "value": 0
+          }
+        },
+        {
+          "type": "CompareSwapNode",
+          "idx1": {
+            "type": "ConstNode",
+            "value": 2
+          },
+          "idx2": {
+            "type": "ConstNode",
+            "value": 1
+          }
+        }
+      ]
+    },
+    "is_duplicate": true,
+    "is_best": false,
+    "metadata": {
+      "time_seconds": 1.1334710121154785,
+      "seed": null
+    }
+  },
+  {
+    "id": 82,
+    "task_name": "zigzag_sort_4",
+    "fitness": 97.92,
+    "steps_taken": 0,
+    "ast_depth": 8,
+    "generation": 15,
+    "timestamp": 1786256627.3255017,
+    "program_ast": {
+      "type": "ProgramNode",
+      "statements": [
+        {
+          "type": "AssignNode",
+          "var_name": "i",
+          "value": {
+            "type": "ConstNode",
+            "value": 1
+          }
+        },
+        {
+          "type": "AssignNode",
+          "var_name": "j",
+          "value": {
+            "type": "ConstNode",
+            "value": 0
+          }
+        },
+        {
+          "type": "LoopNode",
+          "var_name": "i",
+          "start": {
+            "type": "VariableNode",
+            "name": "j"
+          },
+          "end": {
+            "type": "ConstNode",
+            "value": 2
+          },
+          "body": [
+            {
+              "type": "IfNode",
+              "condition": {
+                "type": "BinaryOpNode",
+                "left": {
+                  "type": "VariableNode",
+                  "name": "j"
+                },
+                "op": "<=",
+                "right": {
+                  "type": "BinaryOpNode",
+                  "left": {
+                    "type": "VariableNode",
+                    "name": "i"
+                  },
+                  "op": "-",
+                  "right": {
+                    "type": "BinaryOpNode",
+                    "left": {
+                      "type": "VariableNode",
+                      "name": "j"
+                    },
+                    "op": "-",
+                    "right": {
+                      "type": "ConstNode",
+                      "value": 0
+                    }
+                  }
+                }
+              },
+              "then_body": [
+                {
+                  "type": "IfNode",
+                  "condition": {
+                    "type": "BinaryOpNode",
+                    "left": {
+                      "type": "VariableNode",
+                      "name": "j"
+                    },
+                    "op": "<=",
+                    "right": {
+                      "type": "BinaryOpNode",
+                      "left": {
+                        "type": "VariableNode",
+                        "name": "i"
+                      },
+                      "op": "-",
+                      "right": {
+                        "type": "ConstNode",
+                        "value": 0
+                      }
+                    }
+                  },
+                  "then_body": [
+                    {
+                      "type": "AssignNode",
+                      "var_name": "i",
+                      "value": {
+                        "type": "VariableNode",
+                        "name": "i"
+                      }
+                    }
+                  ],
+                  "else_body": []
+                },
+                {
+                  "type": "CompareSwapNode",
+                  "idx1": {
+                    "type": "ConstNode",
+                    "value": 2
+                  },
+                  "idx2": {
+                    "type": "VariableNode",
+                    "name": "j"
+                  }
+                }
+              ],
+              "else_body": [
+                {
+                  "type": "IfNode",
+                  "condition": {
+                    "type": "BinaryOpNode",
+                    "left": {
+                      "type": "BinaryOpNode",
+                      "left": {
+                        "type": "BinaryOpNode",
+                        "left": {
+                          "type": "VariableNode",
+                          "name": "j"
+                        },
+                        "op": "-",
+                        "right": {
+                          "type": "VariableNode",
+                          "name": "i"
+                        }
+                      },
+                      "op": ">",
+                      "right": {
+                        "type": "ConstNode",
+                        "value": 0
+                      }
+                    },
+                    "op": "<=",
+                    "right": {
+                      "type": "BinaryOpNode",
+                      "left": {
+                        "type": "VariableNode",
+                        "name": "i"
+                      },
+                      "op": "-",
+                      "right": {
+                        "type": "ConstNode",
+                        "value": 0
+                      }
+                    }
+                  },
+                  "then_body": [
+                    {
+                      "type": "AssignNode",
+                      "var_name": "i",
+                      "value": {
+                        "type": "VariableNode",
+                        "name": "i"
+                      }
+                    }
+                  ],
+                  "else_body": []
+                }
+              ]
+            },
+            {
+              "type": "IfNode",
+              "condition": {
+                "type": "BinaryOpNode",
+                "left": {
+                  "type": "VariableNode",
+                  "name": "j"
+                },
+                "op": "<",
+                "right": {
+                  "type": "BinaryOpNode",
+                  "left": {
+                    "type": "VariableNode",
+                    "name": "j"
+                  },
+                  "op": "+",
+                  "right": {
+                    "type": "ConstNode",
+                    "value": 1
+                  }
+                }
+              },
+              "then_body": [
+                {
+                  "type": "IfNode",
+                  "condition": {
+                    "type": "BinaryOpNode",
+                    "left": {
+                      "type": "BinaryOpNode",
+                      "left": {
+                        "type": "ConstNode",
+                        "value": 1
+                      },
+                      "op": "-",
+                      "right": {
+                        "type": "VariableNode",
+                        "name": "i"
+                      }
+                    },
+                    "op": ">",
+                    "right": {
+                      "type": "ConstNode",
+                      "value": 1
+                    }
+                  },
+                  "then_body": [
+                    {
+                      "type": "AssignNode",
+                      "var_name": "i",
+                      "value": {
+                        "type": "ConstNode",
+                        "value": 0
+                      }
+                    }
+                  ],
+                  "else_body": []
+                },
+                {
+                  "type": "LoopNode",
+                  "var_name": "k",
+                  "start": {
+                    "type": "VariableNode",
+                    "name": "j"
+                  },
+                  "end": {
+                    "type": "VariableNode",
+                    "name": "len"
+                  },
+                  "body": [
+                    {
+                      "type": "CompareSwapNode",
+                      "idx1": {
+                        "type": "ConstNode",
+                        "value": 1
+                      },
+                      "idx2": {
+                        "type": "VariableNode",
+                        "name": "i"
+                      }
+                    },
+                    {
+                      "type": "CompareSwapNode",
+                      "idx1": {
+                        "type": "ConstNode",
+                        "value": 0
+                      },
+                      "idx2": {
+                        "type": "VariableNode",
+                        "name": "k"
+                      }
+                    }
+                  ]
+                }
+              ],
+              "else_body": [
+                {
+                  "type": "AssignNode",
+                  "var_name": "i",
+                  "value": {
+                    "type": "VariableNode",
+                    "name": "i"
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "AssignNode",
+          "var_name": "i",
+          "value": {
+            "type": "BinaryOpNode",
+            "left": {
+              "type": "VariableNode",
+              "name": "i"
+            },
+            "op": "-",
+            "right": {
+              "type": "ConstNode",
+              "value": 2
+            }
+          }
+        }
+      ]
+    },
+    "is_duplicate": false,
+    "is_best": false,
+    "metadata": {
+      "time_seconds": 0.6109099388122559,
+      "seed": null
+    }
+  },
+  {
+    "id": 83,
+    "task_name": "cascade_sort_5",
+    "fitness": 75.09,
+    "steps_taken": 0,
+    "ast_depth": 5,
+    "generation": 60,
+    "timestamp": 1786256723.4794433,
+    "program_ast": {
+      "type": "ProgramNode",
+      "statements": [
+        {
+          "type": "LoopNode",
+          "var_name": "i",
+          "start": {
+            "type": "ConstNode",
+            "value": 0
+          },
+          "end": {
+            "type": "BinaryOpNode",
+            "left": {
+              "type": "VariableNode",
+              "name": "len"
+            },
+            "op": "-",
+            "right": {
+              "type": "ConstNode",
+              "value": 1
+            }
+          },
+          "body": [
+            {
+              "type": "CompareSwapNode",
+              "idx1": {
+                "type": "ConstNode",
+                "value": 1
+              },
+              "idx2": {
+                "type": "BinaryOpNode",
+                "left": {
+                  "type": "VariableNode",
+                  "name": "len"
+                },
+                "op": "-",
+                "right": {
+                  "type": "ConstNode",
+                  "value": 1
+                }
+              }
+            },
+            {
+              "type": "CompareSwapNode",
+              "idx1": {
+                "type": "ConstNode",
+                "value": 0
+              },
+              "idx2": {
+                "type": "VariableNode",
+                "name": "i"
+              }
+            }
+          ]
+        },
+        {
+          "type": "CompareSwapNode",
+          "idx1": {
+            "type": "ConstNode",
+            "value": 1
+          },
+          "idx2": {
+            "type": "VariableNode",
+            "name": "i"
+          }
+        }
+      ]
+    },
+    "is_duplicate": false,
+    "is_best": true,
+    "metadata": {
+      "time_seconds": 0.47357630729675293,
+      "seed": null
+    }
+  },
+  {
+    "id": 84,
+    "task_name": "sort_2",
+    "fitness": -1000.0,
+    "steps_taken": 0,
+    "ast_depth": 6,
+    "generation": 5,
+    "timestamp": 1786257101.4165149,
+    "program_ast": {
+      "type": "ProgramNode",
+      "statements": [
+        {
+          "type": "CompareSwapNode",
+          "idx1": {
+            "type": "BinaryOpNode",
+            "left": {
+              "type": "VariableNode",
+              "name": "i"
+            },
+            "op": "^",
+            "right": {
+              "type": "BinaryOpNode",
+              "left": {
+                "type": "BinaryOpNode",
+                "left": {
+                  "type": "VariableNode",
+                  "name": "j"
+                },
+                "op": "-",
+                "right": {
+                  "type": "VariableNode",
+                  "name": "i"
+                }
+              },
+              "op": "-",
+              "right": {
+                "type": "ConstNode",
+                "value": 2
+              }
+            }
+          },
+          "idx2": {
+            "type": "VariableNode",
+            "name": "j"
+          }
+        }
+      ]
+    },
+    "is_duplicate": false,
+    "is_best": false,
+    "metadata": {
+      "time_seconds": 0.01126408576965332,
+      "seed": 42
+    }
+  },
+  {
+    "id": 85,
+    "task_name": "bitonic_sort_6",
+    "fitness": 37.1,
+    "steps_taken": 0,
+    "ast_depth": 3,
+    "generation": 250,
+    "timestamp": 1786257151.2409954,
+    "program_ast": {
+      "type": "ProgramNode",
+      "statements": [
+        {
+          "type": "CompareSwapNode",
+          "idx1": {
+            "type": "ConstNode",
+            "value": 2
+          },
+          "idx2": {
+            "type": "ConstNode",
+            "value": 3
+          }
+        },
+        {
+          "type": "CompareSwapNode",
+          "idx1": {
+            "type": "ConstNode",
+            "value": 0
+          },
+          "idx2": {
+            "type": "ConstNode",
+            "value": 2
+          }
+        },
+        {
+          "type": "CompareSwapNode",
+          "idx1": {
+            "type": "ConstNode",
+            "value": 0
+          },
+          "idx2": {
+            "type": "ConstNode",
+            "value": 1
+          }
+        }
+      ]
+    },
+    "is_duplicate": false,
+    "is_best": true,
+    "metadata": {
+      "time_seconds": 3.5767786502838135,
+      "seed": null
+    }
+  },
+  {
+    "id": 86,
+    "task_name": "bitonic_sort_6",
+    "fitness": 28.7967,
+    "steps_taken": 0,
+    "ast_depth": 3,
+    "generation": 250,
+    "timestamp": 1786257158.2451158,
+    "program_ast": {
+      "type": "ProgramNode",
+      "statements": [
+        {
+          "type": "CompareSwapNode",
+          "idx1": {
+            "type": "ConstNode",
+            "value": 2
+          },
+          "idx2": {
+            "type": "ConstNode",
+            "value": 3
+          }
+        },
+        {
+          "type": "CompareSwapNode",
+          "idx1": {
+            "type": "ConstNode",
+            "value": 0
+          },
+          "idx2": {
+            "type": "ConstNode",
+            "value": 2
+          }
+        }
+      ]
+    },
+    "is_duplicate": false,
+    "is_best": false,
+    "metadata": {
+      "time_seconds": 2.785236120223999,
+      "seed": null
+    }
+  },
+  {
+    "id": 87,
+    "task_name": "bitonic_sort_6",
+    "fitness": 49.6,
+    "steps_taken": 0,
+    "ast_depth": 3,
+    "generation": 250,
+    "timestamp": 1786257163.2037299,
+    "program_ast": {
+      "type": "ProgramNode",
+      "statements": [
+        {
+          "type": "CompareSwapNode",
+          "idx1": {
+            "type": "ConstNode",
+            "value": 0
+          },
+          "idx2": {
+            "type": "ConstNode",
+            "value": 2
+          }
+        },
+        {
+          "type": "CompareSwapNode",
+          "idx1": {
+            "type": "ConstNode",
+            "value": 2
+          },
+          "idx2": {
+            "type": "ConstNode",
+            "value": 5
+          }
+        },
+        {
+          "type": "CompareSwapNode",
+          "idx1": {
+            "type": "ConstNode",
+            "value": 3
+          },
+          "idx2": {
+            "type": "ConstNode",
+            "value": 5
+          }
+        }
+      ]
+    },
+    "is_duplicate": false,
+    "is_best": true,
+    "metadata": {
+      "time_seconds": 2.7563788890838623,
+      "seed": null
+    }
+  },
+  {
+    "id": 88,
+    "task_name": "bitonic_sort_6",
+    "fitness": 49.6,
+    "steps_taken": 0,
+    "ast_depth": 3,
+    "generation": 250,
+    "timestamp": 1786257168.4443603,
+    "program_ast": {
+      "type": "ProgramNode",
+      "statements": [
+        {
+          "type": "CompareSwapNode",
+          "idx1": {
+            "type": "ConstNode",
+            "value": 0
+          },
+          "idx2": {
+            "type": "ConstNode",
+            "value": 2
+          }
+        },
+        {
+          "type": "CompareSwapNode",
+          "idx1": {
+            "type": "ConstNode",
+            "value": 2
+          },
+          "idx2": {
+            "type": "ConstNode",
+            "value": 5
+          }
+        },
+        {
+          "type": "CompareSwapNode",
+          "idx1": {
+            "type": "ConstNode",
+            "value": 3
+          },
+          "idx2": {
+            "type": "ConstNode",
+            "value": 5
+          }
+        }
+      ]
+    },
+    "is_duplicate": true,
+    "is_best": false,
+    "metadata": {
+      "time_seconds": 2.6738531589508057,
+      "seed": null
+    }
+  },
+  {
+    "id": 89,
+    "task_name": "bitonic_sort_6",
+    "fitness": 99.33,
+    "steps_taken": 0,
+    "ast_depth": 3,
+    "generation": 30,
+    "timestamp": 1786257374.9237618,
+    "program_ast": {
+      "type": "ProgramNode",
+      "statements": [
+        {
+          "type": "CompareSwapNode",
+          "idx1": {
+            "type": "ConstNode",
+            "value": 0
+          },
+          "idx2": {
+            "type": "ConstNode",
+            "value": 1
+          }
+        },
+        {
+          "type": "CompareSwapNode",
+          "idx1": {
+            "type": "ConstNode",
+            "value": 0
+          },
+          "idx2": {
+            "type": "ConstNode",
+            "value": 2
+          }
+        },
+        {
+          "type": "CompareSwapNode",
+          "idx1": {
+            "type": "ConstNode",
+            "value": 0
+          },
+          "idx2": {
+            "type": "ConstNode",
+            "value": 3
+          }
+        },
+        {
+          "type": "CompareSwapNode",
+          "idx1": {
+            "type": "ConstNode",
+            "value": 1
+          },
+          "idx2": {
+            "type": "ConstNode",
+            "value": 2
+          }
+        },
+        {
+          "type": "CompareSwapNode",
+          "idx1": {
+            "type": "ConstNode",
+            "value": 1
+          },
+          "idx2": {
+            "type": "ConstNode",
+            "value": 4
+          }
+        },
+        {
+          "type": "CompareSwapNode",
+          "idx1": {
+            "type": "ConstNode",
+            "value": 1
+          },
+          "idx2": {
+            "type": "ConstNode",
+            "value": 3
+          }
+        },
+        {
+          "type": "CompareSwapNode",
+          "idx1": {
+            "type": "ConstNode",
+            "value": 2
+          },
+          "idx2": {
+            "type": "ConstNode",
+            "value": 3
+          }
+        },
+        {
+          "type": "CompareSwapNode",
+          "idx1": {
+            "type": "ConstNode",
+            "value": 2
+          },
+          "idx2": {
+            "type": "ConstNode",
+            "value": 4
+          }
+        },
+        {
+          "type": "CompareSwapNode",
+          "idx1": {
+            "type": "ConstNode",
+            "value": 2
+          },
+          "idx2": {
+            "type": "ConstNode",
+            "value": 5
+          }
+        },
+        {
+          "type": "CompareSwapNode",
+          "idx1": {
+            "type": "ConstNode",
+            "value": 3
+          },
+          "idx2": {
+            "type": "ConstNode",
+            "value": 4
+          }
+        },
+        {
+          "type": "CompareSwapNode",
+          "idx1": {
+            "type": "ConstNode",
+            "value": 3
+          },
+          "idx2": {
+            "type": "ConstNode",
+            "value": 5
+          }
+        },
+        {
+          "type": "CompareSwapNode",
+          "idx1": {
+            "type": "ConstNode",
+            "value": 4
+          },
+          "idx2": {
+            "type": "ConstNode",
+            "value": 5
+          }
+        }
+      ]
+    },
+    "is_duplicate": false,
+    "is_best": true,
+    "metadata": {
+      "time_seconds": 0.3220529556274414,
+      "seed": 123
+    }
+  },
+  {
+    "id": 90,
+    "task_name": "sort_2",
+    "fitness": 99.66,
+    "steps_taken": 0,
+    "ast_depth": 3,
+    "generation": 2,
+    "timestamp": 1786257521.6785414,
+    "program_ast": {
+      "type": "ProgramNode",
+      "statements": [
+        {
+          "type": "CompareSwapNode",
+          "idx1": {
+            "type": "ConstNode",
+            "value": 0
+          },
+          "idx2": {
+            "type": "ConstNode",
+            "value": 1
+          }
+        }
+      ]
+    },
+    "is_duplicate": true,
+    "is_best": false,
+    "metadata": {
+      "time_seconds": 0.006587028503417969,
+      "seed": 42
+    }
+  },
+  {
+    "id": 91,
+    "task_name": "bitonic_sort_6",
+    "fitness": 99.33,
+    "steps_taken": 0,
+    "ast_depth": 3,
+    "generation": 250,
+    "timestamp": 1786257659.6656942,
+    "program_ast": {
+      "type": "ProgramNode",
+      "statements": [
+        {
+          "type": "CompareSwapNode",
+          "idx1": {
+            "type": "ConstNode",
+            "value": 0
+          },
+          "idx2": {
+            "type": "ConstNode",
+            "value": 1
+          }
+        },
+        {
+          "type": "CompareSwapNode",
+          "idx1": {
+            "type": "ConstNode",
+            "value": 1
+          },
+          "idx2": {
+            "type": "ConstNode",
+            "value": 2
+          }
+        },
+        {
+          "type": "CompareSwapNode",
+          "idx1": {
+            "type": "ConstNode",
+            "value": 1
+          },
+          "idx2": {
+            "type": "ConstNode",
+            "value": 3
+          }
+        },
+        {
+          "type": "CompareSwapNode",
+          "idx1": {
+            "type": "ConstNode",
+            "value": 0
+          },
+          "idx2": {
+            "type": "ConstNode",
+            "value": 1
+          }
+        },
+        {
+          "type": "CompareSwapNode",
+          "idx1": {
+            "type": "ConstNode",
+            "value": 2
+          },
+          "idx2": {
+            "type": "ConstNode",
+            "value": 5
+          }
+        },
+        {
+          "type": "CompareSwapNode",
+          "idx1": {
+            "type": "ConstNode",
+            "value": 1
+          },
+          "idx2": {
+            "type": "ConstNode",
+            "value": 2
+          }
+        },
+        {
+          "type": "CompareSwapNode",
+          "idx1": {
+            "type": "ConstNode",
+            "value": 1
+          },
+          "idx2": {
+            "type": "ConstNode",
+            "value": 3
+          }
+        },
+        {
+          "type": "CompareSwapNode",
+          "idx1": {
+            "type": "ConstNode",
+            "value": 1
+          },
+          "idx2": {
+            "type": "ConstNode",
+            "value": 4
+          }
+        },
+        {
+          "type": "CompareSwapNode",
+          "idx1": {
+            "type": "ConstNode",
+            "value": 2
+          },
+          "idx2": {
+            "type": "ConstNode",
+            "value": 4
+          }
+        },
+        {
+          "type": "CompareSwapNode",
+          "idx1": {
+            "type": "ConstNode",
+            "value": 3
+          },
+          "idx2": {
+            "type": "ConstNode",
+            "value": 4
+          }
+        },
+        {
+          "type": "CompareSwapNode",
+          "idx1": {
+            "type": "ConstNode",
+            "value": 3
+          },
+          "idx2": {
+            "type": "ConstNode",
+            "value": 5
+          }
+        },
+        {
+          "type": "CompareSwapNode",
+          "idx1": {
+            "type": "ConstNode",
+            "value": 4
+          },
+          "idx2": {
+            "type": "ConstNode",
+            "value": 5
+          }
+        }
+      ]
+    },
+    "is_duplicate": false,
+    "is_best": false,
+    "metadata": {
+      "time_seconds": 6.08807635307312,
+      "seed": null
+    }
+  },
+  {
+    "id": 92,
+    "task_name": "bitonic_sort_6",
+    "fitness": 99.39,
+    "steps_taken": 0,
+    "ast_depth": 3,
+    "generation": 250,
+    "timestamp": 1786257677.2258258,
+    "program_ast": {
+      "type": "ProgramNode",
+      "statements": [
+        {
+          "type": "CompareSwapNode",
+          "idx1": {
+            "type": "ConstNode",
+            "value": 2
+          },
+          "idx2": {
+            "type": "ConstNode",
+            "value": 1
+          }
+        },
+        {
+          "type": "CompareSwapNode",
+          "idx1": {
+            "type": "ConstNode",
+            "value": 0
+          },
+          "idx2": {
+            "type": "ConstNode",
+            "value": 2
+          }
+        },
+        {
+          "type": "CompareSwapNode",
+          "idx1": {
+            "type": "ConstNode",
+            "value": 0
+          },
+          "idx2": {
+            "type": "ConstNode",
+            "value": 3
+          }
+        },
+        {
+          "type": "CompareSwapNode",
+          "idx1": {
+            "type": "ConstNode",
+            "value": 2
+          },
+          "idx2": {
+            "type": "ConstNode",
+            "value": 5
+          }
+        },
+        {
+          "type": "CompareSwapNode",
+          "idx1": {
+            "type": "ConstNode",
+            "value": 1
+          },
+          "idx2": {
+            "type": "ConstNode",
+            "value": 4
+          }
+        },
+        {
+          "type": "CompareSwapNode",
+          "idx1": {
+            "type": "ConstNode",
+            "value": 3
+          },
+          "idx2": {
+            "type": "ConstNode",
+            "value": 5
+          }
+        },
+        {
+          "type": "CompareSwapNode",
+          "idx1": {
+            "type": "ConstNode",
+            "value": 1
+          },
+          "idx2": {
+            "type": "ConstNode",
+            "value": 2
+          }
+        },
+        {
+          "type": "CompareSwapNode",
+          "idx1": {
+            "type": "ConstNode",
+            "value": 1
+          },
+          "idx2": {
+            "type": "ConstNode",
+            "value": 3
+          }
+        },
+        {
+          "type": "CompareSwapNode",
+          "idx1": {
+            "type": "ConstNode",
+            "value": 2
+          },
+          "idx2": {
+            "type": "ConstNode",
+            "value": 3
+          }
+        },
+        {
+          "type": "CompareSwapNode",
+          "idx1": {
+            "type": "ConstNode",
+            "value": 4
+          },
+          "idx2": {
+            "type": "ConstNode",
+            "value": 5
+          }
+        }
+      ]
+    },
+    "is_duplicate": false,
+    "is_best": true,
+    "metadata": {
+      "time_seconds": 6.515177965164185,
+      "seed": null
+    }
+  },
+  {
+    "id": 93,
+    "task_name": "sort_2",
+    "fitness": 99.66,
+    "steps_taken": 0,
+    "ast_depth": 3,
+    "generation": 2,
+    "timestamp": 1786257775.3040032,
+    "program_ast": {
+      "type": "ProgramNode",
+      "statements": [
+        {
+          "type": "CompareSwapNode",
+          "idx1": {
+            "type": "ConstNode",
+            "value": 0
+          },
+          "idx2": {
+            "type": "ConstNode",
+            "value": 1
+          }
+        }
+      ]
+    },
+    "is_duplicate": true,
+    "is_best": false,
+    "metadata": {
+      "time_seconds": 0.008328676223754883,
+      "seed": 42
+    }
+  },
+  {
+    "id": 94,
+    "task_name": "sort_2",
+    "fitness": 99.66,
+    "steps_taken": 0,
+    "ast_depth": 3,
+    "generation": 6,
+    "timestamp": 1786257902.1827352,
+    "program_ast": {
+      "type": "ProgramNode",
+      "statements": [
+        {
+          "type": "CompareSwapNode",
+          "idx1": {
+            "type": "ConstNode",
+            "value": 0
+          },
+          "idx2": {
+            "type": "ConstNode",
+            "value": 1
+          }
+        }
+      ]
+    },
+    "is_duplicate": true,
+    "is_best": false,
+    "metadata": {
+      "time_seconds": 0.05502772331237793,
+      "seed": null
+    }
+  },
+  {
+    "id": 95,
+    "task_name": "sort_2",
+    "fitness": 99.66,
+    "steps_taken": 0,
+    "ast_depth": 3,
+    "generation": 4,
+    "timestamp": 1786257905.209608,
+    "program_ast": {
+      "type": "ProgramNode",
+      "statements": [
+        {
+          "type": "CompareSwapNode",
+          "idx1": {
+            "type": "ConstNode",
+            "value": 0
+          },
+          "idx2": {
+            "type": "ConstNode",
+            "value": 1
+          }
+        }
+      ]
+    },
+    "is_duplicate": true,
+    "is_best": false,
+    "metadata": {
+      "time_seconds": 0.009934663772583008,
+      "seed": null
+    }
+  },
+  {
+    "id": 96,
+    "task_name": "sort_2",
+    "fitness": 99.66,
+    "steps_taken": 0,
+    "ast_depth": 3,
+    "generation": 6,
+    "timestamp": 1786257908.800091,
+    "program_ast": {
+      "type": "ProgramNode",
+      "statements": [
+        {
+          "type": "CompareSwapNode",
+          "idx1": {
+            "type": "ConstNode",
+            "value": 0
+          },
+          "idx2": {
+            "type": "ConstNode",
+            "value": 1
+          }
+        }
+      ]
+    },
+    "is_duplicate": true,
+    "is_best": false,
+    "metadata": {
+      "time_seconds": 0.0208432674407959,
+      "seed": null
+    }
+  },
+  {
+    "id": 97,
+    "task_name": "sort_2",
+    "fitness": 99.66,
+    "steps_taken": 0,
+    "ast_depth": 3,
+    "generation": 6,
+    "timestamp": 1786257911.2836065,
+    "program_ast": {
+      "type": "ProgramNode",
+      "statements": [
+        {
+          "type": "CompareSwapNode",
+          "idx1": {
+            "type": "ConstNode",
+            "value": 0
+          },
+          "idx2": {
+            "type": "ConstNode",
+            "value": 1
+          }
+        }
+      ]
+    },
+    "is_duplicate": true,
+    "is_best": false,
+    "metadata": {
+      "time_seconds": 0.021396875381469727,
+      "seed": null
+    }
+  },
+  {
+    "id": 98,
+    "task_name": "sort_2",
+    "fitness": 99.66,
+    "steps_taken": 0,
+    "ast_depth": 3,
+    "generation": 2,
+    "timestamp": 1786257912.501832,
+    "program_ast": {
+      "type": "ProgramNode",
+      "statements": [
+        {
+          "type": "CompareSwapNode",
+          "idx1": {
+            "type": "ConstNode",
+            "value": 0
+          },
+          "idx2": {
+            "type": "ConstNode",
+            "value": 1
+          }
+        }
+      ]
+    },
+    "is_duplicate": true,
+    "is_best": false,
+    "metadata": {
+      "time_seconds": 0.009160280227661133,
+      "seed": null
+    }
+  },
+  {
+    "id": 99,
+    "task_name": "sort_2",
+    "fitness": 99.66,
+    "steps_taken": 0,
+    "ast_depth": 3,
+    "generation": 47,
+    "timestamp": 1786257913.5871158,
+    "program_ast": {
+      "type": "ProgramNode",
+      "statements": [
+        {
+          "type": "CompareSwapNode",
+          "idx1": {
+            "type": "ConstNode",
+            "value": 0
+          },
+          "idx2": {
+            "type": "ConstNode",
+            "value": 1
+          }
+        }
+      ]
+    },
+    "is_duplicate": true,
+    "is_best": false,
+    "metadata": {
+      "time_seconds": 0.2574920654296875,
+      "seed": null
+    }
+  },
+  {
+    "id": 100,
+    "task_name": "sort_2",
+    "fitness": 99.66,
+    "steps_taken": 0,
+    "ast_depth": 3,
+    "generation": 4,
+    "timestamp": 1786257914.260331,
+    "program_ast": {
+      "type": "ProgramNode",
+      "statements": [
+        {
+          "type": "CompareSwapNode",
+          "idx1": {
+            "type": "ConstNode",
+            "value": 0
+          },
+          "idx2": {
+            "type": "ConstNode",
+            "value": 1
+          }
+        }
+      ]
+    },
+    "is_duplicate": true,
+    "is_best": false,
+    "metadata": {
+      "time_seconds": 0.016056537628173828,
+      "seed": null
+    }
+  },
+  {
+    "id": 101,
+    "task_name": "sort_2",
+    "fitness": 99.66,
+    "steps_taken": 0,
+    "ast_depth": 3,
+    "generation": 6,
+    "timestamp": 1786257914.9794827,
+    "program_ast": {
+      "type": "ProgramNode",
+      "statements": [
+        {
+          "type": "CompareSwapNode",
+          "idx1": {
+            "type": "ConstNode",
+            "value": 0
+          },
+          "idx2": {
+            "type": "ConstNode",
+            "value": 1
+          }
+        }
+      ]
+    },
+    "is_duplicate": true,
+    "is_best": false,
+    "metadata": {
+      "time_seconds": 0.02460503578186035,
+      "seed": null
+    }
+  },
+  {
+    "id": 102,
+    "task_name": "sort_2",
+    "fitness": 99.66,
+    "steps_taken": 0,
+    "ast_depth": 3,
+    "generation": 42,
+    "timestamp": 1786257918.9051352,
+    "program_ast": {
+      "type": "ProgramNode",
+      "statements": [
+        {
+          "type": "CompareSwapNode",
+          "idx1": {
+            "type": "ConstNode",
+            "value": 0
+          },
+          "idx2": {
+            "type": "ConstNode",
+            "value": 1
+          }
+        }
+      ]
+    },
+    "is_duplicate": true,
+    "is_best": false,
+    "metadata": {
+      "time_seconds": 0.2888200283050537,
+      "seed": null
+    }
+  },
+  {
+    "id": 103,
+    "task_name": "sort_3",
+    "fitness": 99.6,
+    "steps_taken": 0,
+    "ast_depth": 3,
+    "generation": 50,
+    "timestamp": 1786257925.6494887,
+    "program_ast": {
+      "type": "ProgramNode",
+      "statements": [
+        {
+          "type": "CompareSwapNode",
+          "idx1": {
+            "type": "ConstNode",
+            "value": 0
+          },
+          "idx2": {
+            "type": "ConstNode",
+            "value": 2
+          }
+        },
+        {
+          "type": "CompareSwapNode",
+          "idx1": {
+            "type": "ConstNode",
+            "value": 0
+          },
+          "idx2": {
+            "type": "ConstNode",
+            "value": 1
+          }
+        },
+        {
+          "type": "CompareSwapNode",
+          "idx1": {
+            "type": "ConstNode",
+            "value": 1
+          },
+          "idx2": {
+            "type": "ConstNode",
+            "value": 2
+          }
+        }
+      ]
+    },
+    "is_duplicate": false,
+    "is_best": true,
+    "metadata": {
+      "time_seconds": 0.20850300788879395,
+      "seed": null
+    }
+  },
+  {
+    "id": 104,
+    "task_name": "sort_3",
+    "fitness": 99.6,
+    "steps_taken": 0,
+    "ast_depth": 3,
+    "generation": 50,
+    "timestamp": 1786257931.839047,
+    "program_ast": {
+      "type": "ProgramNode",
+      "statements": [
+        {
+          "type": "CompareSwapNode",
+          "idx1": {
+            "type": "ConstNode",
+            "value": 0
+          },
+          "idx2": {
+            "type": "ConstNode",
+            "value": 2
+          }
+        },
+        {
+          "type": "CompareSwapNode",
+          "idx1": {
+            "type": "ConstNode",
+            "value": 0
+          },
+          "idx2": {
+            "type": "ConstNode",
+            "value": 1
+          }
+        },
+        {
+          "type": "CompareSwapNode",
+          "idx1": {
+            "type": "ConstNode",
+            "value": 1
+          },
+          "idx2": {
+            "type": "ConstNode",
+            "value": 2
+          }
+        }
+      ]
+    },
+    "is_duplicate": true,
+    "is_best": true,
+    "metadata": {
+      "time_seconds": 0.2510721683502197,
+      "seed": null
+    }
+  },
+  {
+    "id": 105,
+    "task_name": "sort_3",
+    "fitness": 99.6,
+    "steps_taken": 0,
+    "ast_depth": 3,
+    "generation": 50,
+    "timestamp": 1786257933.1098998,
+    "program_ast": {
+      "type": "ProgramNode",
+      "statements": [
+        {
+          "type": "CompareSwapNode",
+          "idx1": {
+            "type": "ConstNode",
+            "value": 0
+          },
+          "idx2": {
+            "type": "ConstNode",
+            "value": 2
+          }
+        },
+        {
+          "type": "CompareSwapNode",
+          "idx1": {
+            "type": "ConstNode",
+            "value": 0
+          },
+          "idx2": {
+            "type": "ConstNode",
+            "value": 1
+          }
+        },
+        {
+          "type": "CompareSwapNode",
+          "idx1": {
+            "type": "ConstNode",
+            "value": 1
+          },
+          "idx2": {
+            "type": "ConstNode",
+            "value": 2
+          }
+        }
+      ]
+    },
+    "is_duplicate": true,
+    "is_best": true,
+    "metadata": {
+      "time_seconds": 0.21306061744689941,
+      "seed": null
+    }
+  },
+  {
+    "id": 106,
+    "task_name": "sort_3",
+    "fitness": 99.6,
+    "steps_taken": 0,
+    "ast_depth": 3,
+    "generation": 50,
+    "timestamp": 1786257934.0383966,
+    "program_ast": {
+      "type": "ProgramNode",
+      "statements": [
+        {
+          "type": "CompareSwapNode",
+          "idx1": {
+            "type": "ConstNode",
+            "value": 0
+          },
+          "idx2": {
+            "type": "ConstNode",
+            "value": 2
+          }
+        },
+        {
+          "type": "CompareSwapNode",
+          "idx1": {
+            "type": "ConstNode",
+            "value": 0
+          },
+          "idx2": {
+            "type": "ConstNode",
+            "value": 1
+          }
+        },
+        {
+          "type": "CompareSwapNode",
+          "idx1": {
+            "type": "ConstNode",
+            "value": 1
+          },
+          "idx2": {
+            "type": "ConstNode",
+            "value": 2
+          }
+        }
+      ]
+    },
+    "is_duplicate": true,
+    "is_best": true,
+    "metadata": {
+      "time_seconds": 0.21551918983459473,
+      "seed": null
+    }
+  },
+  {
+    "id": 107,
+    "task_name": "sort_3",
+    "fitness": 99.6,
+    "steps_taken": 0,
+    "ast_depth": 3,
+    "generation": 50,
+    "timestamp": 1786257934.6188357,
+    "program_ast": {
+      "type": "ProgramNode",
+      "statements": [
+        {
+          "type": "CompareSwapNode",
+          "idx1": {
+            "type": "ConstNode",
+            "value": 0
+          },
+          "idx2": {
+            "type": "ConstNode",
+            "value": 2
+          }
+        },
+        {
+          "type": "CompareSwapNode",
+          "idx1": {
+            "type": "ConstNode",
+            "value": 0
+          },
+          "idx2": {
+            "type": "ConstNode",
+            "value": 1
+          }
+        },
+        {
+          "type": "CompareSwapNode",
+          "idx1": {
+            "type": "ConstNode",
+            "value": 1
+          },
+          "idx2": {
+            "type": "ConstNode",
+            "value": 2
+          }
+        }
+      ]
+    },
+    "is_duplicate": true,
+    "is_best": true,
+    "metadata": {
+      "time_seconds": 0.20374798774719238,
+      "seed": null
+    }
+  },
+  {
+    "id": 108,
+    "task_name": "sort_3",
+    "fitness": 99.6,
+    "steps_taken": 0,
+    "ast_depth": 3,
+    "generation": 50,
+    "timestamp": 1786257935.2202225,
+    "program_ast": {
+      "type": "ProgramNode",
+      "statements": [
+        {
+          "type": "CompareSwapNode",
+          "idx1": {
+            "type": "ConstNode",
+            "value": 0
+          },
+          "idx2": {
+            "type": "ConstNode",
+            "value": 2
+          }
+        },
+        {
+          "type": "CompareSwapNode",
+          "idx1": {
+            "type": "ConstNode",
+            "value": 0
+          },
+          "idx2": {
+            "type": "ConstNode",
+            "value": 1
+          }
+        },
+        {
+          "type": "CompareSwapNode",
+          "idx1": {
+            "type": "ConstNode",
+            "value": 1
+          },
+          "idx2": {
+            "type": "ConstNode",
+            "value": 2
+          }
+        }
+      ]
+    },
+    "is_duplicate": true,
+    "is_best": true,
+    "metadata": {
+      "time_seconds": 0.21229982376098633,
+      "seed": null
+    }
+  },
+  {
+    "id": 109,
+    "task_name": "min_first",
+    "fitness": 82.9933,
+    "steps_taken": 0,
+    "ast_depth": 3,
+    "generation": 50,
+    "timestamp": 1786257944.5147433,
+    "program_ast": {
+      "type": "ProgramNode",
+      "statements": [
+        {
+          "type": "CompareSwapNode",
+          "idx1": {
+            "type": "ConstNode",
+            "value": 0
+          },
+          "idx2": {
+            "type": "ConstNode",
+            "value": 1
+          }
+        }
+      ]
+    },
+    "is_duplicate": false,
+    "is_best": true,
+    "metadata": {
+      "time_seconds": 0.1804659366607666,
+      "seed": null
+    }
+  },
+  {
+    "id": 110,
+    "task_name": "sort_4",
+    "fitness": 99.51,
+    "steps_taken": 0,
+    "ast_depth": 3,
+    "generation": 1,
+    "timestamp": 1786257950.3101802,
+    "program_ast": {
+      "type": "ProgramNode",
+      "statements": [
+        {
+          "type": "CompareSwapNode",
+          "idx1": {
+            "type": "ConstNode",
+            "value": 0
+          },
+          "idx2": {
+            "type": "ConstNode",
+            "value": 1
+          }
+        },
+        {
+          "type": "CompareSwapNode",
+          "idx1": {
+            "type": "ConstNode",
+            "value": 0
+          },
+          "idx2": {
+            "type": "ConstNode",
+            "value": 2
+          }
+        },
+        {
+          "type": "CompareSwapNode",
+          "idx1": {
+            "type": "ConstNode",
+            "value": 0
+          },
+          "idx2": {
+            "type": "ConstNode",
+            "value": 3
+          }
+        },
+        {
+          "type": "CompareSwapNode",
+          "idx1": {
+            "type": "ConstNode",
+            "value": 1
+          },
+          "idx2": {
+            "type": "ConstNode",
+            "value": 2
+          }
+        },
+        {
+          "type": "CompareSwapNode",
+          "idx1": {
+            "type": "ConstNode",
+            "value": 1
+          },
+          "idx2": {
+            "type": "ConstNode",
+            "value": 3
+          }
+        },
+        {
+          "type": "CompareSwapNode",
+          "idx1": {
+            "type": "ConstNode",
+            "value": 2
+          },
+          "idx2": {
+            "type": "ConstNode",
+            "value": 3
+          }
+        }
+      ]
+    },
+    "is_duplicate": false,
+    "is_best": true,
+    "metadata": {
+      "time_seconds": 0.0016129016876220703,
+      "seed": null
+    }
+  },
+  {
+    "id": 111,
+    "task_name": "reverse_3",
+    "fitness": 66.3267,
+    "steps_taken": 0,
+    "ast_depth": 3,
+    "generation": 50,
+    "timestamp": 1786257960.0131342,
+    "program_ast": {
+      "type": "ProgramNode",
+      "statements": [
+        {
+          "type": "CompareSwapNode",
+          "idx1": {
+            "type": "ConstNode",
+            "value": 0
+          },
+          "idx2": {
+            "type": "ConstNode",
+            "value": 2
+          }
+        }
+      ]
+    },
+    "is_duplicate": false,
+    "is_best": false,
+    "metadata": {
+      "time_seconds": 0.17407798767089844,
+      "seed": null
+    }
+  },
+  {
+    "id": 112,
+    "task_name": "sort_2",
+    "fitness": 99.66,
+    "steps_taken": 0,
+    "ast_depth": 3,
+    "generation": 2,
+    "timestamp": 1786257992.7793446,
+    "program_ast": {
+      "type": "ProgramNode",
+      "statements": [
+        {
+          "type": "CompareSwapNode",
+          "idx1": {
+            "type": "ConstNode",
+            "value": 0
+          },
+          "idx2": {
+            "type": "ConstNode",
+            "value": 1
+          }
+        }
+      ]
+    },
+    "is_duplicate": true,
+    "is_best": false,
+    "metadata": {
+      "time_seconds": 0.0,
+      "seed": 42
+    }
+  },
+  {
+    "id": 113,
+    "task_name": "bitonic_sort_6",
+    "fitness": 99.36,
+    "steps_taken": 0,
+    "ast_depth": 3,
+    "generation": 60,
+    "timestamp": 1786258174.1847491,
+    "program_ast": {
+      "type": "ProgramNode",
+      "statements": [
+        {
+          "type": "CompareSwapNode",
+          "idx1": {
+            "type": "ConstNode",
+            "value": 0
+          },
+          "idx2": {
+            "type": "ConstNode",
+            "value": 1
+          }
+        },
+        {
+          "type": "CompareSwapNode",
+          "idx1": {
+            "type": "ConstNode",
+            "value": 1
+          },
+          "idx2": {
+            "type": "ConstNode",
+            "value": 3
+          }
+        },
+        {
+          "type": "CompareSwapNode",
+          "idx1": {
+            "type": "ConstNode",
+            "value": 1
+          },
+          "idx2": {
+            "type": "ConstNode",
+            "value": 2
+          }
+        },
+        {
+          "type": "CompareSwapNode",
+          "idx1": {
+            "type": "ConstNode",
+            "value": 0
+          },
+          "idx2": {
+            "type": "ConstNode",
+            "value": 1
+          }
+        },
+        {
+          "type": "CompareSwapNode",
+          "idx1": {
+            "type": "ConstNode",
+            "value": 3
+          },
+          "idx2": {
+            "type": "ConstNode",
+            "value": 5
+          }
+        },
+        {
+          "type": "CompareSwapNode",
+          "idx1": {
+            "type": "ConstNode",
+            "value": 1
+          },
+          "idx2": {
+            "type": "ConstNode",
+            "value": 2
+          }
+        },
+        {
+          "type": "CompareSwapNode",
+          "idx1": {
+            "type": "ConstNode",
+            "value": 1
+          },
+          "idx2": {
+            "type": "ConstNode",
+            "value": 3
+          }
+        },
+        {
+          "type": "CompareSwapNode",
+          "idx1": {
+            "type": "ConstNode",
+            "value": 1
+          },
+          "idx2": {
+            "type": "ConstNode",
+            "value": 4
+          }
+        },
+        {
+          "type": "CompareSwapNode",
+          "idx1": {
+            "type": "ConstNode",
+            "value": 2
+          },
+          "idx2": {
+            "type": "ConstNode",
+            "value": 3
+          }
+        },
+        {
+          "type": "CompareSwapNode",
+          "idx1": {
+            "type": "ConstNode",
+            "value": 2
+          },
+          "idx2": {
+            "type": "ConstNode",
+            "value": 4
+          }
+        },
+        {
+          "type": "CompareSwapNode",
+          "idx1": {
+            "type": "ConstNode",
+            "value": 3
+          },
+          "idx2": {
+            "type": "ConstNode",
+            "value": 4
+          }
+        }
+      ]
+    },
+    "is_duplicate": false,
+    "is_best": false,
+    "metadata": {
+      "time_seconds": 0.6803390979766846,
+      "seed": null
+    }
+  }
+]
