@@ -338,3 +338,10 @@ input[type="range"] {
 .hidden { display: none !important; }
 .empty-state { text-align: center; padding: 40px 20px; color: var(--t3); font-size: 14px; }
 .empty-state i { font-size: 36px; display: block; margin-bottom: 12px; color: var(--peach); }
+
+/* Discovery table */
+.dtable { width: 100%; border-collapse: collapse; font-family: var(--mono); }
+.dtable th { font-size: 10px; color: var(--t3); text-transform: uppercase; letter-spacing: 0.8px; padding: 6px 8px; text-align: left; border-bottom: 1px solid var(--border); }
+.dtable td { padding: 5px 8px; border-bottom: 1px solid rgba(255,255,255,0.04); color: var(--t2); }
+.dtable tr:last-child td { border-bottom: none; }
+.dtable tr:hover td { background: rgba(255,255,255,0.02); }

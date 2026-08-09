@@ -655,6 +655,116 @@
       </div>
     </div>
 
+    <!-- ════════════ TRUE EVOLUTIONARY FORMULA DISCOVERY ════════════ -->
+    <div class="card" style="margin-bottom:18px;border:1px solid rgba(52,211,153,0.35)">
+      <div class="card-head">
+        <h3><i class="fa-solid fa-dna" style="color:var(--mint)"></i> 🔭 True Evolutionary Formula Discovery — Genuine AI Mathematical Research</h3>
+        <span class="badge b-ready" id="discovBadge">Ready</span>
+      </div>
+
+      <div style="background:rgba(52,211,153,0.06);border:1px solid rgba(52,211,153,0.18);border-radius:12px;padding:14px;margin-bottom:16px">
+        <p style="font-size:13px;color:var(--t1);line-height:1.65;margin:0">
+          This is the <strong>real deal</strong>. The AI starts with <em>zero knowledge</em> of the formula — no templates, no hints.
+          It evolves random symbolic expression trees (ASTs) using Genetic Programming, tests each one against real mathematical sequences,
+          scores by accuracy + cross-domain surprise (does it unexpectedly involve π, e, or φ?), and surfaces the best candidate laws.
+          <strong>Every run produces a genuinely unique formula that was never pre-programmed.</strong>
+        </p>
+      </div>
+
+      <div class="g2" style="margin-bottom:14px">
+        <div class="fg">
+          <div class="fl"><span class="fl-label">Target Sequence</span></div>
+          <select id="discovSeq" class="fs">
+            <option value="Prime Numbers">🔢 Prime Numbers (p₁,p₂,...)</option>
+            <option value="Fibonacci">🐚 Fibonacci Sequence</option>
+            <option value="Perfect Squares">⬛ Perfect Squares</option>
+            <option value="Triangular Numbers">🔺 Triangular Numbers</option>
+            <option value="Cube Numbers">🧊 Cube Numbers</option>
+            <option value="Catalan Numbers">🌿 Catalan Numbers</option>
+            <option value="Euler Totient">🔐 Euler's Totient φ(n)</option>
+            <option value="Twin Prime Gaps">♊ Twin Prime Gaps</option>
+            <option value="Factorial Mod 7">♾ Factorial mod 7</option>
+            <option value="Collatz Max">🌀 Collatz Max Values</option>
+          </select>
+        </div>
+        <div class="fg">
+          <div class="fl"><span class="fl-label">Population Size</span><span class="vp" id="discovPopV">80</span></div>
+          <input type="range" id="discovPop" min="30" max="200" step="10" value="80"
+            oninput="document.getElementById('discovPopV').textContent=this.value">
+        </div>
+      </div>
+
+      <div class="g2" style="margin-bottom:14px">
+        <div class="fg">
+          <div class="fl"><span class="fl-label">Generations</span><span class="vp" id="discovGenV">80</span></div>
+          <input type="range" id="discovGen" min="20" max="300" step="10" value="80"
+            oninput="document.getElementById('discovGenV').textContent=this.value">
+        </div>
+        <div style="display:flex;flex-direction:column;gap:8px;justify-content:flex-end">
+          <label style="font-size:12px;color:var(--t2);display:flex;gap:8px;align-items:center">
+            <input type="checkbox" id="discovLog"> Allow log( ) / ln( )
+          </label>
+          <label style="font-size:12px;color:var(--t2);display:flex;gap:8px;align-items:center">
+            <input type="checkbox" id="discovTrig"> Allow sin( ) / cos( )
+          </label>
+          <label style="font-size:12px;color:var(--t2);display:flex;gap:8px;align-items:center">
+            <input type="checkbox" id="discovPow" checked> Allow ^ (powers)
+          </label>
+        </div>
+      </div>
+
+      <div style="display:flex;gap:10px;margin-bottom:14px">
+        <button id="btnDiscover" class="btn btn-primary" style="flex:1;background:linear-gradient(135deg,#059669,#4F46E5);font-size:14px;padding:13px">
+          <i class="fa-solid fa-microscope"></i> Discover Novel Formula
+        </button>
+        <button id="btnStopDiscover" class="btn btn-ghost" style="padding:13px 18px">
+          <i class="fa-solid fa-stop"></i> Stop
+        </button>
+      </div>
+
+      <!-- Progress -->
+      <div class="prog" style="margin-bottom:8px"><div id="discovProgFill" class="prog-fill" style="background:linear-gradient(90deg,#059669,#4F46E5);width:0%"></div></div>
+      <div id="discovProgress" style="font-size:12px;color:var(--t3);font-family:var(--mono);margin-bottom:10px;min-height:16px"></div>
+
+      <!-- Live display -->
+      <div style="background:rgba(0,0,0,0.15);border-radius:10px;padding:12px;margin-bottom:12px;display:flex;gap:20px;flex-wrap:wrap;align-items:center">
+        <div><span style="font-size:11px;color:var(--t3)">CURRENT BEST</span><br><span id="discovFormula" style="font-family:var(--mono);font-size:14px;color:var(--mint)">—</span></div>
+        <div><span style="font-size:11px;color:var(--t3)">FITNESS</span><br><span id="discovFitness" style="font-size:18px;font-weight:900;color:var(--peach)">—</span></div>
+      </div>
+
+      <!-- Evolution chart -->
+      <div class="chart-box" style="margin-bottom:18px"><canvas id="chartDiscovery"></canvas></div>
+
+      <!-- RESULT PANEL -->
+      <div id="discovResultPanel" class="hidden">
+        <div style="background:linear-gradient(135deg,rgba(5,150,105,0.1),rgba(79,70,229,0.1));border:1px solid rgba(52,211,153,0.35);border-radius:16px;padding:20px;margin-bottom:14px">
+          <div style="font-size:10px;letter-spacing:2px;color:var(--t3);margin-bottom:8px">EVOLUTIONARY DISCOVERY REPORT</div>
+          <div id="discovName" style="font-size:17px;font-weight:800;color:var(--mint);margin-bottom:6px"></div>
+          <div style="font-size:12px;color:var(--t3);margin-bottom:12px">Sequence: <span id="discovSeqLabel" style="color:var(--sky)"></span></div>
+          <div id="discovFormulaFinal" style="font-family:var(--mono);font-size:18px;color:var(--sky);background:rgba(0,0,0,0.25);padding:12px 16px;border-radius:10px;margin-bottom:14px"></div>
+          <div style="display:flex;gap:14px;flex-wrap:wrap;margin-bottom:12px">
+            <span id="discovR2" style="font-size:12px;background:rgba(52,211,153,0.1);color:var(--mint);border:1px solid rgba(52,211,153,0.3);padding:4px 10px;border-radius:20px"></span>
+            <span id="discovNov" style="font-size:12px;background:rgba(251,146,60,0.1);color:var(--peach);border:1px solid rgba(251,146,60,0.3);padding:4px 10px;border-radius:20px"></span>
+            <span id="discovDepth" style="font-size:12px;background:rgba(129,140,248,0.1);color:var(--indigo);border:1px solid rgba(129,140,248,0.3);padding:4px 10px;border-radius:20px"></span>
+            <span id="discovOps" style="font-size:12px;color:var(--t3)"></span>
+          </div>
+          <div style="margin-bottom:12px">
+            <div style="font-size:11px;color:var(--t3);margin-bottom:6px">VERIFICATION SAMPLES</div>
+            <table class="dtable" style="font-size:11.5px">
+              <thead><tr><th>n</th><th>Actual</th><th>Predicted</th><th>Error</th></tr></thead>
+              <tbody id="discovSamples"></tbody>
+            </table>
+          </div>
+          <div id="discovExplain" style="font-size:13px;color:var(--t1);line-height:1.7;border-top:1px solid rgba(255,255,255,0.07);padding-top:12px"></div>
+        </div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap">
+          <button class="btn btn-ghost" onclick="copyDiscovery()"><i class="fa-solid fa-copy"></i> Copy Report</button>
+          <button class="btn btn-ghost" onclick="exportDiscovery()"><i class="fa-solid fa-download"></i> Download .txt</button>
+          <button class="btn btn-ghost" onclick="document.getElementById('btnDiscover').click()"><i class="fa-solid fa-rotate"></i> Discover Again</button>
+        </div>
+      </div>
+    </div>
+
   </div>
 
 </main>
@@ -662,6 +772,7 @@
 
 <script src="engine.js"></script>
 <script src="theory.js"></script>
+<script src="discovery.js"></script>
 <script src="app.js"></script>
 </body>
 </html>
