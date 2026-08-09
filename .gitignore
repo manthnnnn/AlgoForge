@@ -5,6 +5,15 @@ __pycache__/
 .env
 .DS_Store
 *.log
+
+# Generated files — do not commit
 program_archive.json
 benchmark_archive.json
+*.db
+
+# Dev / scratch
+scratch/
+experiments/
+
+# Build
 public/config.js

@@ -10,7 +10,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
-<link rel="stylesheet" href="styles.css?v=6.0">
+<link rel="stylesheet" href="styles.css?v=7.0">
 </head>
 <body>
 <canvas id="confetti-canvas"></canvas>
@@ -36,10 +36,10 @@
       </label>
       <select id="taskSelect" class="fs"></select>
     </div>
-    <div id="taskDesc" style="background:rgba(255,255,255,0.025);border:1px solid rgba(255,255,255,0.08);border-radius:12px;padding:10px 13px;font-size:12px;color:var(--t2);line-height:1.55;margin-bottom:8px;min-height:46px;">
+    <div id="taskDesc" class="task-desc-box">
       Select a task to see details.
     </div>
-    <div id="taskMeta" style="margin-bottom:4px;display:flex;gap:7px;align-items:center;flex-wrap:wrap;"></div>
+    <div id="taskMeta" style="margin-bottom:4px;display:flex;gap:7px;align-items:center;flex-wrap:wrap"></div>
   </div>
 
   <!-- EVOLUTION TUNING -->
@@ -97,13 +97,13 @@
     <div class="fg">
       <div class="fl">
         <span class="fl-label">Random Seed</span>
-        <span style="font-size:10px;color:var(--t3)">0 = random</span>
+        <span class="m-sub" style="margin-top:0">0 = random</span>
       </div>
       <div class="seed-row">
         <input type="number" id="seedVal" class="fi" value="0" min="0">
         <button id="btnDice" class="dice-btn" title="Roll new random seed"><i class="fa-solid fa-dice"></i></button>
       </div>
-      <div class="hint" id="seedTip">🎲 <strong>Seed 0</strong> = unique discovery every run!</div>
+      <div class="hint" id="seedTip"><strong>Seed 0</strong> = unique discovery every run!</div>
     </div>
   </div>
 
@@ -116,17 +116,17 @@
     </button>
     <div class="cv-body">
       <div class="cv-kpi-row">
-        <div class="cv-kpi"><span class="cv-kpi-val" style="color:var(--mint)">6</span><span class="cv-kpi-lab">Modules</span></div>
-        <div class="cv-kpi"><span class="cv-kpi-val" style="color:var(--sky)">16</span><span class="cv-kpi-lab">Real Runs</span></div>
-        <div class="cv-kpi"><span class="cv-kpi-val" style="color:var(--peach)">2.7×</span><span class="cv-kpi-lab">Speedup</span></div>
-        <div class="cv-kpi"><span class="cv-kpi-val" style="color:var(--violet)">100%</span><span class="cv-kpi-lab">Reprod.</span></div>
+        <div class="cv-kpi"><span class="cv-kpi-val kv-success">6</span><span class="cv-kpi-lab">Modules</span></div>
+        <div class="cv-kpi"><span class="cv-kpi-val kv-info">16</span><span class="cv-kpi-lab">Real Runs</span></div>
+        <div class="cv-kpi"><span class="cv-kpi-val kv-warning">2.7×</span><span class="cv-kpi-lab">Speedup</span></div>
+        <div class="cv-kpi"><span class="cv-kpi-val kv-violet">100%</span><span class="cv-kpi-lab">Reprod.</span></div>
       </div>
-      <div class="cv-line"><span class="cv-dot" style="background:var(--mint)"></span><span><strong>Genetic Programming</strong> — AST evolution, tournament selection, crossover, mutation, elitism</span></div>
-      <div class="cv-line"><span class="cv-dot" style="background:var(--sky)"></span><span><strong>Formal Verification</strong> — Knuth 0-1 Principle, exhaustive binary input testing</span></div>
-      <div class="cv-line"><span class="cv-dot" style="background:var(--peach)"></span><span><strong>Memetic Repair</strong> — hybrid local search, guaranteed convergence for N≤6</span></div>
-      <div class="cv-line"><span class="cv-dot" style="background:var(--violet)"></span><span><strong>Algorithmic Memory</strong> — strategy extraction, transfer learning, SQLite archive</span></div>
-      <div class="cv-line"><span class="cv-dot" style="background:#A5B4FC"></span><span><strong>Ablation Study</strong> — 5-tier controlled experiments, 16 recorded artifacts</span></div>
-      <div class="cv-line"><span class="cv-dot" style="background:var(--sky)"></span><span><strong>AlphaDev parallel</strong> — same AST search principle as DeepMind Nature 2023</span></div>
+      <div class="cv-line"><span class="cv-dot"></span><span><strong>Genetic Programming</strong> — AST evolution, tournament selection, crossover, mutation, elitism</span></div>
+      <div class="cv-line"><span class="cv-dot"></span><span><strong>Formal Verification</strong> — Knuth 0-1 Principle, exhaustive binary input testing</span></div>
+      <div class="cv-line"><span class="cv-dot"></span><span><strong>Memetic Repair</strong> — hybrid local search, guaranteed convergence for N≤6</span></div>
+      <div class="cv-line"><span class="cv-dot"></span><span><strong>Algorithmic Memory</strong> — strategy extraction, transfer learning, SQLite archive</span></div>
+      <div class="cv-line"><span class="cv-dot"></span><span><strong>Ablation Study</strong> — 5-tier controlled experiments, 16 recorded artifacts</span></div>
+      <div class="cv-line"><span class="cv-dot"></span><span><strong>AlphaDev parallel</strong> — same AST search principle as DeepMind Nature 2023</span></div>
       <div class="cv-tags">
         <span class="cv-tag">Vanilla JS</span>
         <span class="cv-tag">Python 3.11</span>
@@ -143,7 +143,7 @@
 
   <!-- FOOTER -->
   <div style="margin-top:auto;padding-top:14px;border-top:1px solid var(--border)">
-    <button id="btnInvent" class="btn btn-primary btn-block" style="font-size:15px;padding:14px 18px">
+    <button id="btnInvent" class="btn btn-primary btn-block" style="font-size:15px;padding:13px 18px">
       <i class="fa-solid fa-wand-magic-sparkles"></i> Invent Algorithm
     </button>
   </div>
@@ -160,15 +160,15 @@
     </div>
     <div class="top-stats">
       <div class="top-stat">
-        <div class="top-stat-val" id="tsTotal" style="color:var(--sky)">—</div>
+        <div class="top-stat-val" id="tsTotal">—</div>
         <div class="top-stat-lab">Total Runs</div>
       </div>
       <div class="top-stat">
-        <div class="top-stat-val" id="tsNovel" style="color:var(--mint)">—</div>
+        <div class="top-stat-val" id="tsNovel">—</div>
         <div class="top-stat-lab">Novel Discoveries</div>
       </div>
       <div class="top-stat">
-        <div class="top-stat-val" id="tsBest" style="color:var(--peach)">—%</div>
+        <div class="top-stat-val" id="tsBest">—%</div>
         <div class="top-stat-lab">Best Fitness</div>
       </div>
     </div>
@@ -180,17 +180,17 @@
     <button class="tab on" data-tab="t-lab">
       <i class="fa-solid fa-flask-vial"></i> Discovery Lab
     </button>
-    <button class="tab" data-tab="t-ai" style="background:linear-gradient(135deg,rgba(139,92,246,0.2),rgba(59,130,246,0.2));border:1px solid rgba(139,92,246,0.4);color:#a78bfa">
-      <i class="fa-solid fa-wand-sparkles"></i> ✨ AI Task Builder
+    <button class="tab" data-tab="t-ai">
+      <i class="fa-solid fa-wand-sparkles"></i> AI Task Builder
     </button>
-    <button class="tab" data-tab="t-research" style="background:linear-gradient(135deg,rgba(2,132,199,0.25),rgba(52,211,153,0.25));border:1.5px solid rgba(56,189,248,0.5);color:#38BDF8">
-      <i class="fa-solid fa-microscope"></i> 🧪 Research Lab
+    <button class="tab" data-tab="t-research">
+      <i class="fa-solid fa-microscope"></i> Research Lab
     </button>
     <button class="tab" data-tab="t-memory">
-      <i class="fa-solid fa-brain"></i> 🧠 Algorithmic Memory
+      <i class="fa-solid fa-brain"></i> Algorithmic Memory
     </button>
     <button class="tab" data-tab="t-theory">
-      <i class="fa-solid fa-atom"></i> ⚡ Theory Forge
+      <i class="fa-solid fa-atom"></i> Theory Forge
     </button>
     <button class="tab" data-tab="t-anim">
       <i class="fa-solid fa-film"></i> Step Animator
@@ -410,11 +410,11 @@
   <div id="t-ai" class="tab-body">
 
     <!-- Hero -->
-    <div style="background:linear-gradient(135deg,rgba(139,92,246,0.1),rgba(59,130,246,0.1));border:1px solid rgba(139,92,246,0.25);border-radius:14px;padding:20px 24px;margin-bottom:18px;display:flex;gap:16px;align-items:flex-start">
-      <div style="font-size:32px;line-height:1">✨</div>
-      <div>
-        <h3 style="font-size:17px;font-weight:700;color:var(--t1);margin-bottom:5px">AI-Powered Algorithm Synthesis</h3>
-        <p style="font-size:13px;color:var(--t2);line-height:1.65;max-width:680px">Describe in plain English what you want an algorithm to do. <strong style="color:var(--t1)">Groq AI (Llama 3.1 70B)</strong> converts your description into precise test cases, then the <strong style="color:var(--t1)">Genetic Programming engine</strong> evolves a real algorithm that satisfies them. The AI writes zero algorithm code — it only defines the goal. The algorithm is 100% discovered by evolution.</p>
+    <div class="hero-banner hb-accent">
+      <div class="hero-banner-icon"><i class="fa-solid fa-wand-sparkles" style="font-size:28px;color:var(--accent)"></i></div>
+      <div class="hero-banner-body">
+        <h3>AI-Powered Algorithm Synthesis</h3>
+        <p>Describe in plain English what you want an algorithm to do. <strong>Groq AI (Llama 3.1 70B)</strong> converts your description into precise test cases, then the <strong>Genetic Programming engine</strong> evolves a real algorithm that satisfies them. The AI writes zero algorithm code — it only defines the goal. The algorithm is 100% discovered by evolution.</p>
       </div>
     </div>
 
@@ -456,7 +456,7 @@
             <i class="fa-solid fa-wand-sparkles"></i> Generate Task with AI
           </button>
 
-          <div id="aiError" class="hidden" style="margin-top:10px;padding:10px 12px;background:rgba(239,68,68,0.1);border:1px solid rgba(239,68,68,0.25);border-radius:8px;font-size:12px;color:#f87171"></div>
+          <div id="aiError" class="hidden ai-error-box"></div>
         </div>
 
         <!-- AI Suggested Variations -->
@@ -494,7 +494,7 @@
               <div style="font-size:10px;font-weight:600;color:var(--t3);text-transform:uppercase;letter-spacing:0.8px;margin-bottom:6px">Test Cases (AI Generated)</div>
               <div id="aiTestCases" style="display:flex;flex-direction:column;gap:5px"></div>
             </div>
-            <div id="aiHint" style="font-size:12px;color:var(--t3);padding:8px 10px;background:var(--bg-hover);border-radius:6px;border-left:2px solid var(--border);margin-bottom:14px"></div>
+            <div id="aiHint" class="ai-hint-box"></div>
 
             <button id="btnAiEvolve" class="btn btn-primary btn-block" style="font-size:14px;padding:12px">
               <i class="fa-solid fa-dna"></i> Evolve Algorithm for This Task
@@ -653,11 +653,11 @@
   <div id="t-howto" class="tab-body">
 
     <!-- Hero -->
-    <div style="background:linear-gradient(135deg,rgba(2,132,199,0.15),rgba(129,140,248,0.15));border:1px solid rgba(56,189,248,0.25);border-radius:18px;padding:24px 28px;margin-bottom:20px;display:flex;gap:18px;align-items:flex-start">
-      <div style="font-size:40px;line-height:1">🔬</div>
-      <div>
-        <h2 style="color:var(--sky);font-size:20px;margin-bottom:6px">ALGOFORGE — Technical Architecture</h2>
-        <p style="font-size:13.5px;color:var(--t2);line-height:1.7;max-width:720px">A browser-native Genetic Programming engine for automated algorithm synthesis. Discovers, names, formally verifies, and exports novel algorithms as executable code — running entirely client-side with no cloud inference. Architecturally parallel to Google DeepMind's <strong>AlphaDev</strong> (Nature, 2023) at the fixed-N comparator network scale.</p>
+    <div class="hero-banner hb-howto" style="padding:24px 28px;margin-bottom:20px">
+      <div class="hero-banner-icon"><i class="fa-solid fa-microscope" style="font-size:32px;color:var(--accent)"></i></div>
+      <div class="hero-banner-body">
+        <h2 style="font-size:20px;margin-bottom:6px">ALGOFORGE — Technical Architecture</h2>
+        <p style="font-size:13.5px;line-height:1.7;max-width:720px">A browser-native Genetic Programming engine for automated algorithm synthesis. Discovers, names, formally verifies, and exports novel algorithms as executable code — running entirely client-side with no cloud inference. Architecturally parallel to Google DeepMind's <strong>AlphaDev</strong> (Nature, 2023) at the fixed-N comparator network scale.</p>
       </div>
     </div>
 
@@ -669,45 +669,45 @@
       </div>
       <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:14px;margin-top:4px">
 
-        <div style="background:rgba(2,132,199,0.07);border:1px solid rgba(2,132,199,0.22);border-radius:14px;padding:16px">
-          <div style="font-size:11px;letter-spacing:1.5px;color:var(--indigo);margin-bottom:8px;font-weight:700">MODULE 1 — AST REPRESENTATION</div>
-          <p style="font-size:12.5px;color:var(--t1);line-height:1.65">Programs are encoded as <strong>Abstract Syntax Trees</strong> with typed nodes: <code>CompareSwapNode</code>, <code>SwapNode</code>, <code>ReverseRangeNode</code>, <code>LoopNode</code>, <code>IfNode</code>, <code>BinaryOpNode</code>. Each node is independently cloneable and mutable — enabling crossover at any point in the tree.</p>
-          <div style="margin-top:10px;font-family:var(--mono);font-size:11px;color:var(--sky);background:rgba(0,0,0,0.2);padding:8px 10px;border-radius:8px;line-height:1.6">ProgramNode<br>├── CompareSwap(0, 3)<br>├── CompareSwap(1, 2)<br>└── LoopNode(i, 0, n)<br>&nbsp;&nbsp;&nbsp;&nbsp;└── CompareSwap(i, i+1)</div>
+        <div class="module-card">
+          <div class="module-card-label mc-accent">MODULE 1 — AST REPRESENTATION</div>
+          <p>Programs are encoded as <strong>Abstract Syntax Trees</strong> with typed nodes: <code>CompareSwapNode</code>, <code>SwapNode</code>, <code>ReverseRangeNode</code>, <code>LoopNode</code>, <code>IfNode</code>, <code>BinaryOpNode</code>. Each node is independently cloneable and mutable — enabling crossover at any point in the tree.</p>
+          <div style="margin-top:10px;font-family:var(--mono);font-size:11px;color:var(--info);background:var(--bg-deep);padding:8px 10px;border-radius:8px;line-height:1.6;border:1px solid var(--border)">ProgramNode<br>&boxvr;&mdash; CompareSwap(0, 3)<br>&boxvr;&mdash; CompareSwap(1, 2)<br>&boxur;&mdash; LoopNode(i, 0, n)<br>&nbsp;&nbsp;&nbsp;&nbsp;&boxur;&mdash; CompareSwap(i, i+1)</div>
         </div>
 
-        <div style="background:rgba(52,211,153,0.07);border:1px solid rgba(52,211,153,0.22);border-radius:14px;padding:16px">
-          <div style="font-size:11px;letter-spacing:1.5px;color:var(--mint);margin-bottom:8px;font-weight:700">MODULE 2 — GENETIC ENGINE</div>
-          <p style="font-size:12.5px;color:var(--t1);line-height:1.65">Population-based GP with <strong>Mulberry32 seeded PRNG</strong> for full reproducibility. Selection: tournament (k=2). Crossover: single-point subtree exchange. Mutation: node add/remove/replace. Elitism: top 10% preserved each generation. Fitness: element-wise accuracy minus step-count and depth penalties.</p>
+        <div class="module-card">
+          <div class="module-card-label mc-success">MODULE 2 — GENETIC ENGINE</div>
+          <p>Population-based GP with <strong>Mulberry32 seeded PRNG</strong> for full reproducibility. Selection: tournament (k=2). Crossover: single-point subtree exchange. Mutation: node add/remove/replace. Elitism: top 10% preserved each generation. Fitness: element-wise accuracy minus step-count and depth penalties.</p>
           <div style="margin-top:10px;display:grid;grid-template-columns:1fr 1fr;gap:6px;font-size:11px;color:var(--t2)">
-            <span><strong style="color:var(--mint)">Pop:</strong> 30–120</span>
-            <span><strong style="color:var(--mint)">Gen:</strong> 30–200</span>
-            <span><strong style="color:var(--mint)">Mut:</strong> 0.25–0.35</span>
-            <span><strong style="color:var(--mint)">Crs:</strong> 0.65–0.70</span>
+            <span><strong style="color:var(--success)">Pop:</strong> 30–120</span>
+            <span><strong style="color:var(--success)">Gen:</strong> 30–200</span>
+            <span><strong style="color:var(--success)">Mut:</strong> 0.25–0.35</span>
+            <span><strong style="color:var(--success)">Crs:</strong> 0.65–0.70</span>
           </div>
         </div>
 
-        <div style="background:rgba(56,189,248,0.07);border:1px solid rgba(56,189,248,0.22);border-radius:14px;padding:16px">
-          <div style="font-size:11px;letter-spacing:1.5px;color:var(--sky);margin-bottom:8px;font-weight:700">MODULE 3 — MEMETIC REPAIR</div>
-          <p style="font-size:12.5px;color:var(--t1);line-height:1.65">If GP plateaus below 95% fitness, a <strong>local repair pass</strong> activates. For sorting tasks: identifies all failing (i,j) pairs in the output, injects exactly the missing comparators, and re-evaluates. Falls back to structured bubble-sort network if needed. Guarantees convergence for well-defined sorting tasks.</p>
-          <div style="margin-top:10px;font-size:11px;color:var(--sky)">Repair trigger: fitness &lt; 95% after final generation</div>
+        <div class="module-card">
+          <div class="module-card-label mc-info">MODULE 3 — MEMETIC REPAIR</div>
+          <p>If GP plateaus below 95% fitness, a <strong>local repair pass</strong> activates. For sorting tasks: identifies all failing (i,j) pairs in the output, injects exactly the missing comparators, and re-evaluates. Falls back to structured bubble-sort network if needed. Guarantees convergence for well-defined sorting tasks.</p>
+          <div style="margin-top:10px;font-size:11px;color:var(--info)">Repair trigger: fitness &lt; 95% after final generation</div>
         </div>
 
-        <div style="background:rgba(129,140,248,0.07);border:1px solid rgba(129,140,248,0.22);border-radius:14px;padding:16px">
-          <div style="font-size:11px;letter-spacing:1.5px;color:var(--violet);margin-bottom:8px;font-weight:700">MODULE 4 — FORMAL VERIFICATION</div>
-          <p style="font-size:12.5px;color:var(--t1);line-height:1.65">Uses <strong>Knuth's 0-1 Principle (1968)</strong>: a compare-swap network that correctly sorts all 2ⁿ binary (0/1) inputs is provably correct for all real-valued inputs. ALGOFORGE exhaustively tests all binary vectors for N ≤ 6, providing a mathematical correctness certificate — not just empirical test passing.</p>
-          <div style="margin-top:10px;font-size:11px;color:var(--violet)">Verified for: sort_2 (4 inputs), sort_3 (8), sort_4 (16), sort_6 (64)</div>
+        <div class="module-card">
+          <div class="module-card-label mc-violet">MODULE 4 — FORMAL VERIFICATION</div>
+          <p>Uses <strong>Knuth's 0-1 Principle (1968)</strong>: a compare-swap network that correctly sorts all 2ⁿ binary (0/1) inputs is provably correct for all real-valued inputs. ALGOFORGE exhaustively tests all binary vectors for N ≤ 6, providing a mathematical correctness certificate — not just empirical test passing.</p>
+          <div style="margin-top:10px;font-size:11px;color:#a78bfa">Verified for: sort_2 (4 inputs), sort_3 (8), sort_4 (16), sort_6 (64)</div>
         </div>
 
-        <div style="background:rgba(245,158,11,0.07);border:1px solid rgba(245,158,11,0.22);border-radius:14px;padding:16px">
-          <div style="font-size:11px;letter-spacing:1.5px;color:var(--peach);margin-bottom:8px;font-weight:700">MODULE 5 — ALGORITHMIC MEMORY</div>
-          <p style="font-size:12.5px;color:var(--t1);line-height:1.65">The Python backend extracts <strong>structural subtree strategies</strong> from successful programs and stores them in SQLite. On new tasks, the memory retriever injects high-fitness subtrees into the initial population — giving evolution a head start. Measured 63% mean reduction in evaluations-to-solution vs memoryless baseline (sort_2, seeds 42+101).</p>
-          <div style="margin-top:10px;font-size:11px;color:var(--peach)">Live data: 3 strategies | 4 transfer attempts | 75% success rate</div>
+        <div class="module-card">
+          <div class="module-card-label mc-warning">MODULE 5 — ALGORITHMIC MEMORY</div>
+          <p>The Python backend extracts <strong>structural subtree strategies</strong> from successful programs and stores them in SQLite. On new tasks, the memory retriever injects high-fitness subtrees into the initial population — giving evolution a head start. Measured 63% mean reduction in evaluations-to-solution vs memoryless baseline (sort_2, seeds 42+101).</p>
+          <div style="margin-top:10px;font-size:11px;color:var(--warning)">Live data: 3 strategies | 4 transfer attempts | 75% success rate</div>
         </div>
 
-        <div style="background:rgba(99,102,241,0.07);border:1px solid rgba(99,102,241,0.22);border-radius:14px;padding:16px">
-          <div style="font-size:11px;letter-spacing:1.5px;color:#A5B4FC;margin-bottom:8px;font-weight:700">MODULE 6 — NOVELTY DETECTION</div>
-          <p style="font-size:12.5px;color:var(--t1);line-height:1.65">Each discovered program is serialized to a canonical JSON AST string and compared against the <strong>localStorage run history</strong> (client-side) or SQLite archive (Python backend). Structural duplicates are flagged; genuinely new topologies trigger the novelty banner and confetti. Hall of Fame stores the best-per-task fitness record.</p>
-          <div style="margin-top:10px;font-size:11px;color:#A5B4FC">Persistent across sessions via localStorage (200 run cap)</div>
+        <div class="module-card">
+          <div class="module-card-label" style="color:#a78bfa">MODULE 6 — NOVELTY DETECTION</div>
+          <p>Each discovered program is serialized to a canonical JSON AST string and compared against the <strong>localStorage run history</strong> (client-side) or SQLite archive (Python backend). Structural duplicates are flagged; genuinely new topologies trigger the novelty banner. Hall of Fame stores the best-per-task fitness record.</p>
+          <div style="margin-top:10px;font-size:11px;color:#a78bfa">Persistent across sessions via localStorage (200 run cap)</div>
         </div>
 
       </div>
@@ -719,8 +719,8 @@
         <h3><i class="fa-solid fa-brain" style="color:var(--peach)"></i> AlphaDev Connection &amp; Honest Scope</h3>
       </div>
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
-        <div style="background:rgba(245,158,11,0.07);border:1px solid rgba(245,158,11,0.2);border-radius:14px;padding:16px">
-          <div style="font-size:12px;font-weight:700;color:var(--peach);margin-bottom:10px">🔬 Google DeepMind AlphaDev (Nature, 2023)</div>
+        <div class="compare-card">
+          <div class="compare-card-title" style="color:var(--warning)">Google DeepMind AlphaDev (Nature, 2023)</div>
           <ul style="font-size:12px;color:var(--t2);line-height:1.9;padding-left:16px">
             <li>Reinforcement Learning (AlphaZero-style)</li>
             <li>Operates on x86 assembly instruction sequences</li>
@@ -729,8 +729,8 @@
             <li>Verified by Google's production compiler team</li>
           </ul>
         </div>
-        <div style="background:rgba(56,189,248,0.07);border:1px solid rgba(56,189,248,0.2);border-radius:14px;padding:16px">
-          <div style="font-size:12px;font-weight:700;color:var(--sky);margin-bottom:10px">⚡ ALGOFORGE (This Project)</div>
+        <div class="compare-card">
+          <div class="compare-card-title" style="color:var(--accent)">ALGOFORGE (This Project)</div>
           <ul style="font-size:12px;color:var(--t2);line-height:1.9;padding-left:16px">
             <li>Genetic Programming (evolutionary search)</li>
             <li>Operates on typed AST node sequences</li>
@@ -741,8 +741,8 @@
           </ul>
         </div>
       </div>
-      <div style="margin-top:12px;padding:12px 14px;background:rgba(52,211,153,0.06);border:1px solid rgba(52,211,153,0.2);border-radius:10px;font-size:12.5px;color:var(--t1);line-height:1.65">
-        <strong style="color:var(--mint)">Shared Principle:</strong> Both systems treat algorithm synthesis as a discrete combinatorial search over a program space, evaluated against correctness criteria. AlphaDev operates at hardware scale; ALGOFORGE demonstrates the same fundamental approach entirely in a browser — a valid research prototype of the same paradigm.
+      <div class="shared-principle-box">
+        <strong>Shared Principle:</strong> Both systems treat algorithm synthesis as a discrete combinatorial search over a program space, evaluated against correctness criteria. AlphaDev operates at hardware scale; ALGOFORGE demonstrates the same fundamental approach entirely in a browser — a valid research prototype of the same paradigm.
       </div>
     </div>
 
@@ -773,21 +773,21 @@
         <span class="badge b-done">16 Recorded Runs</span>
       </div>
       <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:10px;margin-bottom:14px">
-        <div style="text-align:center;background:rgba(52,211,153,0.07);border:1px solid rgba(52,211,153,0.2);border-radius:10px;padding:12px">
-          <div style="font-size:26px;font-weight:900;color:var(--mint)">87.5%</div>
-          <div style="font-size:11px;color:var(--t3)">Overall Success Rate</div>
+        <div class="m-card" style="flex-direction:column;text-align:center;padding:14px">
+          <div class="hof-fitness perfect" style="font-size:22px">87.5%</div>
+          <div class="m-sub">Overall Success Rate</div>
         </div>
-        <div style="text-align:center;background:rgba(56,189,248,0.07);border:1px solid rgba(56,189,248,0.2);border-radius:10px;padding:12px">
-          <div style="font-size:26px;font-weight:900;color:var(--sky)">2.7×</div>
-          <div style="font-size:11px;color:var(--t3)">GP Speedup vs Random Search</div>
+        <div class="m-card" style="flex-direction:column;text-align:center;padding:14px">
+          <div class="hof-fitness good" style="font-size:22px">2.7×</div>
+          <div class="m-sub">GP Speedup vs Random Search</div>
         </div>
-        <div style="text-align:center;background:rgba(129,140,248,0.07);border:1px solid rgba(129,140,248,0.2);border-radius:10px;padding:12px">
-          <div style="font-size:26px;font-weight:900;color:var(--violet)">99.6%</div>
-          <div style="font-size:11px;color:var(--t3)">Peak Fitness (sort tasks)</div>
+        <div class="m-card" style="flex-direction:column;text-align:center;padding:14px">
+          <div class="hof-fitness good" style="font-size:22px">99.6%</div>
+          <div class="m-sub">Peak Fitness (sort tasks)</div>
         </div>
-        <div style="text-align:center;background:rgba(245,158,11,0.07);border:1px solid rgba(245,158,11,0.2);border-radius:10px;padding:12px">
-          <div style="font-size:26px;font-weight:900;color:var(--peach)">100%</div>
-          <div style="font-size:11px;color:var(--t3)">Deterministic Reproducibility</div>
+        <div class="m-card" style="flex-direction:column;text-align:center;padding:14px">
+          <div class="hof-fitness perfect" style="font-size:22px">100%</div>
+          <div class="m-sub">Deterministic Reproducibility</div>
         </div>
       </div>
     </div>
@@ -798,71 +798,71 @@
         <h3><i class="fa-solid fa-layer-group" style="color:var(--sky)"></i> Full Technology Stack</h3>
       </div>
       <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px">
-        <div style="border:1px solid var(--border);border-radius:12px;padding:14px">
-          <div style="font-size:11px;font-weight:700;color:var(--sky);margin-bottom:8px">FRONTEND</div>
-          <ul style="font-size:12px;color:var(--t2);line-height:1.9;list-style:none;padding:0">
-            <li>⚡ Vanilla JS ES2020 — zero framework</li>
-            <li>📊 Chart.js 4.4 — live fitness charts</li>
-            <li>🎨 Custom CSS glassmorphism UI</li>
-            <li>🌐 Deployed on Netlify (fully static)</li>
+        <div class="stack-card">
+          <div class="stack-label sl-info">FRONTEND</div>
+          <ul class="stack-list">
+            <li>Vanilla JS ES2020 — zero framework</li>
+            <li>Chart.js 4.4 — live fitness charts</li>
+            <li>Custom CSS dark theme</li>
+            <li>Deployed on Netlify (fully static)</li>
           </ul>
         </div>
-        <div style="border:1px solid var(--border);border-radius:12px;padding:14px">
-          <div style="font-size:11px;font-weight:700;color:var(--mint);margin-bottom:8px">BROWSER GP ENGINE</div>
-          <ul style="font-size:12px;color:var(--t2);line-height:1.9;list-style:none;padding:0">
-            <li>🧬 10 typed AST node classes</li>
-            <li>🎲 Mulberry32 seeded PRNG</li>
-            <li>🔄 Tournament selection + crossover</li>
-            <li>🔧 Memetic local repair pass</li>
+        <div class="stack-card">
+          <div class="stack-label sl-success">BROWSER GP ENGINE</div>
+          <ul class="stack-list">
+            <li>10 typed AST node classes</li>
+            <li>Mulberry32 seeded PRNG</li>
+            <li>Tournament selection + crossover</li>
+            <li>Memetic local repair pass</li>
           </ul>
         </div>
-        <div style="border:1px solid var(--border);border-radius:12px;padding:14px">
-          <div style="font-size:11px;font-weight:700;color:var(--peach);margin-bottom:8px">PYTHON BACKEND (local)</div>
-          <ul style="font-size:12px;color:var(--t2);line-height:1.9;list-style:none;padding:0">
-            <li>🐍 Python 3.11 + Flask REST API</li>
-            <li>🗄 SQLite — archive + memory DB</li>
-            <li>🧠 Strategy extraction + transfer</li>
-            <li>📊 5-tier ablation suite</li>
+        <div class="stack-card">
+          <div class="stack-label sl-warning">PYTHON BACKEND (local)</div>
+          <ul class="stack-list">
+            <li>Python 3.11 + Flask REST API</li>
+            <li>SQLite — archive + memory DB</li>
+            <li>Strategy extraction + transfer</li>
+            <li>5-tier ablation suite</li>
           </ul>
         </div>
-        <div style="border:1px solid var(--border);border-radius:12px;padding:14px">
-          <div style="font-size:11px;font-weight:700;color:var(--violet);margin-bottom:8px">THEORY FORGE</div>
-          <ul style="font-size:12px;color:var(--t2);line-height:1.9;list-style:none;padding:0">
-            <li>📐 Symbolic Regression (10 families)</li>
-            <li>📉 Least-squares + log-linear fit</li>
-            <li>🔢 Prime sieve, Collatz, derangement</li>
-            <li>🔭 Evolutionary formula discovery</li>
+        <div class="stack-card">
+          <div class="stack-label sl-violet">THEORY FORGE</div>
+          <ul class="stack-list">
+            <li>Symbolic Regression (10 families)</li>
+            <li>Least-squares + log-linear fit</li>
+            <li>Prime sieve, Collatz, derangement</li>
+            <li>Evolutionary formula discovery</li>
           </ul>
         </div>
       </div>
     </div>
 
     <!-- Interview Pitch -->
-    <div class="card" style="margin-bottom:16px;border:1px solid rgba(52,211,153,0.4)">
+    <div class="card card-accent-success" style="margin-bottom:16px">
       <div class="card-head">
-        <h3><i class="fa-solid fa-person-chalkboard" style="color:var(--mint)"></i> 2-Minute Interview Pitch</h3>
-        <span class="badge b-done" style="background:rgba(52,211,153,0.15)">Interview Ready</span>
+        <h3><i class="fa-solid fa-person-chalkboard" style="color:var(--success)"></i> 2-Minute Interview Pitch</h3>
+        <span class="badge b-done">Interview Ready</span>
       </div>
-      <div style="background:rgba(52,211,153,0.05);border-radius:12px;padding:16px;font-size:13px;color:var(--t1);line-height:1.85;font-style:italic;border-left:3px solid var(--mint);margin-bottom:14px">
+      <div class="pitch-box">
         "ALGOFORGE is a browser-native Genetic Programming engine that automatically synthesizes and formally verifies sorting algorithms. Instead of writing algorithms by hand, it treats algorithm design as a search problem — evolving a population of candidate programs represented as Abstract Syntax Trees, selecting the fittest, crossing them over, and mutating them across generations. It's architecturally similar to Google DeepMind's AlphaDev, published in Nature in 2023, which used reinforcement learning to discover faster sorting routines — the difference is that AlphaDev operates on assembly instructions with GPU-scale training, while ALGOFORGE demonstrates the same fundamental principle running entirely in the browser.<br><br>
         The engine uses Knuth's 0-1 Principle for formal verification — mathematically guaranteed correct for all real inputs. It also includes a Python research backend with an algorithmic memory system that extracts reusable structural strategies from past runs and injects them into future searches — measured as a 2.7× reduction in evaluations-to-solution versus the memoryless baseline."
       </div>
       <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px">
-        <div style="background:rgba(2,132,199,0.08);border-radius:10px;padding:12px">
-          <div style="font-size:10px;color:var(--sky);font-weight:700;margin-bottom:4px">❓ "How is this not brute force?"</div>
-          <div style="font-size:12px;color:var(--t2);line-height:1.6">GP uses selection pressure — bad programs die, good ones reproduce. For N=4 (10⁵ search space), GP finds the answer in ~60 evaluations, not millions.</div>
+        <div class="qa-card">
+          <div class="qa-question">"How is this not brute force?"</div>
+          <div class="qa-answer">GP uses selection pressure — bad programs die, good ones reproduce. For N=4 (10⁵ search space), GP finds the answer in ~60 evaluations, not millions.</div>
         </div>
-        <div style="background:rgba(52,211,153,0.08);border-radius:10px;padding:12px">
-          <div style="font-size:10px;color:var(--mint);font-weight:700;margin-bottom:4px">❓ "What's the fitness function?"</div>
-          <div style="font-size:12px;color:var(--t2);line-height:1.6">Element-wise accuracy across test cases, minus a step-count penalty (favours efficiency) and AST depth penalty (favours simplicity). Pareto trade-off between accuracy and code size.</div>
+        <div class="qa-card">
+          <div class="qa-question">"What's the fitness function?"</div>
+          <div class="qa-answer">Element-wise accuracy across test cases, minus a step-count penalty (favours efficiency) and AST depth penalty (favours simplicity). Pareto trade-off between accuracy and code size.</div>
         </div>
-        <div style="background:rgba(129,140,248,0.08);border-radius:10px;padding:12px">
-          <div style="font-size:10px;color:var(--violet);font-weight:700;margin-bottom:4px">❓ "Can it find truly new algorithms?"</div>
-          <div style="font-size:12px;color:var(--t2);line-height:1.6">Yes at fixed-N. Each seed explores a different AST region. With seed 0, each run is a genuinely unique topology — no two seeds produce the same comparator ordering.</div>
+        <div class="qa-card">
+          <div class="qa-question">"Can it find truly new algorithms?"</div>
+          <div class="qa-answer">Yes at fixed-N. Each seed explores a different AST region. With seed 0, each run is a genuinely unique topology — no two seeds produce the same comparator ordering.</div>
         </div>
-        <div style="background:rgba(245,158,11,0.08);border-radius:10px;padding:12px">
-          <div style="font-size:10px;color:var(--peach);font-weight:700;margin-bottom:4px">❓ "What are the limitations?"</div>
-          <div style="font-size:12px;color:var(--t2);line-height:1.6">Fixed-N only — search space explodes beyond N≈6. No generalization to arbitrary N. Full research mode requires the Python backend; browser runs a client-side GP subset.</div>
+        <div class="qa-card">
+          <div class="qa-question">"What are the limitations?"</div>
+          <div class="qa-answer">Fixed-N only — search space explodes beyond N≈6. No generalization to arbitrary N. Full research mode requires the Python backend; browser runs a client-side GP subset.</div>
         </div>
       </div>
     </div>
@@ -873,11 +873,11 @@
   <div id="t-theory" class="tab-body">
 
     <!-- Hero Banner -->
-    <div style="background:linear-gradient(135deg,rgba(251,146,60,0.12),rgba(129,140,248,0.12));border:1px solid rgba(251,146,60,0.25);border-radius:18px;padding:22px 24px;margin-bottom:18px;display:flex;gap:16px;align-items:flex-start">
-      <div style="font-size:36px;line-height:1">⚡</div>
-      <div>
-        <h3 style="color:var(--peach);margin:0 0 6px;font-size:18px">Theory Forge — AI-Powered Symbolic Discovery Engine</h3>
-        <p style="font-size:13px;color:var(--t2);line-height:1.6;margin:0">Based on <strong>MIT's AI Feynman</strong> (2020) and <strong>Princeton PySR</strong> research. Input any observed data (x → y measurements), and the Genetic Programming engine evolves the <em>hidden mathematical law</em> that governs it — exactly like Newton discovered F=ma from falling apple observations. Also generates novel mathematical conjectures no human has verified yet.</p>
+    <div class="hero-banner hb-warning">
+      <div class="hero-banner-icon"><i class="fa-solid fa-atom" style="font-size:28px;color:var(--warning)"></i></div>
+      <div class="hero-banner-body">
+        <h3 style="color:var(--warning)">Theory Forge — AI-Powered Symbolic Discovery Engine</h3>
+        <p>Based on <strong>MIT's AI Feynman</strong> (2020) and <strong>Princeton PySR</strong> research. Input any observed data (x &rarr; y measurements), and the Genetic Programming engine evolves the <em>hidden mathematical law</em> that governs it — exactly like Newton discovered F=ma from falling apple observations. Also generates novel mathematical conjectures no human has verified yet.</p>
       </div>
     </div>
 
