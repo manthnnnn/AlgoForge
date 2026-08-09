@@ -160,6 +160,9 @@
     <button class="tab" data-tab="t-howto">
       <i class="fa-solid fa-graduation-cap"></i> System Specs &amp; Guide
     </button>
+    <button class="tab" data-tab="t-theory" style="background:linear-gradient(135deg,rgba(251,146,60,0.18),rgba(129,140,248,0.18));border-color:rgba(251,146,60,0.4)">
+      <i class="fa-solid fa-atom"></i> ⚡ Theory Forge
+    </button>
   </div>
 
   <!-- ─── TAB 1: INVENTION LAB ─── -->
@@ -424,10 +427,174 @@
 
   </div>
 
+  <!-- ─── TAB 7: THEORY FORGE ─── -->
+  <div id="t-theory" class="tab-body">
+
+    <!-- Hero Banner -->
+    <div style="background:linear-gradient(135deg,rgba(251,146,60,0.12),rgba(129,140,248,0.12));border:1px solid rgba(251,146,60,0.25);border-radius:18px;padding:22px 24px;margin-bottom:18px;display:flex;gap:16px;align-items:flex-start">
+      <div style="font-size:36px;line-height:1">⚡</div>
+      <div>
+        <h3 style="color:var(--peach);margin:0 0 6px;font-size:18px">Theory Forge — AI-Powered Symbolic Discovery Engine</h3>
+        <p style="font-size:13px;color:var(--t2);line-height:1.6;margin:0">Based on <strong>MIT's AI Feynman</strong> (2020) and <strong>Princeton PySR</strong> research. Input any observed data (x → y measurements), and the Genetic Programming engine evolves the <em>hidden mathematical law</em> that governs it — exactly like Newton discovered F=ma from falling apple observations. Also generates novel mathematical conjectures no human has verified yet.</p>
+      </div>
+    </div>
+
+    <div class="g2" style="margin-bottom:18px">
+      <!-- Symbolic Regression Lab -->
+      <div class="card">
+        <div class="card-head">
+          <h3><i class="fa-solid fa-function" style="color:var(--sky)"></i> Symbolic Regression Lab</h3>
+          <span class="badge b-ready" id="symBadge">Ready</span>
+        </div>
+
+        <div class="guide-box sky" style="margin-bottom:14px">
+          <div class="gicon"><i class="fa-solid fa-lightbulb"></i></div>
+          <div class="gcontent">
+            <h4>How to Use This</h4>
+            <p>Enter observed (x, y) data pairs — these are like real experimental measurements. The AI will evolve symbolic equations (formulas with +, ×, ^, log, sin) to discover the hidden law. Try the presets!</p>
+          </div>
+        </div>
+
+        <div style="margin-bottom:12px">
+          <div class="fl"><span class="fl-label">Preset Datasets</span></div>
+          <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px">
+            <button class="btn btn-ghost" style="font-size:11px" onclick="loadPreset('gravity')">🍎 Newton Gravity</button>
+            <button class="btn btn-ghost" style="font-size:11px" onclick="loadPreset('pendulum')">⏱ Pendulum</button>
+            <button class="btn btn-ghost" style="font-size:11px" onclick="loadPreset('kepler')">🪐 Kepler Orbit</button>
+            <button class="btn btn-ghost" style="font-size:11px" onclick="loadPreset('wave')">🌊 Wave Energy</button>
+            <button class="btn btn-ghost" style="font-size:11px" onclick="loadPreset('custom')">✏️ Custom</button>
+          </div>
+          <div class="fg">
+            <div class="fl"><span class="fl-label">Data Points (x,y per line)</span></div>
+            <textarea id="symData" class="fi" rows="7" style="font-family:var(--mono);font-size:12px;resize:vertical">1, 1
+2, 4
+3, 9
+4, 16
+5, 25
+6, 36
+7, 49
+8, 64</textarea>
+          </div>
+          <div class="fg">
+            <div class="fl"><span class="fl-label">Allowed Operations</span></div>
+            <div style="display:flex;gap:8px;flex-wrap:wrap">
+              <label style="font-size:12px;color:var(--t2);display:flex;gap:5px;align-items:center"><input type="checkbox" id="opAdd" checked> + − </label>
+              <label style="font-size:12px;color:var(--t2);display:flex;gap:5px;align-items:center"><input type="checkbox" id="opMul" checked> × ÷ </label>
+              <label style="font-size:12px;color:var(--t2);display:flex;gap:5px;align-items:center"><input type="checkbox" id="opPow" checked> x^n </label>
+              <label style="font-size:12px;color:var(--t2);display:flex;gap:5px;align-items:center"><input type="checkbox" id="opLog"> log </label>
+              <label style="font-size:12px;color:var(--t2);display:flex;gap:5px;align-items:center"><input type="checkbox" id="opSin"> sin/cos </label>
+            </div>
+          </div>
+        </div>
+
+        <button id="btnSymDiscover" class="btn btn-primary btn-block">
+          <i class="fa-solid fa-wand-magic-sparkles"></i> Discover Mathematical Law
+        </button>
+
+        <div id="symResult" class="hidden" style="margin-top:16px">
+          <div style="background:rgba(56,189,248,0.08);border:1px solid rgba(56,189,248,0.25);border-radius:14px;padding:16px">
+            <div style="font-size:11px;color:var(--t3);margin-bottom:4px">DISCOVERED EQUATION</div>
+            <div id="symFormula" style="font-family:var(--mono);font-size:20px;color:var(--sky);font-weight:700;margin-bottom:8px">f(x) = ?</div>
+            <div id="symName" style="font-size:13px;color:var(--peach);font-weight:600;margin-bottom:8px"></div>
+            <div id="symR2" style="font-size:12px;color:var(--t2);margin-bottom:10px"></div>
+            <div id="symExplain" style="font-size:12.5px;color:var(--t1);line-height:1.6"></div>
+          </div>
+          <div class="chart-box" style="margin-top:14px"><canvas id="chartSymbol"></canvas></div>
+        </div>
+      </div>
+
+      <!-- Mathematical Conjecture Generator -->
+      <div class="card">
+        <div class="card-head">
+          <h3><i class="fa-solid fa-infinity" style="color:var(--violet)"></i> Mathematical Conjecture Generator</h3>
+          <span class="badge b-ready" id="conjBadge">Ready</span>
+        </div>
+
+        <div class="guide-box violet" style="margin-bottom:14px">
+          <div class="gicon"><i class="fa-solid fa-book-skull"></i></div>
+          <div class="gcontent">
+            <h4>What is a Mathematical Conjecture?</h4>
+            <p>A conjecture is a mathematical pattern or identity that <em>appears</em> true for all tested values but has not yet been formally proved. Like Goldbach's Conjecture (1742): every even number > 2 is the sum of two primes — still unproven after 280 years!</p>
+          </div>
+        </div>
+
+        <div class="fg">
+          <div class="fl"><span class="fl-label">Domain</span></div>
+          <select id="conjDomain" class="fs">
+            <option value="prime">Prime Number Patterns</option>
+            <option value="sequence">Integer Sequences</option>
+            <option value="geometry">Geometric Identities</option>
+            <option value="probability">Probabilistic Structures</option>
+            <option value="chaos">Chaotic System Attractors</option>
+          </select>
+        </div>
+
+        <div class="fg">
+          <div class="fl"><span class="fl-label">Test Range (N up to)</span><span class="vp" id="conjRangeV">1000</span></div>
+          <input type="range" id="conjRange" min="100" max="10000" step="100" value="1000">
+        </div>
+
+        <button id="btnConjGen" class="btn btn-primary btn-block" style="background:linear-gradient(135deg,#7C3AED,#4F46E5)">
+          <i class="fa-solid fa-atom fa-spin"></i> Generate Novel Conjecture
+        </button>
+
+        <div id="conjResult" class="hidden" style="margin-top:16px">
+          <div style="background:rgba(167,139,250,0.08);border:1px solid rgba(167,139,250,0.25);border-radius:14px;padding:16px">
+            <div style="font-size:11px;color:var(--t3);margin-bottom:4px">GENERATED CONJECTURE</div>
+            <div id="conjTitle" style="font-size:15px;color:var(--violet);font-weight:700;margin-bottom:6px"></div>
+            <div id="conjStatement" style="font-family:var(--mono);font-size:13px;color:var(--sky);margin-bottom:10px;line-height:1.7;background:rgba(0,0,0,0.15);padding:10px;border-radius:8px"></div>
+            <div id="conjVerify" style="font-size:12px;color:var(--mint);margin-bottom:8px"></div>
+            <div id="conjExplain" style="font-size:12.5px;color:var(--t1);line-height:1.6"></div>
+            <div id="conjCounterEx" style="font-size:11.5px;color:var(--t3);margin-top:8px;font-style:italic"></div>
+          </div>
+          <div style="margin-top:10px;display:flex;gap:8px">
+            <button class="btn btn-ghost" style="font-size:11px" onclick="regenerateConjecture()"><i class="fa-solid fa-rotate"></i> New Conjecture</button>
+            <button class="btn btn-ghost" style="font-size:11px" onclick="copyConjecture()"><i class="fa-solid fa-copy"></i> Copy Statement</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Historical Context -->
+    <div class="card">
+      <div class="card-head">
+        <h3><i class="fa-solid fa-hourglass" style="color:var(--peach)"></i> Famous Discoveries That Changed Science</h3>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px">
+        <div style="background:rgba(251,146,60,0.07);border:1px solid rgba(251,146,60,0.2);border-radius:12px;padding:14px">
+          <div style="font-size:22px;margin-bottom:6px">🍎</div>
+          <div style="font-size:13px;font-weight:700;color:var(--peach);margin-bottom:4px">Newton, 1687</div>
+          <div style="font-family:var(--mono);font-size:13px;color:var(--sky);margin-bottom:6px">F = Gm₁m₂/r²</div>
+          <div style="font-size:11.5px;color:var(--t3)">Universal gravitation — derived by observing apple fall + planet orbits. This EXACT formula can be rediscovered by Symbolic Regression from orbital data.</div>
+        </div>
+        <div style="background:rgba(129,140,248,0.07);border:1px solid rgba(129,140,248,0.2);border-radius:12px;padding:14px">
+          <div style="font-size:22px;margin-bottom:6px">⚡</div>
+          <div style="font-size:13px;font-weight:700;color:var(--indigo);margin-bottom:4px">Einstein, 1905</div>
+          <div style="font-family:var(--mono);font-size:13px;color:var(--sky);margin-bottom:6px">E = mc²</div>
+          <div style="font-size:11.5px;color:var(--t3)">Mass-energy equivalence. MIT's AI Feynman rediscovered this equation purely from numerical data in 2020.</div>
+        </div>
+        <div style="background:rgba(52,211,153,0.07);border:1px solid rgba(52,211,153,0.2);border-radius:12px;padding:14px">
+          <div style="font-size:22px;margin-bottom:6px">🌀</div>
+          <div style="font-size:13px;font-weight:700;color:var(--mint);margin-bottom:4px">Euler, 1748</div>
+          <div style="font-family:var(--mono);font-size:13px;color:var(--sky);margin-bottom:6px">e^(iπ) + 1 = 0</div>
+          <div style="font-size:11.5px;color:var(--t3)">Euler's identity — called the most beautiful equation in mathematics. Still no AI has re-derived it symbolically from scratch.</div>
+        </div>
+        <div style="background:rgba(56,189,248,0.07);border:1px solid rgba(56,189,248,0.2);border-radius:12px;padding:14px">
+          <div style="font-size:22px;margin-bottom:6px">🔬</div>
+          <div style="font-size:13px;font-weight:700;color:var(--sky);margin-bottom:4px">DeepMind, 2023</div>
+          <div style="font-family:var(--mono);font-size:13px;color:var(--sky);margin-bottom:6px">AlphaDev sorting</div>
+          <div style="font-size:11.5px;color:var(--t3)">AI discovered a faster sorting algorithm than any human found in 50 years. Published in Nature. ALGOFORGE implements the same principle.</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
 </main>
 </div>
 
 <script src="engine.js"></script>
+<script src="theory.js"></script>
 <script src="app.js"></script>
 </body>
 </html>
