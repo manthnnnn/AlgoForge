@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ALGOFORGE — AI Algorithm Invention Engine</title>
+<meta name="description" content="AI engine that invents, names, verifies and exports novel algorithms using Genetic Programming.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800;900&family=Fira+Code:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<canvas id="confetti-canvas"></canvas>
+
+<div class="app">
+
+<!-- ═══════════════════ SIDEBAR ═══════════════════ -->
+<aside class="sidebar">
+  <div class="brand">
+    <div class="brand-icon"><i class="fa-solid fa-bolt-lightning"></i></div>
+    <div>
+      <h1>ALGOFORGE</h1>
+      <p>AI Invention Engine v2.5</p>
+    </div>
+  </div>
+
+  <!-- TASK SELECT -->
+  <div>
+    <p class="s-label"><i class="fa-solid fa-crosshairs"></i> Target Task</p>
+    <div class="fg">
+      <label class="fl">
+        <span class="fl-label">Invention Task</span>
+      </label>
+      <select id="taskSelect" class="fs"></select>
+    </div>
+    <div id="taskDesc" style="background:rgba(255,255,255,0.025);border:1px solid rgba(255,255,255,0.08);border-radius:12px;padding:10px 13px;font-size:12px;color:var(--t2);line-height:1.55;margin-bottom:8px;min-height:46px;">
+      Select a task to see details.
+    </div>
+    <div id="taskMeta" style="margin-bottom:4px;display:flex;gap:7px;align-items:center;flex-wrap:wrap;"></div>
+  </div>
+
+  <!-- EVOLUTION TUNING -->
+  <div>
+    <p class="s-label"><i class="fa-solid fa-sliders"></i> Evolution Tuning</p>
+
+    <!-- Population -->
+    <div class="fg">
+      <div class="fl">
+        <span class="fl-label">Population Size</span>
+        <span id="popV" class="vp">60</span>
+      </div>
+      <input type="range" id="popSize" min="20" max="150" step="10" value="60">
+      <div class="hint">Algorithms per generation. <strong>60-100 recommended</strong></div>
+    </div>
+
+    <!-- Generations -->
+    <div class="fg">
+      <div class="fl">
+        <span class="fl-label">Generations</span>
+        <span id="genV" class="vp">60</span>
+      </div>
+      <input type="range" id="genCount" min="10" max="300" step="10" value="60">
+      <div class="hint">Evolution rounds. <strong>Use 80+ for complex tasks</strong></div>
+    </div>
+
+    <!-- Mutation Rate -->
+    <div class="fg">
+      <div class="fl">
+        <span class="fl-label">Mutation Rate</span>
+        <span id="mutV" class="vp">0.35</span>
+      </div>
+      <input type="range" id="mutRate" min="0.05" max="0.85" step="0.05" value="0.35">
+    </div>
+
+    <!-- Crossover Rate -->
+    <div class="fg">
+      <div class="fl">
+        <span class="fl-label">Crossover Rate</span>
+        <span id="crsV" class="vp">0.70</span>
+      </div>
+      <input type="range" id="crsRate" min="0.10" max="1.00" step="0.05" value="0.70">
+    </div>
+
+    <!-- Max AST Depth -->
+    <div class="fg">
+      <div class="fl">
+        <span class="fl-label">Max AST Depth</span>
+        <span id="depV" class="vp">6</span>
+      </div>
+      <input type="range" id="depthVal" min="3" max="9" step="1" value="6">
+    </div>
+
+    <!-- Seed -->
+    <div class="fg">
+      <div class="fl">
+        <span class="fl-label">Random Seed</span>
+        <span style="font-size:10px;color:var(--t3)">0 = random</span>
+      </div>
+      <div class="seed-row">
+        <input type="number" id="seedVal" class="fi" value="0" min="0">
+        <button id="btnDice" class="dice-btn" title="Roll new random seed"><i class="fa-solid fa-dice"></i></button>
+      </div>
+      <div class="hint" id="seedTip">🎲 <strong>Seed 0</strong> = unique discovery every run!</div>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <div style="margin-top:auto;padding-top:14px;border-top:1px solid var(--border)">
+    <button id="btnInvent" class="btn btn-primary btn-block" style="font-size:15px;padding:14px 18px">
+      <i class="fa-solid fa-wand-magic-sparkles"></i> Invent Algorithm
+    </button>
+  </div>
+</aside>
+
+<!-- ═══════════════════ MAIN WORKSPACE ═══════════════════ -->
+<main class="main">
+
+  <!-- Top Bar -->
+  <div class="top-bar">
+    <div>
+      <h2>Algorithm Invention Studio</h2>
+      <p>Genetic Programming engine synthesizing 100% verified, novel algorithms</p>
+    </div>
+    <div class="top-stats">
+      <div class="top-stat">
+        <div class="top-stat-val" id="tsTotal" style="color:var(--sky)">—</div>
+        <div class="top-stat-lab">Total Runs</div>
+      </div>
+      <div class="top-stat">
+        <div class="top-stat-val" id="tsNovel" style="color:var(--mint)">—</div>
+        <div class="top-stat-lab">Novel Discoveries</div>
+      </div>
+      <div class="top-stat">
+        <div class="top-stat-val" id="tsBest" style="color:var(--peach)">—%</div>
+        <div class="top-stat-lab">Best Fitness</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 6 WORKSPACE TABS -->
+  <div class="tabs">
+    <button class="tab on" data-tab="t-lab">
+      <i class="fa-solid fa-flask-vial"></i> Invention Lab
+    </button>
+    <button class="tab" data-tab="t-anim">
+      <i class="fa-solid fa-film"></i> Step Animator
+    </button>
+    <button class="tab" data-tab="t-export">
+      <i class="fa-solid fa-file-export"></i> Export &amp; Prove
+    </button>
+    <button class="tab" data-tab="t-hof">
+      <i class="fa-solid fa-crown"></i> Hall of Fame
+    </button>
+    <button class="tab" data-tab="t-archive">
+      <i class="fa-solid fa-box-archive"></i> Pareto Archive
+    </button>
+    <button class="tab" data-tab="t-howto">
+      <i class="fa-solid fa-graduation-cap"></i> System Specs &amp; Guide
+    </button>
+  </div>
+
+  <!-- ─── TAB 1: INVENTION LAB ─── -->
+  <div id="t-lab" class="tab-body on">
+
+    <div id="noveltyBanner" class="hidden"></div>
+
+    <!-- Metrics -->
+    <div class="metrics">
+      <div class="m-card">
+        <div class="m-icon mi-indigo"><i class="fa-solid fa-trophy"></i></div>
+        <div>
+          <span class="m-lab">Fitness Accuracy</span>
+          <div id="mFit" class="m-val">—</div>
+        </div>
+      </div>
+      <div class="m-card">
+        <div class="m-icon mi-sky"><i class="fa-solid fa-rotate"></i></div>
+        <div>
+          <span class="m-lab">Generations</span>
+          <div id="mGen" class="m-val">—</div>
+        </div>
+      </div>
+      <div class="m-card">
+        <div class="m-icon mi-violet"><i class="fa-solid fa-sitemap"></i></div>
+        <div>
+          <span class="m-lab">AST Depth</span>
+          <div id="mDepth" class="m-val">—</div>
+          <div id="mComplex" class="m-sub"></div>
+        </div>
+      </div>
+      <div class="m-card">
+        <div class="m-icon mi-mint"><i class="fa-solid fa-stopwatch"></i></div>
+        <div>
+          <span class="m-lab">Time Taken</span>
+          <div id="mTime" class="m-val">—</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="g2">
+      <!-- Live Chart -->
+      <div class="card">
+        <div class="card-head">
+          <h3><i class="fa-solid fa-chart-line" style="color:var(--indigo)"></i> Live Fitness Evolution</h3>
+          <span id="statusBadge" class="badge b-ready">Ready</span>
+        </div>
+        <div class="prog"><div id="progFill" class="prog-fill"></div></div>
+        <div class="chart-box"><canvas id="chartEvo"></canvas></div>
+      </div>
+
+      <!-- Test Cases -->
+      <div class="card">
+        <div class="card-head">
+          <h3><i class="fa-solid fa-list-check" style="color:var(--mint)"></i> Benchmark Test Cases</h3>
+        </div>
+        <div id="testList" class="test-list"></div>
+      </div>
+    </div>
+
+    <!-- Discovered Algorithm -->
+    <div class="card mt">
+      <div class="card-head">
+        <h3><i class="fa-solid fa-atom" style="color:var(--violet)"></i> Discovered Algorithm</h3>
+        <span id="algoNote" style="font-size:12px;color:var(--t3)">Run synthesis to invent</span>
+      </div>
+
+      <div id="algoNameRow" class="hidden" style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:14px">
+        <div class="algo-name">
+          <i class="fa-solid fa-tag"></i>
+          <span id="algoNameTxt">—</span>
+          <span id="algoSeedTxt" style="font-size:10px;opacity:0.65"></span>
+        </div>
+        <span id="algoComplexBadge" class="complexity-badge hidden"></span>
+      </div>
+
+      <div class="g2">
+        <div>
+          <span class="sub-lab">📖 Plain English Overview &amp; Step Narrative</span>
+          <div id="englishOut" class="english-out">
+            <p style="color:var(--t3);font-style:italic">The narrative explanation will appear here after synthesis...</p>
+          </div>
+        </div>
+        <div>
+          <span class="sub-lab">🌳 AST Structure</span>
+          <div class="code-wrap">
+            <button class="cp-btn" onclick="copyEl('astOut')">Copy</button>
+            <pre id="astOut" class="code-out">// AST will appear here...</pre>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─── TAB 2: STEP ANIMATOR ─── -->
+  <div id="t-anim" class="tab-body">
+    <div class="card">
+      <div class="card-head">
+        <h3><i class="fa-solid fa-wand-magic-sparkles" style="color:var(--peach)"></i> Interactive Step Visualizer</h3>
+      </div>
+      <div class="anim-ctrl">
+        <div class="fg" style="flex:1;margin-bottom:0">
+          <div class="fl"><span class="fl-label">Input Array (JSON)</span></div>
+          <input type="text" id="animInput" class="fi" value="[9, 2, 7, 1, 5, 3]">
+        </div>
+        <button id="btnRunAnim" class="btn btn-ghost"><i class="fa-solid fa-circle-play"></i> Run</button>
+      </div>
+
+      <div id="animEmpty" class="empty-state">
+        <i class="fa-solid fa-triangle-exclamation"></i>
+        Invent an algorithm first from the <strong>Invention Lab</strong> tab!
+      </div>
+
+      <div id="animPanel" class="hidden">
+        <div class="scrubber">
+          <button id="btnFirst" class="btn btn-icon" title="First"><i class="fa-solid fa-backward-fast"></i></button>
+          <button id="btnPrev"  class="btn btn-icon" title="Prev"><i class="fa-solid fa-backward-step"></i></button>
+          <input type="range" id="stepSlider" min="0" max="0" value="0" style="flex:1">
+          <button id="btnNext"  class="btn btn-icon" title="Next"><i class="fa-solid fa-forward-step"></i></button>
+          <button id="btnLast"  class="btn btn-icon" title="Last"><i class="fa-solid fa-forward-fast"></i></button>
+          <span class="s-count" id="stepCount">0 / 0</span>
+        </div>
+        <div class="action-pill" id="actionPill"><i class="fa-solid fa-circle-dot"></i> Ready</div>
+        <div class="arr-viz" id="arrayViz"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─── TAB 3: EXPORT & PROVE ─── -->
+  <div id="t-export" class="tab-body">
+    <div id="exportEmpty" class="empty-state card">
+      <i class="fa-solid fa-triangle-exclamation"></i>
+      Invent an algorithm first from the <strong>Invention Lab</strong> tab!
+    </div>
+
+    <div id="exportPanel" class="hidden">
+      <div class="g2" style="margin-bottom:18px">
+        <!-- Formal Proof -->
+        <div class="card">
+          <div class="card-head">
+            <h3><i class="fa-solid fa-shield-halved" style="color:var(--mint)"></i> Formal Verification Proof</h3>
+          </div>
+          <div id="verifyBox" class="vbox na"><i class="fa-solid fa-hourglass"></i> <span>Run synthesis first</span></div>
+          <div style="margin-top:14px" class="guide-box violet">
+            <div class="gicon"><i class="fa-solid fa-book"></i></div>
+            <div class="gcontent">
+              <h4>0-1 Principle Theorem (Knuth, 1968)</h4>
+              <p>If a compare-swap algorithm sorts ALL 2ⁿ binary (0/1) sequences, it is <em>mathematically guaranteed</em> to sort ANY real values of length N.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Identity Card -->
+        <div class="card">
+          <div class="card-head">
+            <h3><i class="fa-solid fa-id-card" style="color:var(--sky)"></i> Algorithm Identity Card</h3>
+          </div>
+          <table class="dtable" style="font-size:12.5px">
+            <tbody id="identityBody"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Code Export -->
+      <div class="card">
+        <div class="card-head">
+          <h3><i class="fa-solid fa-code" style="color:var(--indigo)"></i> Exportable Code</h3>
+        </div>
+        <div class="exp-tabs">
+          <button class="exp-tab on"  data-lang="python">🐍 Python</button>
+          <button class="exp-tab" data-lang="cpp">⚙ C++</button>
+          <button class="exp-tab" data-lang="java">☕ Java</button>
+          <button class="exp-tab" data-lang="rust">🦀 Rust</button>
+          <button class="exp-tab" data-lang="go">🐹 Go</button>
+          <button class="exp-tab" data-lang="pseudo">📄 Pseudocode</button>
+          <button class="exp-tab" data-lang="json">📊 JSON AST</button>
+        </div>
+        <div class="code-wrap">
+          <button class="cp-btn" onclick="copyEl('exportCode')">Copy</button>
+          <pre id="exportCode" class="code-out" style="height:320px">// Code will appear here</pre>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─── TAB 4: HALL OF FAME ─── -->
+  <div id="t-hof" class="tab-body">
+    <div class="guide-box peach" style="margin-bottom:14px">
+      <div class="gicon"><i class="fa-solid fa-crown"></i></div>
+      <div class="gcontent">
+        <h4>Hall of Fame Leaderboard</h4>
+        <p>Highest-scoring algorithm ever discovered for each task. Evolve algorithms with <strong>Seed 0</strong> to break records!</p>
+      </div>
+    </div>
+    <div id="hofLoading" class="empty-state"><i class="fa-solid fa-spinner fa-spin"></i> Loading...</div>
+    <div id="hofGrid" class="hof-grid hidden"></div>
+  </div>
+
+  <!-- ─── TAB 5: ARCHIVE ─── -->
+  <div id="t-archive" class="tab-body">
+    <div class="card">
+      <div class="card-head">
+        <h3><i class="fa-solid fa-chart-scatter" style="color:var(--violet)"></i> Pareto Frontier (Accuracy vs Code Simplicity)</h3>
+      </div>
+      <div class="chart-box"><canvas id="chartPareto"></canvas></div>
+    </div>
+    <div class="card mt">
+      <div class="card-head">
+        <h3><i class="fa-solid fa-database" style="color:var(--sky)"></i> All Discovered Algorithms</h3>
+        <span id="archiveCount" class="badge b-ready">0 entries</span>
+      </div>
+      <div style="overflow-x:auto">
+        <table class="dtable">
+          <thead>
+            <tr><th>Name</th><th>Task</th><th>Fitness</th><th>Depth</th><th>Status</th><th>Time</th></tr>
+          </thead>
+          <tbody id="archiveBody"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─── TAB 6: HOW TO USE & SYSTEM SPECS ─── -->
+  <div id="t-howto" class="tab-body">
+
+    <div class="card" style="margin-bottom:16px">
+      <div class="card-head">
+        <h3><i class="fa-solid fa-atom" style="color:var(--indigo)"></i> System Architecture &amp; How ALGOFORGE Works</h3>
+      </div>
+      <div class="step-row"><div class="step-n indigo">1</div><div class="step-text"><h5>Genetic Programming &amp; AST Evolution</h5><p>Programs are represented as Abstract Syntax Trees (ASTs). Digital natural selection mutates, crosses over, and evaluates ASTs against benchmark test vectors.</p></div></div>
+      <div class="step-row"><div class="step-n mint">2</div><div class="step-text"><h5>100% Convergence Memetic Auto-Repair</h5><p>ALGOFORGE uses a hybrid memetic local repair engine. If evolution reaches a plateau, heuristic local repair identifies out-of-order pairs and synthesizes exact missing comparators to guarantee 100% fitness.</p></div></div>
+      <div class="step-row"><div class="step-n sky">3</div><div class="step-text"><h5>Why Random Seed 0 Discovers New Algorithms</h5><p>Fixed seeds (like 42) produce identical random numbers every run. Seed 0 generates a fresh random seed each run, exploring new regions of algorithm space!</p></div></div>
+      <div class="step-row"><div class="step-n peach">4</div><div class="step-text"><h5>Formal Verification via Knuth 0-1 Principle</h5><p>A compare-swap algorithm proven correct for all 2ⁿ binary (0/1) inputs is mathematically proven correct for ALL real input arrays.</p></div></div>
+    </div>
+
+    <div class="card">
+      <div class="card-head">
+        <h3><i class="fa-solid fa-sliders" style="color:var(--sky)"></i> Evolution Tuning Parameter Guide</h3>
+      </div>
+      <div class="step-row"><div class="step-n sky">P</div><div class="step-text"><h5>Population Size (20 to 150)</h5><p>Number of candidate programs evolved per generation. Larger population = better exploration of algorithm space.</p></div></div>
+      <div class="step-row"><div class="step-n mint">G</div><div class="step-text"><h5>Generations (10 to 300)</h5><p>Number of evolution rounds. Complex tasks like <code>bitonic_sort_6</code> or <code>cascade_sort_6</code> benefit from 80-150 generations.</p></div></div>
+      <div class="step-row"><div class="step-n violet">D</div><div class="step-text"><h5>Max AST Depth (3 to 9)</h5><p>Maximum tree depth limit. Depth 3 = simple passes, Depth 6 = nested loops, Depth 8+ = complex multi-loop algorithms.</p></div></div>
+    </div>
+
+  </div>
+
+</main>
+</div>
+
+<script src="engine.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
