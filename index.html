@@ -439,6 +439,73 @@
       </div>
     </div>
 
+    <!-- NOVEL THEORY INVENTOR -->
+    <div class="card" style="margin-bottom:18px;border:1px solid rgba(251,146,60,0.35)">
+      <div class="card-head">
+        <h3><i class="fa-solid fa-flask-vial" style="color:var(--peach)"></i> 🧬 Novel Theory Inventor — AI Discovers Unchained Mathematical Rules</h3>
+        <span class="badge" id="theoryInventBadge" style="background:rgba(251,146,60,0.15);color:var(--peach);border:1px solid rgba(251,146,60,0.4)">Ready</span>
+      </div>
+
+      <div style="background:rgba(251,146,60,0.06);border:1px solid rgba(251,146,60,0.15);border-radius:12px;padding:14px;margin-bottom:16px">
+        <p style="font-size:13px;color:var(--t1);line-height:1.65;margin:0">
+          This engine uses <strong>Evolutionary Symbolic Search</strong> to explore mathematical spaces that humans have never systematically charted.
+          It generates candidate rules, tests them computationally across thousands of values, scores them by novelty and elegance, and surfaces
+          patterns that are <em>verifiable yet unnamed</em>. Think of it as <strong>AI doing pure mathematics research</strong>.
+        </p>
+      </div>
+
+      <div class="g2" style="margin-bottom:14px">
+        <div class="fg">
+          <div class="fl"><span class="fl-label">Mathematical Domain</span></div>
+          <select id="theoryDomain" class="fs">
+            <option value="primeStructure">🔢 Prime Number Deep Structure</option>
+            <option value="numberIdentity">∞ Integer Sequence Identities</option>
+            <option value="fractalGeometry">🌀 Fractal & Recursive Geometry</option>
+            <option value="combinatorial">🎲 Combinatorial Laws</option>
+            <option value="dynamicSystems">⚙️ Dynamical System Invariants</option>
+            <option value="cryptoArithmetic">🔐 Modular Arithmetic Patterns</option>
+          </select>
+        </div>
+        <div class="fg">
+          <div class="fl"><span class="fl-label">Discovery Depth</span><span class="vp" id="theoryDepthV">Hard</span></div>
+          <select id="theoryDepth" class="fs">
+            <option value="easy">Easy — Surface patterns (fast)</option>
+            <option value="medium">Medium — Multi-variable rules</option>
+            <option value="hard" selected>Hard — Deep cross-domain rules</option>
+            <option value="ultra">Ultra — Frontier exploration</option>
+          </select>
+        </div>
+      </div>
+
+      <button id="btnInventTheory" class="btn btn-primary btn-block" style="background:linear-gradient(135deg,#EA580C,#7C3AED);font-size:15px;padding:14px">
+        <i class="fa-solid fa-wand-magic-sparkles"></i> Invent Novel Mathematical Theory
+      </button>
+
+      <!-- Live progress -->
+      <div id="theoryProgress" class="hidden" style="margin-top:14px">
+        <div class="prog" style="margin-bottom:8px"><div id="theoryProgFill" class="prog-fill" style="background:linear-gradient(90deg,#EA580C,#7C3AED)"></div></div>
+        <div id="theoryStatus" style="font-size:12px;color:var(--t3);font-family:var(--mono)">Initializing symbolic search...</div>
+      </div>
+
+      <!-- Result -->
+      <div id="theoryResult" class="hidden" style="margin-top:18px">
+        <div style="background:linear-gradient(135deg,rgba(234,88,12,0.08),rgba(124,58,237,0.08));border:1px solid rgba(251,146,60,0.3);border-radius:16px;padding:20px">
+          <div style="font-size:10px;letter-spacing:2px;color:var(--t3);margin-bottom:8px">DISCOVERED NOVEL THEORY</div>
+          <div id="theoryTitle" style="font-size:17px;font-weight:800;color:var(--peach);margin-bottom:8px"></div>
+          <div id="theoryEquation" style="font-family:var(--mono);font-size:15px;color:var(--sky);background:rgba(0,0,0,0.2);padding:12px 16px;border-radius:10px;margin-bottom:14px;line-height:1.8"></div>
+          <div id="theoryProof" style="font-size:12.5px;color:var(--mint);margin-bottom:10px"></div>
+          <div id="theoryExplain" style="font-size:13px;color:var(--t1);line-height:1.7;margin-bottom:12px"></div>
+          <div id="theoryNoveltyClaim" style="font-size:12px;color:var(--peach);font-style:italic;border-top:1px solid rgba(255,255,255,0.08);padding-top:10px"></div>
+        </div>
+        <div style="margin-top:10px;display:flex;gap:8px;flex-wrap:wrap">
+          <button class="btn btn-ghost" onclick="inventNewTheory()"><i class="fa-solid fa-rotate"></i> Discover Another</button>
+          <button class="btn btn-ghost" onclick="copyTheory()"><i class="fa-solid fa-copy"></i> Copy Theory</button>
+          <button class="btn btn-ghost" onclick="exportTheoryPDF()"><i class="fa-solid fa-file-pdf"></i> Export as Research Note</button>
+        </div>
+        <div class="chart-box" style="margin-top:16px;height:200px"><canvas id="chartTheory"></canvas></div>
+      </div>
+    </div>
+
     <div class="g2" style="margin-bottom:18px">
       <!-- Symbolic Regression Lab -->
       <div class="card">

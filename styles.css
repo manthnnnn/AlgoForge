@@ -153,10 +153,26 @@ input[type="range"] {
 .top-stat-lab { font-size: 10px; color: var(--t3); font-weight: 800; text-transform: uppercase; letter-spacing: 0.8px; }
 
 /* Tabs */
-.tabs { display: inline-flex; background: rgba(255,255,255,0.03); padding: 4px; border-radius: 22px; border: 1px solid var(--border); margin-bottom: 22px; gap: 4px; overflow-x: auto; max-width: 100%; }
-.tab { padding: 9px 18px; background: transparent; border: none; border-radius: 18px; color: var(--t3); font-weight: 700; font-size: 13px; font-family: var(--font); cursor: pointer; transition: all 0.22s var(--smooth); display: flex; align-items: center; gap: 8px; white-space: nowrap; }
-.tab:hover { color: var(--t2); }
-.tab.on { background: var(--indigo); color: #FFF; box-shadow: 0 4px 14px rgba(129,140,248,0.35); }
+.tabs {
+    display: flex;
+    width: 100%;
+    background: rgba(255,255,255,0.03);
+    padding: 5px 6px;
+    border-radius: 22px;
+    border: 1px solid var(--border);
+    margin-bottom: 22px;
+    gap: 4px;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(129,140,248,0.4) transparent;
+    -webkit-overflow-scrolling: touch;
+}
+.tabs::-webkit-scrollbar { height: 3px; }
+.tabs::-webkit-scrollbar-thumb { background: rgba(129,140,248,0.4); border-radius: 2px; }
+.tab { padding: 9px 15px; background: transparent; border: 1.5px solid transparent; border-radius: 16px; color: var(--t3); font-weight: 700; font-size: 12.5px; font-family: var(--font); cursor: pointer; transition: all 0.22s var(--smooth); display: flex; align-items: center; gap: 7px; white-space: nowrap; flex-shrink: 0; scroll-snap-align: start; }
+.tab:hover { color: var(--t2); background: rgba(255,255,255,0.04); }
+.tab.on { background: var(--indigo); color: #FFF; box-shadow: 0 4px 14px rgba(129,140,248,0.35); border-color: transparent; }
 .tab-body { display: none; }
 .tab-body.on { display: block; animation: fadeUp 0.25s var(--smooth); }
 @keyframes fadeUp { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
