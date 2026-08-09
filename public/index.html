@@ -10,7 +10,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800;900&family=Fira+Code:wght@400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
-<link rel="stylesheet" href="styles.css">
+<link rel="stylesheet" href="styles.css?v=3.0">
 </head>
 <body>
 <canvas id="confetti-canvas"></canvas>
@@ -140,10 +140,13 @@
     </div>
   </div>
 
-  <!-- 6 WORKSPACE TABS -->
+  <!-- 7 WORKSPACE TABS -->
   <div class="tabs">
     <button class="tab on" data-tab="t-lab">
       <i class="fa-solid fa-flask-vial"></i> Invention Lab
+    </button>
+    <button class="tab" data-tab="t-theory" style="background:linear-gradient(135deg,rgba(251,146,60,0.22),rgba(129,140,248,0.22));border:1.5px solid rgba(251,146,60,0.5);color:var(--peach)">
+      <i class="fa-solid fa-atom"></i> ⚡ Theory Forge
     </button>
     <button class="tab" data-tab="t-anim">
       <i class="fa-solid fa-film"></i> Step Animator
@@ -159,9 +162,6 @@
     </button>
     <button class="tab" data-tab="t-howto">
       <i class="fa-solid fa-graduation-cap"></i> System Specs &amp; Guide
-    </button>
-    <button class="tab" data-tab="t-theory" style="background:linear-gradient(135deg,rgba(251,146,60,0.18),rgba(129,140,248,0.18));border-color:rgba(251,146,60,0.4)">
-      <i class="fa-solid fa-atom"></i> ⚡ Theory Forge
     </button>
   </div>
 
@@ -770,9 +770,9 @@
 </main>
 </div>
 
-<script src="engine.js"></script>
-<script src="theory.js"></script>
-<script src="discovery.js"></script>
-<script src="app.js"></script>
+<script src="engine.js?v=3.0"></script>
+<script src="theory.js?v=3.0"></script>
+<script src="discovery.js?v=3.0"></script>
+<script src="app.js?v=3.0"></script>
 </body>
 </html>
