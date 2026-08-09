@@ -36,118 +36,68 @@ const GroqAI = {
 
     // ── 1. Natural Language → Task Config ──
     async descriptionToTask(description) {
-        const prompt = `You are an algorithm task designer for a Genetic Programming engine that works on INTEGER ARRAYS.
+        const prompt = `Design an algorithm task for a Genetic Programming engine.
 
-CRITICAL RULES — follow exactly:
-1. Pick ONE fixed array size N between 3 and 5. Every single test case must use EXACTLY N integers for input AND N integers for output.
-2. Do NOT mix array sizes. If N=4, every input is [a,b,c,d] and every output is [a,b,c,d].
-3. The engine can only: compare-swap two positions, swap two positions, reverse a subrange, loop over indices.
-4. Use only small integers (1-20) for clarity.
-5. Provide exactly 5 test cases, all with the same N.
+Task: "${description}"
 
-User wants: "${description}"
+Rules:
+- Pick ONE array size N (3, 4, or 5). ALL arrays must be exactly length N.
+- Use integers 1-15 only.
+- Provide exactly 4 test cases, all same length.
+- Engine supports: compare-swap, swap, reverse-range, loops.
 
-Example of CORRECT output for "sort 4 numbers ascending" (N=4, all arrays length 4):
-{
-  "task_name": "sort_4_asc",
-  "task_description": "Sort 4 integers in ascending order",
-  "difficulty": "Medium",
-  "array_size": 4,
-  "test_cases": [
-    [[4,2,3,1],[1,2,3,4]],
-    [[1,3,2,4],[1,2,3,4]],
-    [[4,3,2,1],[1,2,3,4]],
-    [[2,1,4,3],[1,2,3,4]],
-    [[3,4,1,2],[1,2,3,4]]
-  ],
-  "hint": "Use compare-swap pairs covering all positions"
-}
-
-Now generate JSON for: "${description}"
-ALL arrays must be length array_size. No exceptions.
-
-Respond with ONLY valid JSON matching the exact structure above.`;
+Respond with ONLY this JSON (no extra text):
+{"task_name":"snake_case","task_description":"one sentence","difficulty":"Easy","array_size":4,"test_cases":[[[4,2,3,1],[1,2,3,4]],[[3,1,4,2],[1,2,3,4]],[[2,4,1,3],[1,2,3,4]],[[4,3,2,1],[1,2,3,4]]],"hint":"use compare-swap pairs"}`;
 
         const raw = await this.call([
-            { role: "system", content: "You are a precise algorithm task designer. Output ONLY valid JSON. Every test case input and output array must have exactly the same length as array_size." },
+            { role: "system", content: "Output ONLY valid compact JSON. No markdown. No explanation. Every array must be exactly array_size length." },
             { role: "user",   content: prompt }
-        ], 0.1, 900);
+        ], 0.1, 400);
 
         const task = JSON.parse(raw);
 
-        // ── Auto-repair: find the majority array size and filter to matching cases ──
-        const n = task.array_size || 4;
+        // Auto-repair: find dominant array size and filter to matching cases
         const sizes = (task.test_cases || []).map(([inp]) => inp.length);
-        // Find most common size
-        const freq = {};
+        const freq  = {};
         sizes.forEach(s => { freq[s] = (freq[s] || 0) + 1; });
-        const dominantN = parseInt(Object.keys(freq).sort((a,b) => freq[b]-freq[a])[0] || n);
-
-        // Keep only cases where both input and output match dominantN
-        const fixed = (task.test_cases || []).filter(([inp, out]) =>
+        const dominantN = parseInt(Object.keys(freq).sort((a,b) => freq[b]-freq[a])[0] || task.array_size || 4);
+        task.array_size = dominantN;
+        task.test_cases = (task.test_cases || []).filter(([inp, out]) =>
             Array.isArray(inp) && Array.isArray(out) &&
             inp.length === dominantN && out.length === dominantN
         );
-
-        task.array_size  = dominantN;
-        task.test_cases  = fixed;
         return task;
     },
 
     // ── 2. Post-synthesis AI explanation of the evolved AST ──
     async explainAlgorithm(taskName, taskDescription, astRepr, fitness, steps) {
-        const prompt = `You are an expert computer science educator explaining a discovered algorithm.
+        const prompt = `A Genetic Programming engine evolved an algorithm:
+Task: ${taskName} — ${taskDescription}
+Fitness: ${fitness}%
+Steps: ${steps.slice(0,5).map((s,i)=>`${i+1}. ${s}`).join(' | ')}
 
-A Genetic Programming engine evolved the following algorithm for this task:
-- Task: ${taskName}
-- Description: ${taskDescription}
-- Fitness achieved: ${fitness}%
-- AST structure: ${astRepr.substring(0, 600)}
-
-Step-by-step execution trace:
-${steps.slice(0, 8).map((s, i) => `Step ${i+1}: ${s}`).join('\n')}
-
-Write a clear, engaging explanation (3-5 sentences) that:
-1. Describes what strategy the algorithm discovered
-2. Explains WHY this sequence of operations achieves the goal
-3. Notes anything clever or interesting about the discovered approach
-4. Compares it to any well-known algorithm if relevant
-
-Respond with ONLY valid JSON:
-{
-  "headline": "One punchy sentence naming the strategy (e.g. 'Discovered a 3-comparator optimal network')",
-  "explanation": "3-5 sentence plain English explanation",
-  "insight": "One sentence about what makes this interesting or clever",
-  "algorithm_family": "The family this belongs to (e.g. Sorting Network, Bubble Sort variant, Selection Sort variant)"
-}`;
+Respond with ONLY JSON:
+{"headline":"one punchy sentence naming the strategy","explanation":"2-3 sentences explaining what it does and why it works","insight":"one interesting observation","algorithm_family":"e.g. Sorting Network, Selection Sort variant"}`;
 
         const raw = await this.call([
-            { role: "system", content: "You are an expert CS educator. Always respond with valid JSON only." },
+            { role: "system", content: "Output ONLY valid compact JSON. No markdown." },
             { role: "user",   content: prompt }
-        ], 0.5, 600);
+        ], 0.4, 300);
 
         return JSON.parse(raw);
     },
 
     // ── 3. Generate task variations ──
     async suggestVariations(taskName, description) {
-        const prompt = `Given this algorithm task: "${taskName} — ${description}"
-Suggest 3 interesting related tasks that would be good to try next.
-Each should be solvable by compare-swap operations on integer arrays of size 3-5.
-
-Respond with ONLY valid JSON:
-{
-  "variations": [
-    { "name": "task_name", "description": "one sentence", "difficulty": "Easy|Medium|Hard" },
-    { "name": "task_name", "description": "one sentence", "difficulty": "Easy|Medium|Hard" },
-    { "name": "task_name", "description": "one sentence", "difficulty": "Easy|Medium|Hard" }
-  ]
-}`;
+        const prompt = `Given algorithm task: "${taskName} — ${description}"
+Suggest 3 related tasks solvable by compare-swap on integer arrays size 3-5.
+Respond with ONLY JSON:
+{"variations":[{"name":"snake_name","description":"one sentence","difficulty":"Easy"},{"name":"snake_name","description":"one sentence","difficulty":"Medium"},{"name":"snake_name","description":"one sentence","difficulty":"Hard"}]}`;
 
         const raw = await this.call([
-            { role: "system", content: "You are a creative algorithm task designer. Always respond with valid JSON only." },
+            { role: "system", content: "Output ONLY valid compact JSON. No markdown." },
             { role: "user",   content: prompt }
-        ], 0.7, 400);
+        ], 0.6, 250);
 
         return JSON.parse(raw);
     }
