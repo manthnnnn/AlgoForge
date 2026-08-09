@@ -36,46 +36,62 @@ const GroqAI = {
 
     // ── 1. Natural Language → Task Config ──
     async descriptionToTask(description) {
-        const prompt = `You are an algorithm task designer for a Genetic Programming engine.
-The user describes an algorithm they want to discover. Your job is to:
-1. Parse their description
-2. Generate a precise task configuration with test cases
+        const prompt = `You are an algorithm task designer for a Genetic Programming engine that works on INTEGER ARRAYS.
 
-The GP engine operates on INTEGER ARRAYS only. It can:
-- Compare and swap elements (CompareSwap)
-- Swap elements (Swap)  
-- Reverse a range (ReverseRange)
-- Use loops and conditionals
+CRITICAL RULES — follow exactly:
+1. Pick ONE fixed array size N between 3 and 5. Every single test case must use EXACTLY N integers for input AND N integers for output.
+2. Do NOT mix array sizes. If N=4, every input is [a,b,c,d] and every output is [a,b,c,d].
+3. The engine can only: compare-swap two positions, swap two positions, reverse a subrange, loop over indices.
+4. Use only small integers (1-20) for clarity.
+5. Provide exactly 5 test cases, all with the same N.
 
-RULES for test cases:
-- Input and output must be integer arrays of THE SAME LENGTH (2-6 elements)
-- Use small integers (-9 to 99)
-- Provide 4-6 diverse test cases that fully characterize the task
-- All test cases must have arrays of the same length
+User wants: "${description}"
 
-User description: "${description}"
-
-Respond with ONLY valid JSON in this exact format:
+Example of CORRECT output for "sort 4 numbers ascending" (N=4, all arrays length 4):
 {
-  "task_name": "short_snake_case_name",
-  "task_description": "One sentence describing the task clearly",
-  "difficulty": "Easy|Medium|Hard",
-  "array_size": 3,
+  "task_name": "sort_4_asc",
+  "task_description": "Sort 4 integers in ascending order",
+  "difficulty": "Medium",
+  "array_size": 4,
   "test_cases": [
-    [[input_array], [expected_output_array]],
-    [[input_array], [expected_output_array]],
-    [[input_array], [expected_output_array]],
-    [[input_array], [expected_output_array]]
+    [[4,2,3,1],[1,2,3,4]],
+    [[1,3,2,4],[1,2,3,4]],
+    [[4,3,2,1],[1,2,3,4]],
+    [[2,1,4,3],[1,2,3,4]],
+    [[3,4,1,2],[1,2,3,4]]
   ],
-  "hint": "What kind of operations will solve this (e.g. compare-swap pairs, reversal, etc.)"
-}`;
+  "hint": "Use compare-swap pairs covering all positions"
+}
+
+Now generate JSON for: "${description}"
+ALL arrays must be length array_size. No exceptions.
+
+Respond with ONLY valid JSON matching the exact structure above.`;
 
         const raw = await this.call([
-            { role: "system", content: "You are a precise algorithm task designer. Always respond with valid JSON only." },
+            { role: "system", content: "You are a precise algorithm task designer. Output ONLY valid JSON. Every test case input and output array must have exactly the same length as array_size." },
             { role: "user",   content: prompt }
-        ], 0.2, 800);
+        ], 0.1, 900);
 
-        return JSON.parse(raw);
+        const task = JSON.parse(raw);
+
+        // ── Auto-repair: find the majority array size and filter to matching cases ──
+        const n = task.array_size || 4;
+        const sizes = (task.test_cases || []).map(([inp]) => inp.length);
+        // Find most common size
+        const freq = {};
+        sizes.forEach(s => { freq[s] = (freq[s] || 0) + 1; });
+        const dominantN = parseInt(Object.keys(freq).sort((a,b) => freq[b]-freq[a])[0] || n);
+
+        // Keep only cases where both input and output match dominantN
+        const fixed = (task.test_cases || []).filter(([inp, out]) =>
+            Array.isArray(inp) && Array.isArray(out) &&
+            inp.length === dominantN && out.length === dominantN
+        );
+
+        task.array_size  = dominantN;
+        task.test_cases  = fixed;
+        return task;
     },
 
     // ── 2. Post-synthesis AI explanation of the evolved AST ──

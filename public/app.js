@@ -1048,16 +1048,9 @@ async function runAiTaskGeneration() {
     try {
         const task = await GroqAI.descriptionToTask(desc);
 
-        // Validate task structure
+        // Validate — after auto-repair in groq_ai.js, just need >= 2 valid cases
         if (!task.test_cases || task.test_cases.length < 2) {
-            throw new Error("AI returned invalid test cases. Try rephrasing your description.");
-        }
-        // Validate all arrays are same length
-        const n = task.test_cases[0][0].length;
-        for (const [inp, out] of task.test_cases) {
-            if (inp.length !== n || out.length !== n) {
-                throw new Error("AI returned inconsistent array sizes. Try a simpler description.");
-            }
+            throw new Error("AI couldn't generate enough test cases for that description. Try being more specific — e.g. 'Sort 4 numbers ascending'.");
         }
 
         aiGeneratedTask = task;
