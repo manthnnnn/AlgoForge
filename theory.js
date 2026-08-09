@@ -295,10 +295,10 @@ document.addEventListener("DOMContentLoaded", () => {
             },
             options: {
                 responsive: true, maintainAspectRatio: false,
-                plugins: { legend: { labels: { color: "#94A3B8", font: { family: "'Plus Jakarta Sans'" } } } },
+                plugins: { legend: { labels: { color: "#475569", font: { family: "'Plus Jakarta Sans'" } } } },
                 scales: {
-                    x: { type: "linear", grid: { color: "rgba(255,255,255,0.05)" }, ticks: { color: "#64748B" } },
-                    y: { grid: { color: "rgba(255,255,255,0.05)" }, ticks: { color: "#64748B" } }
+                    x: { type: "linear", grid: { color: "rgba(225,29,72,0.08)" }, ticks: { color: "#475569" } },
+                    y: { grid: { color: "rgba(225,29,72,0.08)" }, ticks: { color: "#475569" } }
                 }
             }
         });
@@ -813,10 +813,10 @@ document.addEventListener("DOMContentLoaded", () => {
                     },
                     options: {
                         responsive: true, maintainAspectRatio: false,
-                        plugins: { legend: { labels: { color: "#94A3B8", font: { family: "'Plus Jakarta Sans'" } } } },
+                        plugins: { legend: { labels: { color: "#475569", font: { family: "'Plus Jakarta Sans'" } } } },
                         scales: {
-                            x: { type:"linear", grid: { color:"rgba(255,255,255,0.05)" }, ticks: { color:"#64748B" } },
-                            y: { grid: { color:"rgba(255,255,255,0.05)" }, ticks: { color:"#64748B" } }
+                            x: { type:"linear", grid: { color:"rgba(225,29,72,0.08)" }, ticks: { color:"#475569" } },
+                            y: { grid: { color:"rgba(225,29,72,0.08)" }, ticks: { color:"#475569" } }
                         }
                     }
                 });

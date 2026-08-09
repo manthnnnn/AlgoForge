@@ -141,17 +141,17 @@ async function loadStats() {
 // ──────────── Charts ────────────
 function initCharts() {
     const font = { family: "'Plus Jakarta Sans', sans-serif", weight: "600" };
-    const grid = "rgba(255,255,255,0.045)";
-    const tick = "#64748B";
+    const grid = "rgba(225,29,72,0.08)";
+    const tick = "#475569";
 
     evoChart = new Chart($("chartEvo").getContext("2d"), {
         type: "line",
         data: { labels: [], datasets: [
-            { label: "Best Fitness", data: [], borderColor: "#818CF8", backgroundColor: "rgba(129,140,248,0.12)", borderWidth: 2.5, tension: 0.35, fill: true, pointRadius: 2.5 },
-            { label: "Avg Fitness",  data: [], borderColor: "#38BDF8", borderWidth: 1.8, borderDash: [5,4], tension: 0.35, pointRadius: 0 }
+            { label: "Best Fitness", data: [], borderColor: "#E11D48", backgroundColor: "rgba(225,29,72,0.12)", borderWidth: 2.5, tension: 0.35, fill: true, pointRadius: 2.5 },
+            { label: "Avg Fitness",  data: [], borderColor: "#0284C7", borderWidth: 1.8, borderDash: [5,4], tension: 0.35, pointRadius: 0 }
         ]},
         options: { responsive: true, maintainAspectRatio: false, animation: { duration: 0 },
-            plugins: { legend: { labels: { color: "#94A3B8", font } } },
+            plugins: { legend: { labels: { color: "#475569", font } } },
             scales: { x: { grid: { color: grid }, ticks: { color: tick, font } }, y: { grid: { color: grid }, ticks: { color: tick, font } } }
         }
     });
@@ -159,11 +159,11 @@ function initCharts() {
     paretoChart = new Chart($("chartPareto").getContext("2d"), {
         type: "scatter",
         data: { datasets: [
-            { label: "Novel Discoveries", data: [], backgroundColor: "#34D399", pointRadius: 9 },
+            { label: "Novel Discoveries", data: [], backgroundColor: "#059669", pointRadius: 9 },
             { label: "Duplicates",        data: [], backgroundColor: "#64748B", pointRadius: 5 }
         ]},
         options: { responsive: true, maintainAspectRatio: false,
-            plugins: { legend: { labels: { color: "#94A3B8", font } } },
+            plugins: { legend: { labels: { color: "#475569", font } } },
             scales: {
                 x: { grid: { color: grid }, ticks: { color: tick }, title: { display: true, text: "AST Depth", color: tick } },
                 y: { grid: { color: grid }, ticks: { color: tick }, title: { display: true, text: "Fitness Accuracy %", color: tick } }
