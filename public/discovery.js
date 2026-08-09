@@ -552,10 +552,10 @@ function updateEvoChart(log) {
             type: "line", data,
             options: {
                 responsive: true, maintainAspectRatio: false, animation: { duration: 0 },
-                plugins: { legend: { labels: { color: "#475569", font: { family: "'Plus Jakarta Sans'", weight: "600" } } } },
+                plugins: { legend: { labels: { color: "#94A3B8", font: { family: "'Plus Jakarta Sans'", weight: "600" } } } },
                 scales: {
-                    x: { grid: { color: "rgba(225,29,72,0.08)" }, ticks: { color: "#475569", maxTicksLimit: 10 } },
-                    y: { grid: { color: "rgba(225,29,72,0.08)" }, ticks: { color: "#475569" }, min: 0, max: 100 }
+                    x: { grid: { color: "rgba(255,46,99,0.12)" }, ticks: { color: "#94A3B8", maxTicksLimit: 10 } },
+                    y: { grid: { color: "rgba(255,46,99,0.12)" }, ticks: { color: "#94A3B8" }, min: 0, max: 100 }
                 }
             }
         });
