@@ -10,7 +10,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
-<link rel="stylesheet" href="styles.css?v=5.0">
+<link rel="stylesheet" href="styles.css?v=6.0">
 </head>
 <body>
 <canvas id="confetti-canvas"></canvas>
@@ -180,6 +180,9 @@
     <button class="tab on" data-tab="t-lab">
       <i class="fa-solid fa-flask-vial"></i> Discovery Lab
     </button>
+    <button class="tab" data-tab="t-ai" style="background:linear-gradient(135deg,rgba(139,92,246,0.2),rgba(59,130,246,0.2));border:1px solid rgba(139,92,246,0.4);color:#a78bfa">
+      <i class="fa-solid fa-wand-sparkles"></i> ✨ AI Task Builder
+    </button>
     <button class="tab" data-tab="t-research" style="background:linear-gradient(135deg,rgba(2,132,199,0.25),rgba(52,211,153,0.25));border:1.5px solid rgba(56,189,248,0.5);color:#38BDF8">
       <i class="fa-solid fa-microscope"></i> 🧪 Research Lab
     </button>
@@ -296,6 +299,20 @@
         </div>
       </div>
     </div>
+
+    <!-- AI Explainer Panel (appears after synthesis) -->
+    <div class="card mt hidden" id="aiExplainerCard">
+      <div class="card-head">
+        <h3><i class="fa-solid fa-wand-sparkles" style="color:#a78bfa"></i> AI Algorithm Analysis</h3>
+        <span class="badge" id="aiExplainerBadge" style="background:rgba(139,92,246,0.12);color:#a78bfa;border:1px solid rgba(139,92,246,0.3)">Groq AI</span>
+      </div>
+      <div id="aiExplainerContent">
+        <div style="display:flex;align-items:center;gap:8px;color:var(--t3);font-size:13px">
+          <i class="fa-solid fa-spinner fa-spin"></i> Analysing with Llama 3.1 70B...
+        </div>
+      </div>
+    </div>
+
   </div>
 
   <!-- ─── TAB 2: STEP ANIMATOR ─── -->
@@ -384,6 +401,114 @@
         <div class="code-wrap">
           <button class="cp-btn" onclick="copyEl('exportCode')">Copy</button>
           <pre id="exportCode" class="code-out" style="height:320px">// Code will appear here</pre>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─── AI TASK BUILDER TAB ─── -->
+  <div id="t-ai" class="tab-body">
+
+    <!-- Hero -->
+    <div style="background:linear-gradient(135deg,rgba(139,92,246,0.1),rgba(59,130,246,0.1));border:1px solid rgba(139,92,246,0.25);border-radius:14px;padding:20px 24px;margin-bottom:18px;display:flex;gap:16px;align-items:flex-start">
+      <div style="font-size:32px;line-height:1">✨</div>
+      <div>
+        <h3 style="font-size:17px;font-weight:700;color:var(--t1);margin-bottom:5px">AI-Powered Algorithm Synthesis</h3>
+        <p style="font-size:13px;color:var(--t2);line-height:1.65;max-width:680px">Describe in plain English what you want an algorithm to do. <strong style="color:var(--t1)">Groq AI (Llama 3.1 70B)</strong> converts your description into precise test cases, then the <strong style="color:var(--t1)">Genetic Programming engine</strong> evolves a real algorithm that satisfies them. The AI writes zero algorithm code — it only defines the goal. The algorithm is 100% discovered by evolution.</p>
+      </div>
+    </div>
+
+    <div class="g2" style="gap:20px;align-items:start">
+
+      <!-- Left: Input -->
+      <div>
+        <div class="card" style="margin-bottom:16px">
+          <div class="card-head">
+            <h3><i class="fa-solid fa-comment-dots" style="color:#a78bfa"></i> Describe Your Algorithm</h3>
+            <span class="badge b-ready" id="aiBadge">Ready</span>
+          </div>
+
+          <div class="fg">
+            <div class="fl"><span class="fl-label">What should the algorithm do?</span></div>
+            <textarea id="aiDescription" class="fi" rows="4" style="resize:vertical;font-size:13px;line-height:1.6"
+              placeholder="Examples:
+• Sort 4 numbers in ascending order
+• Move the largest number to the end
+• Reverse 3 elements in place
+• Put even numbers before odd numbers
+• Sort 3 numbers in descending order"></textarea>
+          </div>
+
+          <!-- Quick prompts -->
+          <div style="margin-bottom:12px">
+            <div class="fl-label" style="margin-bottom:6px;font-size:11px;color:var(--t3);text-transform:uppercase;letter-spacing:0.8px">Quick Examples</div>
+            <div style="display:flex;flex-wrap:wrap;gap:5px" id="aiQuickPrompts">
+              <button class="ai-prompt-btn" onclick="setAiPrompt('Sort 4 numbers in ascending order')">Sort 4 ascending</button>
+              <button class="ai-prompt-btn" onclick="setAiPrompt('Move the minimum element to the first position in a 4-element array')">Min to front</button>
+              <button class="ai-prompt-btn" onclick="setAiPrompt('Reverse 4 elements in place')">Reverse array</button>
+              <button class="ai-prompt-btn" onclick="setAiPrompt('Sort 3 numbers in descending order')">Sort descending</button>
+              <button class="ai-prompt-btn" onclick="setAiPrompt('Put even numbers before odd numbers in a 4-element array')">Even before odd</button>
+              <button class="ai-prompt-btn" onclick="setAiPrompt('Move the maximum element to the last position in a 3-element array')">Max to end</button>
+            </div>
+          </div>
+
+          <button id="btnAiGenerate" class="btn btn-block" style="background:linear-gradient(135deg,#7c3aed,#3b82f6);color:#fff;font-size:14px;padding:12px;font-weight:600">
+            <i class="fa-solid fa-wand-sparkles"></i> Generate Task with AI
+          </button>
+
+          <div id="aiError" class="hidden" style="margin-top:10px;padding:10px 12px;background:rgba(239,68,68,0.1);border:1px solid rgba(239,68,68,0.25);border-radius:8px;font-size:12px;color:#f87171"></div>
+        </div>
+
+        <!-- AI Suggested Variations -->
+        <div class="card hidden" id="aiVariationsCard">
+          <div class="card-head">
+            <h3><i class="fa-solid fa-lightbulb" style="color:#f59e0b"></i> Try These Next</h3>
+          </div>
+          <div id="aiVariationsList"></div>
+        </div>
+      </div>
+
+      <!-- Right: Generated Task + Evolve -->
+      <div>
+        <div class="card" id="aiTaskCard" style="margin-bottom:16px">
+          <div class="card-head">
+            <h3><i class="fa-solid fa-list-check" style="color:#34d399"></i> Generated Task</h3>
+            <span id="aiDiffBadge" class="badge b-ready"></span>
+          </div>
+
+          <div id="aiTaskEmpty" style="text-align:center;padding:32px;color:var(--t3);font-size:13px">
+            <i class="fa-solid fa-arrow-left" style="display:block;font-size:24px;margin-bottom:8px;color:var(--t4)"></i>
+            Describe an algorithm and click Generate
+          </div>
+
+          <div id="aiTaskContent" class="hidden">
+            <div style="margin-bottom:10px">
+              <div style="font-size:10px;font-weight:600;color:var(--t3);text-transform:uppercase;letter-spacing:0.8px;margin-bottom:4px">Task Name</div>
+              <div id="aiTaskName" style="font-family:var(--mono);font-size:13px;color:var(--t1);font-weight:600"></div>
+            </div>
+            <div style="margin-bottom:12px">
+              <div style="font-size:10px;font-weight:600;color:var(--t3);text-transform:uppercase;letter-spacing:0.8px;margin-bottom:4px">Description</div>
+              <div id="aiTaskDesc" style="font-size:12.5px;color:var(--t2);line-height:1.55"></div>
+            </div>
+            <div style="margin-bottom:14px">
+              <div style="font-size:10px;font-weight:600;color:var(--t3);text-transform:uppercase;letter-spacing:0.8px;margin-bottom:6px">Test Cases (AI Generated)</div>
+              <div id="aiTestCases" style="display:flex;flex-direction:column;gap:5px"></div>
+            </div>
+            <div id="aiHint" style="font-size:12px;color:var(--t3);padding:8px 10px;background:var(--bg-hover);border-radius:6px;border-left:2px solid var(--border);margin-bottom:14px"></div>
+
+            <button id="btnAiEvolve" class="btn btn-primary btn-block" style="font-size:14px;padding:12px">
+              <i class="fa-solid fa-dna"></i> Evolve Algorithm for This Task
+            </button>
+          </div>
+        </div>
+
+        <!-- Evolution Result -->
+        <div class="card hidden" id="aiResultCard">
+          <div class="card-head">
+            <h3><i class="fa-solid fa-trophy" style="color:#f59e0b"></i> Evolved Algorithm</h3>
+            <span id="aiResultBadge" class="badge b-ready"></span>
+          </div>
+          <div id="aiResultContent"></div>
         </div>
       </div>
     </div>
@@ -1099,9 +1224,11 @@
 </div>
 
 <script src="engine.js?v=4.0"></script>
+<script src="config.js"></script>
+<script src="groq_ai.js"></script>
 <script src="theory.js?v=4.0"></script>
 <script src="discovery.js?v=3.0"></script>
 <script src="research_lab.js?v=4.0"></script>
-<script src="app.js?v=4.0"></script>
+<script src="app.js?v=5.0"></script>
 </body>
 </html>
