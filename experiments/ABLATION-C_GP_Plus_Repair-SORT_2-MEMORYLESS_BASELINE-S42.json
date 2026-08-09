@@ -1,0 +1,25 @@
+{
+  "experiment_id": "ABLATION-C_GP_Plus_Repair-SORT_2-MEMORYLESS_BASELINE-S42",
+  "version": "2.0.0",
+  "problem_id": "sort_2",
+  "method": "memoryless_baseline",
+  "seed": 42,
+  "population_size": 40,
+  "generation_limit": 30,
+  "mutation_rate": 0.25,
+  "crossover_rate": 0.7,
+  "max_ast_depth": 6,
+  "evaluations_to_solution": 440,
+  "best_fitness": 99.66,
+  "solution_threshold": 100.0,
+  "run_status": "SUCCESS",
+  "verified": true,
+  "verification_method": "EXHAUSTIVE",
+  "strategy_used": null,
+  "runtime_seconds": 0.038,
+  "timestamp": 1786269132.8873272,
+  "hardware_metadata": {
+    "python_version": "3.11.15",
+    "os": "Windows"
+  }
+}

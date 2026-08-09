@@ -1,0 +1,25 @@
+{
+  "experiment_id": "ABLATION-D_GP_Plus_Memory-SORT_2-MEMORY_AUGMENTED-S42",
+  "version": "2.0.0",
+  "problem_id": "sort_2",
+  "method": "memory_augmented",
+  "seed": 42,
+  "population_size": 40,
+  "generation_limit": 30,
+  "mutation_rate": 0.25,
+  "crossover_rate": 0.7,
+  "max_ast_depth": 6,
+  "evaluations_to_solution": 440,
+  "best_fitness": 99.66,
+  "solution_threshold": 100.0,
+  "run_status": "SUCCESS",
+  "verified": true,
+  "verification_method": "EXHAUSTIVE",
+  "strategy_used": "STRAT-TRAI-90D989",
+  "runtime_seconds": 0.041,
+  "timestamp": 1786269132.957222,
+  "hardware_metadata": {
+    "python_version": "3.11.15",
+    "os": "Windows"
+  }
+}

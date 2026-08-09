@@ -14,12 +14,25 @@ from memory.schemas import AlgorithmicStrategy, ProblemFingerprint, ExperimentAr
 
 DB_PATH = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'algorithmic_memory.db'))
 
+class MemoryFrozenException(Exception):
+    """Raised when an attempt is made to save a strategy while Algorithmic Memory is frozen."""
+    pass
+
 class AlgorithmicMemory:
     """Persistent SQLite knowledge base for ALGOFORGE algorithmic memory."""
 
     def __init__(self, db_path: str = DB_PATH):
         self.db_path = db_path
+        self.is_frozen = False
         self._init_db()
+
+    def freeze_memory(self):
+        """Freezes Algorithmic Memory to prevent test-set strategy leakage during held-out evaluation."""
+        self.is_frozen = True
+
+    def unfreeze_memory(self):
+        """Unfreezes Algorithmic Memory to allow strategy persistence during training."""
+        self.is_frozen = False
 
     def _get_conn(self):
         conn = sqlite3.connect(self.db_path)
@@ -113,6 +126,9 @@ class AlgorithmicMemory:
 
     # ──────────── Strategies ────────────
     def save_strategy(self, strategy: AlgorithmicStrategy):
+        if self.is_frozen:
+            raise MemoryFrozenException("Memory is frozen. Strategy write rejected during held-out evaluation.")
+
         with self._get_conn() as conn:
             cur = conn.cursor()
             cur.execute("""

@@ -114,7 +114,11 @@ class CanonicalExperimentRunner:
                     verification_status="EXHAUSTIVE" if len(test_cases[0][0]) <= 4 else "FINITE_TEST_SUITE",
                     generation=res.total_generations
                 )
-                self.memory.save_strategy(new_strat)
+                try:
+                    self.memory.save_strategy(new_strat)
+                except Exception as ex:
+                    # Ignore if memory is frozen during held-out evaluation
+                    pass
 
                 if strat_id_used:
                     self.memory.update_transfer_stats(strat_id_used, success=True)
@@ -145,7 +149,16 @@ class CanonicalExperimentRunner:
                 hardware_metadata={"python_version": platform.python_version(), "os": platform.system()}
             )
 
+            # Save metadata to SQLite
             self.memory.save_experiment_artifact(art)
+
+            # Save immutable JSON artifact to experiments/ directory on filesystem
+            exp_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'experiments'))
+            os.makedirs(exp_dir, exist_ok=True)
+            exp_json_path = os.path.join(exp_dir, f"{exp_id}.json")
+            with open(exp_json_path, 'w', encoding='utf-8') as f:
+                json.dump(art.to_dict(), f, indent=2)
+
             artifacts.append(art)
 
         metrics = ResearchMetricsEngine.calculate_experiment_metrics(artifacts)
