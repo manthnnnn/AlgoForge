@@ -3,14 +3,14 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ALGOFORGE — AI Algorithm Invention Engine</title>
-<meta name="description" content="AI engine that invents, names, verifies and exports novel algorithms using Genetic Programming.">
+<title>ALGOFORGE — Universal Knowledge Oracle</title>
+<meta name="description" content="Discover the simplest algorithm, physics law, or mathematical theory for any problem in the world. Powered by Genetic Programming + Groq AI.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
-<link rel="stylesheet" href="styles.css?v=7.0">
+<link rel="stylesheet" href="styles.css?v=8.0">
 </head>
 <body>
 <canvas id="confetti-canvas"></canvas>
@@ -19,133 +19,58 @@
 
 <!-- ═══════════════════ SIDEBAR ═══════════════════ -->
 <aside class="sidebar">
+  <!-- Brand -->
   <div class="brand">
     <div class="brand-icon"><i class="fa-solid fa-bolt-lightning"></i></div>
     <div>
       <h1>ALGOFORGE</h1>
-      <p>AI Invention Engine v2.5</p>
+      <p>Universal Knowledge Oracle v3.0</p>
     </div>
   </div>
 
-  <!-- TASK SELECT -->
-  <div>
-    <p class="s-label"><i class="fa-solid fa-crosshairs"></i> Target Task</p>
-    <div class="fg">
-      <label class="fl">
-        <span class="fl-label">Invention Task</span>
-      </label>
-      <select id="taskSelect" class="fs"></select>
+  <!-- ── Oracle Search ── -->
+  <div class="oracle-search-section">
+    <p class="s-label"><i class="fa-solid fa-globe"></i> Universal Search</p>
+    <div class="oracle-input-wrap">
+      <i class="fa-solid fa-magnifying-glass oracle-search-icon"></i>
+      <textarea id="oracleQuery" class="oracle-textarea" placeholder="Ask anything...&#10;&#10;• How does gravity work?&#10;• Find shortest path in graph&#10;• Simulate epidemic spread&#10;• Fourier transform&#10;• PID controller for robot&#10;• DNA sequence alignment" rows="6"></textarea>
     </div>
-    <div id="taskDesc" class="task-desc-box">
-      Select a task to see details.
+    <!-- Domain filter pills -->
+    <div class="domain-pills">
+      <button class="dpill on" data-domain="all">All</button>
+      <button class="dpill" data-domain="physics">🚀 Physics</button>
+      <button class="dpill" data-domain="algorithms">💻 Algorithms</button>
+      <button class="dpill" data-domain="mathematics">📐 Math</button>
+      <button class="dpill" data-domain="engineering">⚙️ Engineering</button>
+      <button class="dpill" data-domain="science">🔬 Science</button>
     </div>
-    <div id="taskMeta" style="margin-bottom:4px;display:flex;gap:7px;align-items:center;flex-wrap:wrap"></div>
-  </div>
-
-  <!-- EVOLUTION TUNING -->
-  <div>
-    <p class="s-label"><i class="fa-solid fa-sliders"></i> Evolution Tuning</p>
-
-    <!-- Population -->
-    <div class="fg">
-      <div class="fl">
-        <span class="fl-label">Population Size</span>
-        <span id="popV" class="vp">60</span>
-      </div>
-      <input type="range" id="popSize" min="20" max="150" step="10" value="60">
-      <div class="hint">Algorithms per generation. <strong>60-100 recommended</strong></div>
-    </div>
-
-    <!-- Generations -->
-    <div class="fg">
-      <div class="fl">
-        <span class="fl-label">Generations</span>
-        <span id="genV" class="vp">60</span>
-      </div>
-      <input type="range" id="genCount" min="10" max="300" step="10" value="60">
-      <div class="hint">Evolution rounds. <strong>Use 80+ for complex tasks</strong></div>
-    </div>
-
-    <!-- Mutation Rate -->
-    <div class="fg">
-      <div class="fl">
-        <span class="fl-label">Mutation Rate</span>
-        <span id="mutV" class="vp">0.35</span>
-      </div>
-      <input type="range" id="mutRate" min="0.05" max="0.85" step="0.05" value="0.35">
-    </div>
-
-    <!-- Crossover Rate -->
-    <div class="fg">
-      <div class="fl">
-        <span class="fl-label">Crossover Rate</span>
-        <span id="crsV" class="vp">0.70</span>
-      </div>
-      <input type="range" id="crsRate" min="0.10" max="1.00" step="0.05" value="0.70">
-    </div>
-
-    <!-- Max AST Depth -->
-    <div class="fg">
-      <div class="fl">
-        <span class="fl-label">Max AST Depth</span>
-        <span id="depV" class="vp">6</span>
-      </div>
-      <input type="range" id="depthVal" min="3" max="9" step="1" value="6">
-    </div>
-
-    <!-- Seed -->
-    <div class="fg">
-      <div class="fl">
-        <span class="fl-label">Random Seed</span>
-        <span class="m-sub" style="margin-top:0">0 = random</span>
-      </div>
-      <div class="seed-row">
-        <input type="number" id="seedVal" class="fi" value="0" min="0">
-        <button id="btnDice" class="dice-btn" title="Roll new random seed"><i class="fa-solid fa-dice"></i></button>
-      </div>
-      <div class="hint" id="seedTip"><strong>Seed 0</strong> = unique discovery every run!</div>
-    </div>
-  </div>
-
-  <!-- CV / INTERVIEW PANEL -->
-  <div class="cv-panel">
-    <button class="cv-toggle" onclick="this.parentElement.classList.toggle('cv-open')" title="Toggle CV Panel">
-      <i class="fa-solid fa-briefcase"></i>
-      <span>CV &amp; Interview Kit</span>
-      <i class="fa-solid fa-chevron-down cv-arrow"></i>
+    <button id="btnOracleSearch" class="btn btn-primary btn-block" style="margin-top:10px;font-size:14px;padding:12px">
+      <i class="fa-solid fa-wand-magic-sparkles"></i> Find Concept & Code
     </button>
-    <div class="cv-body">
-      <div class="cv-kpi-row">
-        <div class="cv-kpi"><span class="cv-kpi-val kv-success">6</span><span class="cv-kpi-lab">Modules</span></div>
-        <div class="cv-kpi"><span class="cv-kpi-val kv-info">16</span><span class="cv-kpi-lab">Real Runs</span></div>
-        <div class="cv-kpi"><span class="cv-kpi-val kv-warning">2.7×</span><span class="cv-kpi-lab">Speedup</span></div>
-        <div class="cv-kpi"><span class="cv-kpi-val kv-violet">100%</span><span class="cv-kpi-lab">Reprod.</span></div>
-      </div>
-      <div class="cv-line"><span class="cv-dot"></span><span><strong>Genetic Programming</strong> — AST evolution, tournament selection, crossover, mutation, elitism</span></div>
-      <div class="cv-line"><span class="cv-dot"></span><span><strong>Formal Verification</strong> — Knuth 0-1 Principle, exhaustive binary input testing</span></div>
-      <div class="cv-line"><span class="cv-dot"></span><span><strong>Memetic Repair</strong> — hybrid local search, guaranteed convergence for N≤6</span></div>
-      <div class="cv-line"><span class="cv-dot"></span><span><strong>Algorithmic Memory</strong> — strategy extraction, transfer learning, SQLite archive</span></div>
-      <div class="cv-line"><span class="cv-dot"></span><span><strong>Ablation Study</strong> — 5-tier controlled experiments, 16 recorded artifacts</span></div>
-      <div class="cv-line"><span class="cv-dot"></span><span><strong>AlphaDev parallel</strong> — same AST search principle as DeepMind Nature 2023</span></div>
-      <div class="cv-tags">
-        <span class="cv-tag">Vanilla JS</span>
-        <span class="cv-tag">Python 3.11</span>
-        <span class="cv-tag">Flask</span>
-        <span class="cv-tag">SQLite</span>
-        <span class="cv-tag">Chart.js</span>
-        <span class="cv-tag">Netlify</span>
-      </div>
-      <a href="https://algoforgeai.netlify.app" target="_blank" class="cv-link">
-        <i class="fa-solid fa-arrow-up-right-from-square"></i> algoforgeai.netlify.app
-      </a>
+  </div>
+
+  <!-- ── Quick examples ── -->
+  <div style="margin-top:8px">
+    <p class="s-label" style="margin-bottom:6px"><i class="fa-solid fa-bolt"></i> Quick Examples</p>
+    <div class="quick-examples">
+      <button class="qex" onclick="oracleQuick('dijkstra shortest path graph')">Dijkstra's Algorithm</button>
+      <button class="qex" onclick="oracleQuick('newton gravity force mass')">Newton Gravity</button>
+      <button class="qex" onclick="oracleQuick('fourier transform signal frequency')">Fourier Transform</button>
+      <button class="qex" onclick="oracleQuick('dynamic programming knapsack')">Dynamic Programming</button>
+      <button class="qex" onclick="oracleQuick('pid controller temperature')">PID Controller</button>
+      <button class="qex" onclick="oracleQuick('bayes theorem probability')">Bayes' Theorem</button>
+      <button class="qex" onclick="oracleQuick('neural network backpropagation')">Neural Network</button>
+      <button class="qex" onclick="oracleQuick('SIR epidemic model virus spread')">Epidemic Model</button>
+      <button class="qex" onclick="oracleQuick('binary search sorted array')">Binary Search</button>
+      <button class="qex" onclick="oracleQuick('kepler orbit planet period')">Kepler's Laws</button>
     </div>
   </div>
 
-  <!-- FOOTER -->
+  <!-- ── Bottom link ── -->
   <div style="margin-top:auto;padding-top:14px;border-top:1px solid var(--border)">
-    <button id="btnInvent" class="btn btn-primary btn-block" style="font-size:15px;padding:13px 18px">
-      <i class="fa-solid fa-wand-magic-sparkles"></i> Invent Algorithm
-    </button>
+    <a href="https://algoforgeai.netlify.app" target="_blank" class="cv-link" style="display:flex;align-items:center;gap:6px;font-size:12px;color:var(--t3)">
+      <i class="fa-solid fa-arrow-up-right-from-square"></i> algoforgeai.netlify.app
+    </a>
   </div>
 </aside>
 
@@ -155,8 +80,8 @@
   <!-- Top Bar -->
   <div class="top-bar">
     <div>
-      <h2>Algorithm Invention Studio</h2>
-      <p>Genetic Programming engine synthesizing 100% verified, novel algorithms</p>
+      <h2>Universal Knowledge Oracle</h2>
+      <p>Any concept · Any domain · Simplest explanation + working code</p>
     </div>
     <div class="top-stats">
       <div class="top-stat">
@@ -174,106 +99,445 @@
     </div>
   </div>
 
-  <!-- 7 WORKSPACE TABS -->
-  <!-- WORKSPACE RESEARCH TABS -->
+  <!-- 3 TABS -->
   <div class="tabs">
-    <button class="tab on" data-tab="t-lab">
-      <i class="fa-solid fa-flask-vial"></i> Discovery Lab
+    <button class="tab on" data-tab="t-oracle">
+      <i class="fa-solid fa-globe"></i> Universal Oracle
     </button>
-    <button class="tab" data-tab="t-ai">
-      <i class="fa-solid fa-wand-sparkles"></i> AI Task Builder
+    <button class="tab" data-tab="t-lab">
+      <i class="fa-solid fa-dna"></i> Discovery Studio
     </button>
     <button class="tab" data-tab="t-research">
-      <i class="fa-solid fa-microscope"></i> Research Lab
-    </button>
-    <button class="tab" data-tab="t-memory">
-      <i class="fa-solid fa-brain"></i> Algorithmic Memory
-    </button>
-    <button class="tab" data-tab="t-theory">
-      <i class="fa-solid fa-atom"></i> Theory Forge
-    </button>
-    <button class="tab" data-tab="t-anim">
-      <i class="fa-solid fa-film"></i> Step Animator
-    </button>
-    <button class="tab" data-tab="t-export">
-      <i class="fa-solid fa-file-export"></i> Export &amp; Prove
-    </button>
-    <button class="tab" data-tab="t-hof">
-      <i class="fa-solid fa-crown"></i> Hall of Fame
-    </button>
-    <button class="tab" data-tab="t-archive">
-      <i class="fa-solid fa-box-archive"></i> Pareto Archive
-    </button>
-    <button class="tab" data-tab="t-howto">
-      <i class="fa-solid fa-graduation-cap"></i> System Specs &amp; Guide
+      <i class="fa-solid fa-microscope"></i> Research Hub
     </button>
   </div>
 
-  <!-- ─── TAB 1: INVENTION LAB ─── -->
-  <div id="t-lab" class="tab-body on">
+  <!-- ─── TAB 1: UNIVERSAL ORACLE ─── -->
+  <div id="t-oracle" class="tab-body on">
 
+    <!-- Hero welcome state -->
+    <div id="oracleHero" class="oracle-hero">
+      <div class="oracle-hero-icon"><i class="fa-solid fa-globe"></i></div>
+      <h2>What do you want to understand?</h2>
+      <p>Search for any concept across <strong>Physics, Computer Science, Mathematics, Engineering, Biology, and more</strong>. Get the simplest explanation, the governing formula, and working code — instantly.</p>
+      <div class="hero-domain-grid">
+        <div class="hero-domain-card" onclick="oracleQuick('newton gravity force')">
+          <span class="hdc-emoji">🚀</span>
+          <span class="hdc-label">Physics & Space</span>
+          <span class="hdc-hint">Gravity, Waves, Thermodynamics, Relativity</span>
+        </div>
+        <div class="hero-domain-card" onclick="oracleQuick('dijkstra shortest path')">
+          <span class="hdc-emoji">💻</span>
+          <span class="hdc-label">Algorithms & CS</span>
+          <span class="hdc-hint">Pathfinding, Sorting, DP, Hashing, Trees</span>
+        </div>
+        <div class="hero-domain-card" onclick="oracleQuick('fourier transform signal')">
+          <span class="hdc-emoji">📐</span>
+          <span class="hdc-label">Mathematics</span>
+          <span class="hdc-hint">Fourier, Bayes, Graph Theory, Calculus</span>
+        </div>
+        <div class="hero-domain-card" onclick="oracleQuick('pid controller robot')">
+          <span class="hdc-emoji">⚙️</span>
+          <span class="hdc-label">Engineering</span>
+          <span class="hdc-hint">PID Control, Queueing Theory, Neural Nets</span>
+        </div>
+        <div class="hero-domain-card" onclick="oracleQuick('SIR epidemic model')">
+          <span class="hdc-emoji">🔬</span>
+          <span class="hdc-label">Biology & Science</span>
+          <span class="hdc-hint">DNA Alignment, Epidemics, Evolution</span>
+        </div>
+        <div class="hero-domain-card" onclick="oracleQuick('custom synthesis evolve algorithm')">
+          <span class="hdc-emoji">⚡</span>
+          <span class="hdc-label">Invent New Algorithm</span>
+          <span class="hdc-hint">No known solution? We synthesize one from scratch</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Loading state -->
+    <div id="oracleLoading" class="oracle-loading hidden">
+      <div class="oracle-spinner"></div>
+      <div id="oracleLoadingText">Searching knowledge base...</div>
+    </div>
+
+    <!-- Result panel -->
+    <div id="oracleResult" class="hidden">
+
+      <!-- Result header card -->
+      <div class="oracle-result-header">
+        <div class="oracle-result-emoji" id="orEmoji">🚀</div>
+        <div class="oracle-result-meta">
+          <div class="oracle-result-domain-badge" id="orDomainBadge">Physics</div>
+          <div class="oracle-result-name" id="orName">Newton's Law</div>
+          <div class="oracle-result-formula" id="orFormula">F = G·m₁·m₂/r²</div>
+        </div>
+        <div class="oracle-result-actions">
+          <button class="btn btn-ghost" id="btnOracleCopyCode" onclick="oracleCopyCode()">
+            <i class="fa-solid fa-copy"></i> Copy Code
+          </button>
+          <button class="btn btn-ghost" onclick="oracleNewSearch()">
+            <i class="fa-solid fa-magnifying-glass"></i> New Search
+          </button>
+        </div>
+      </div>
+
+      <div class="oracle-result-grid">
+
+        <!-- ELI5 -->
+        <div class="card oracle-eli5-card">
+          <div class="card-head">
+            <h3><i class="fa-solid fa-child" style="color:#f59e0b"></i> Simple Explanation</h3>
+            <span class="badge" style="background:rgba(245,158,11,0.12);color:#f59e0b;border:1px solid rgba(245,158,11,0.3)">ELI5</span>
+          </div>
+          <p id="orEli5" class="oracle-eli5-text"></p>
+        </div>
+
+        <!-- Technical explanation -->
+        <div class="card">
+          <div class="card-head">
+            <h3><i class="fa-solid fa-book-open" style="color:#60a5fa"></i> Technical Explanation</h3>
+            <span class="badge b-ready" id="orComplexity"></span>
+          </div>
+          <p id="orExplanation" class="oracle-explain-text"></p>
+        </div>
+
+        <!-- Code block – full width -->
+        <div class="card oracle-code-card">
+          <div class="card-head">
+            <h3><i class="fa-solid fa-code" style="color:#a78bfa"></i> Working Python Code</h3>
+            <div style="display:flex;gap:8px">
+              <span class="badge" style="background:rgba(167,139,250,0.1);color:#a78bfa;border:1px solid rgba(167,139,250,0.25)">Python</span>
+              <button class="cp-btn" onclick="oracleCopyCode()">Copy</button>
+            </div>
+          </div>
+          <div class="code-wrap" style="margin-top:0">
+            <pre id="orCode" class="code-out" style="height:auto;min-height:200px;max-height:500px"></pre>
+          </div>
+        </div>
+
+        <!-- Related concepts -->
+        <div class="card" id="orRelatedCard">
+          <div class="card-head">
+            <h3><i class="fa-solid fa-link" style="color:#34d399"></i> Related Concepts</h3>
+          </div>
+          <div id="orRelated" class="oracle-related-pills"></div>
+        </div>
+
+      </div>
+
+      <!-- AI source note -->
+      <div id="orSourceNote" class="oracle-source-note hidden">
+        <i class="fa-solid fa-wand-sparkles"></i>
+        <span>Generated by Groq AI — verify formulas before production use.</span>
+      </div>
+
+    </div>
+
+    <!-- Theory Forge section (kept as sub-panel) -->
+    <div id="t-theory-inner" class="hidden">
+      <!-- MATHEMATICAL THEORY EXPLORER -->
+      <div class="card" style="margin-bottom:18px;border:1px solid rgba(251,146,60,0.35)">
+        <div class="card-head">
+          <h3><i class="fa-solid fa-atom" style="color:var(--peach)"></i> Theory Forge — Evolutionary Mathematical Discovery</h3>
+          <span class="badge" id="theoryInventBadge" style="background:rgba(251,146,60,0.15);color:var(--peach);border:1px solid rgba(251,146,60,0.4)">Ready</span>
+        </div>
+        <div class="g2" style="margin-bottom:14px">
+          <div class="fg">
+            <div class="fl"><span class="fl-label">Mathematical Domain</span></div>
+            <select id="theoryDomain" class="fs">
+              <option value="primeStructure">🔢 Prime Number Deep Structure</option>
+              <option value="numberIdentity">∞ Integer Sequence Identities</option>
+              <option value="fractalGeometry">🌀 Fractal & Recursive Geometry</option>
+              <option value="combinatorial">🎲 Combinatorial Laws</option>
+              <option value="dynamicSystems">⚙️ Dynamical System Invariants</option>
+              <option value="cryptoArithmetic">🔐 Modular Arithmetic Patterns</option>
+            </select>
+          </div>
+          <div class="fg">
+            <div class="fl"><span class="fl-label">Discovery Depth</span><span class="vp" id="theoryDepthV">Hard</span></div>
+            <select id="theoryDepth" class="fs">
+              <option value="easy">Easy — Surface patterns (fast)</option>
+              <option value="medium">Medium — Multi-variable rules</option>
+              <option value="hard" selected>Hard — Deep cross-domain rules</option>
+              <option value="ultra">Ultra — Frontier exploration</option>
+            </select>
+          </div>
+        </div>
+        <button id="btnInventTheory" class="btn btn-primary btn-block" style="background:linear-gradient(135deg,#EA580C,#7C3AED);font-size:15px;padding:14px">
+          <i class="fa-solid fa-wand-magic-sparkles"></i> Invent Novel Mathematical Theory
+        </button>
+        <div id="theoryProgress" class="hidden" style="margin-top:14px">
+          <div class="prog" style="margin-bottom:8px"><div id="theoryProgFill" class="prog-fill" style="background:linear-gradient(90deg,#EA580C,#7C3AED)"></div></div>
+          <div id="theoryStatus" style="font-size:12px;color:var(--t3);font-family:var(--mono)">Initializing symbolic search...</div>
+        </div>
+        <div id="theoryResult" class="hidden" style="margin-top:18px">
+          <div style="background:linear-gradient(135deg,rgba(234,88,12,0.08),rgba(124,58,237,0.08));border:1px solid rgba(251,146,60,0.3);border-radius:16px;padding:20px">
+            <div style="font-size:10px;letter-spacing:2px;color:var(--t3);margin-bottom:8px">DISCOVERED NOVEL THEORY</div>
+            <div id="theoryTitle" style="font-size:17px;font-weight:800;color:var(--peach);margin-bottom:8px"></div>
+            <div id="theoryEquation" style="font-family:var(--mono);font-size:15px;color:var(--sky);background:rgba(0,0,0,0.2);padding:12px 16px;border-radius:10px;margin-bottom:14px;line-height:1.8"></div>
+            <div id="theoryProof" style="font-size:12.5px;color:var(--mint);margin-bottom:10px"></div>
+            <div id="theoryExplain" style="font-size:13px;color:var(--t1);line-height:1.7;margin-bottom:12px"></div>
+            <div id="theoryNoveltyClaim" style="font-size:12px;color:var(--peach);font-style:italic;border-top:1px solid rgba(255,255,255,0.08);padding-top:10px"></div>
+          </div>
+          <div style="margin-top:10px;display:flex;gap:8px;flex-wrap:wrap">
+            <button class="btn btn-ghost" onclick="inventNewTheory()"><i class="fa-solid fa-rotate"></i> Discover Another</button>
+            <button class="btn btn-ghost" onclick="copyTheory()"><i class="fa-solid fa-copy"></i> Copy Theory</button>
+            <button class="btn btn-ghost" onclick="exportTheoryPDF()"><i class="fa-solid fa-file-pdf"></i> Export as Research Note</button>
+          </div>
+          <div class="chart-box" style="margin-top:16px;height:200px"><canvas id="chartTheory"></canvas></div>
+        </div>
+      </div>
+
+      <!-- Symbolic Regression + Conjecture in a 2-col grid -->
+      <div class="g2" style="margin-bottom:18px">
+        <!-- Symbolic Regression Lab -->
+        <div class="card">
+          <div class="card-head">
+            <h3><i class="fa-solid fa-function" style="color:var(--sky)"></i> Symbolic Regression Lab</h3>
+            <span class="badge b-ready" id="symBadge">Ready</span>
+          </div>
+          <div style="margin-bottom:12px">
+            <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px">
+              <button class="btn btn-ghost" style="font-size:11px" onclick="loadPreset('gravity')">🍎 Newton Gravity</button>
+              <button class="btn btn-ghost" style="font-size:11px" onclick="loadPreset('pendulum')">⏱ Pendulum</button>
+              <button class="btn btn-ghost" style="font-size:11px" onclick="loadPreset('kepler')">🪐 Kepler Orbit</button>
+              <button class="btn btn-ghost" style="font-size:11px" onclick="loadPreset('wave')">🌊 Wave Energy</button>
+              <button class="btn btn-ghost" style="font-size:11px" onclick="loadPreset('custom')">✏️ Custom</button>
+            </div>
+            <div class="fg">
+              <div class="fl"><span class="fl-label">Data Points (x,y per line)</span></div>
+              <textarea id="symData" class="fi" rows="7" style="font-family:var(--mono);font-size:12px;resize:vertical">1, 1
+2, 4
+3, 9
+4, 16
+5, 25
+6, 36
+7, 49
+8, 64</textarea>
+            </div>
+          </div>
+          <button id="btnSymDiscover" class="btn btn-primary btn-block">
+            <i class="fa-solid fa-wand-magic-sparkles"></i> Discover Mathematical Law
+          </button>
+          <div id="symResult" class="hidden" style="margin-top:16px">
+            <div style="background:rgba(56,189,248,0.08);border:1px solid rgba(56,189,248,0.25);border-radius:14px;padding:16px">
+              <div style="font-size:11px;color:var(--t3);margin-bottom:4px">DISCOVERED EQUATION</div>
+              <div id="symFormula" style="font-family:var(--mono);font-size:20px;color:var(--sky);font-weight:700;margin-bottom:8px">f(x) = ?</div>
+              <div id="symName" style="font-size:13px;color:var(--peach);font-weight:600;margin-bottom:8px"></div>
+              <div id="symR2" style="font-size:12px;color:var(--t2);margin-bottom:10px"></div>
+              <div id="symExplain" style="font-size:12.5px;color:var(--t1);line-height:1.6"></div>
+            </div>
+            <div class="chart-box" style="margin-top:14px"><canvas id="chartSymbol"></canvas></div>
+          </div>
+        </div>
+
+        <!-- Mathematical Conjecture Generator -->
+        <div class="card">
+          <div class="card-head">
+            <h3><i class="fa-solid fa-infinity" style="color:var(--violet)"></i> Conjecture Generator</h3>
+            <span class="badge b-ready" id="conjBadge">Ready</span>
+          </div>
+          <div class="fg">
+            <div class="fl"><span class="fl-label">Domain</span></div>
+            <select id="conjDomain" class="fs">
+              <option value="prime">Prime Number Patterns</option>
+              <option value="sequence">Integer Sequences</option>
+              <option value="geometry">Geometric Identities</option>
+              <option value="probability">Probabilistic Structures</option>
+              <option value="chaos">Chaotic System Attractors</option>
+            </select>
+          </div>
+          <div class="fg">
+            <div class="fl"><span class="fl-label">Test Range (N up to)</span><span class="vp" id="conjRangeV">1000</span></div>
+            <input type="range" id="conjRange" min="100" max="10000" step="100" value="1000">
+          </div>
+          <button id="btnConjGen" class="btn btn-primary btn-block" style="background:linear-gradient(135deg,#7C3AED,#4F46E5)">
+            <i class="fa-solid fa-atom fa-spin"></i> Generate Novel Conjecture
+          </button>
+          <div id="conjResult" class="hidden" style="margin-top:16px">
+            <div style="background:rgba(167,139,250,0.08);border:1px solid rgba(167,139,250,0.25);border-radius:14px;padding:16px">
+              <div style="font-size:11px;color:var(--t3);margin-bottom:4px">GENERATED CONJECTURE</div>
+              <div id="conjTitle" style="font-size:15px;color:var(--violet);font-weight:700;margin-bottom:6px"></div>
+              <div id="conjStatement" style="font-family:var(--mono);font-size:13px;color:var(--sky);margin-bottom:10px;line-height:1.7;background:rgba(0,0,0,0.15);padding:10px;border-radius:8px"></div>
+              <div id="conjVerify" style="font-size:12px;color:var(--mint);margin-bottom:8px"></div>
+              <div id="conjExplain" style="font-size:12.5px;color:var(--t1);line-height:1.6"></div>
+              <div id="conjCounterEx" style="font-size:11.5px;color:var(--t3);margin-top:8px;font-style:italic"></div>
+            </div>
+            <div style="margin-top:10px;display:flex;gap:8px">
+              <button class="btn btn-ghost" style="font-size:11px" onclick="regenerateConjecture()"><i class="fa-solid fa-rotate"></i> New</button>
+              <button class="btn btn-ghost" style="font-size:11px" onclick="copyConjecture()"><i class="fa-solid fa-copy"></i> Copy</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- True Evolutionary Formula Discovery -->
+      <div class="card" style="border:1px solid rgba(52,211,153,0.35)">
+        <div class="card-head">
+          <h3><i class="fa-solid fa-dna" style="color:var(--mint)"></i> True Evolutionary Formula Discovery</h3>
+          <span class="badge b-ready" id="discovBadge">Ready</span>
+        </div>
+        <div class="g2" style="margin-bottom:14px">
+          <div class="fg">
+            <div class="fl"><span class="fl-label">Target Sequence</span></div>
+            <select id="discovSeq" class="fs">
+              <option value="Prime Numbers">🔢 Prime Numbers</option>
+              <option value="Fibonacci">🐚 Fibonacci Sequence</option>
+              <option value="Perfect Squares">⬛ Perfect Squares</option>
+              <option value="Triangular Numbers">🔺 Triangular Numbers</option>
+              <option value="Cube Numbers">🧊 Cube Numbers</option>
+              <option value="Catalan Numbers">🌿 Catalan Numbers</option>
+              <option value="Euler Totient">🔐 Euler's Totient φ(n)</option>
+              <option value="Twin Prime Gaps">♊ Twin Prime Gaps</option>
+              <option value="Factorial Mod 7">♾ Factorial mod 7</option>
+              <option value="Collatz Max">🌀 Collatz Max Values</option>
+            </select>
+          </div>
+          <div class="fg">
+            <div class="fl"><span class="fl-label">Population</span><span class="vp" id="discovPopV">80</span></div>
+            <input type="range" id="discovPop" min="30" max="200" step="10" value="80"
+              oninput="document.getElementById('discovPopV').textContent=this.value">
+          </div>
+        </div>
+        <div style="display:flex;gap:10px;margin-bottom:14px">
+          <button id="btnDiscover" class="btn btn-primary" style="flex:1;background:linear-gradient(135deg,#059669,#4F46E5);font-size:14px;padding:13px">
+            <i class="fa-solid fa-microscope"></i> Discover Novel Formula
+          </button>
+          <button id="btnStopDiscover" class="btn btn-ghost" style="padding:13px 18px">
+            <i class="fa-solid fa-stop"></i> Stop
+          </button>
+        </div>
+        <div class="prog" style="margin-bottom:8px"><div id="discovProgFill" class="prog-fill" style="background:linear-gradient(90deg,#059669,#4F46E5);width:0%"></div></div>
+        <div id="discovProgress" style="font-size:12px;color:var(--t3);font-family:var(--mono);min-height:16px"></div>
+        <div class="chart-box" style="margin-bottom:18px"><canvas id="chartDiscovery"></canvas></div>
+        <div id="discovResultPanel" class="hidden">
+          <div style="background:linear-gradient(135deg,rgba(5,150,105,0.1),rgba(79,70,229,0.1));border:1px solid rgba(52,211,153,0.35);border-radius:16px;padding:20px">
+            <div id="discovName" style="font-size:17px;font-weight:800;color:var(--mint);margin-bottom:6px"></div>
+            <div id="discovFormulaFinal" style="font-family:var(--mono);font-size:18px;color:var(--sky);background:rgba(0,0,0,0.25);padding:12px 16px;border-radius:10px;margin-bottom:14px"></div>
+            <table class="dtable" style="font-size:11.5px">
+              <thead><tr><th>n</th><th>Actual</th><th>Predicted</th><th>Error</th></tr></thead>
+              <tbody id="discovSamples"></tbody>
+            </table>
+            <div id="discovExplain" style="font-size:13px;color:var(--t1);line-height:1.7;border-top:1px solid rgba(255,255,255,0.07);padding-top:12px;margin-top:12px"></div>
+          </div>
+          <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:10px">
+            <button class="btn btn-ghost" onclick="copyDiscovery()"><i class="fa-solid fa-copy"></i> Copy Report</button>
+            <button class="btn btn-ghost" onclick="exportDiscovery()"><i class="fa-solid fa-download"></i> Download .txt</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ─── TAB 2: DISCOVERY STUDIO ─── -->
+  <div id="t-lab" class="tab-body">
+
+    <div class="g2" style="margin-bottom:16px;align-items:start">
+      <!-- Left: Controls -->
+      <div>
+        <!-- Task selector -->
+        <div class="card" style="margin-bottom:12px">
+          <div class="card-head">
+            <h3><i class="fa-solid fa-crosshairs" style="color:var(--accent)"></i> Synthesis Task</h3>
+          </div>
+          <div class="fg">
+            <label class="fl"><span class="fl-label">Invention Task</span></label>
+            <select id="taskSelect" class="fs"></select>
+          </div>
+          <div id="taskDesc" class="task-desc-box">Select a task to see details.</div>
+          <div id="taskMeta" style="display:flex;gap:7px;align-items:center;flex-wrap:wrap"></div>
+        </div>
+
+        <!-- Evolution tuning -->
+        <div class="card" style="margin-bottom:12px">
+          <div class="card-head">
+            <h3><i class="fa-solid fa-sliders" style="color:var(--violet)"></i> Evolution Tuning</h3>
+          </div>
+          <div class="fg">
+            <div class="fl"><span class="fl-label">Population Size</span><span id="popV" class="vp">60</span></div>
+            <input type="range" id="popSize" min="20" max="150" step="10" value="60">
+          </div>
+          <div class="fg">
+            <div class="fl"><span class="fl-label">Generations</span><span id="genV" class="vp">60</span></div>
+            <input type="range" id="genCount" min="10" max="300" step="10" value="60">
+          </div>
+          <div class="fg">
+            <div class="fl"><span class="fl-label">Mutation Rate</span><span id="mutV" class="vp">0.35</span></div>
+            <input type="range" id="mutRate" min="0.05" max="0.85" step="0.05" value="0.35">
+          </div>
+          <div class="fg">
+            <div class="fl"><span class="fl-label">Crossover Rate</span><span id="crsV" class="vp">0.70</span></div>
+            <input type="range" id="crsRate" min="0.10" max="1.00" step="0.05" value="0.70">
+          </div>
+          <div class="fg">
+            <div class="fl"><span class="fl-label">Max AST Depth</span><span id="depV" class="vp">6</span></div>
+            <input type="range" id="depthVal" min="3" max="9" step="1" value="6">
+          </div>
+          <div class="fg">
+            <div class="fl"><span class="fl-label">Random Seed</span><span class="m-sub" style="margin-top:0">0 = random</span></div>
+            <div class="seed-row">
+              <input type="number" id="seedVal" class="fi" value="0" min="0">
+              <button id="btnDice" class="dice-btn" title="Roll new random seed"><i class="fa-solid fa-dice"></i></button>
+            </div>
+            <div class="hint" id="seedTip"><strong>Seed 0</strong> = unique discovery every run!</div>
+          </div>
+        </div>
+
+        <button id="btnInvent" class="btn btn-primary btn-block" style="font-size:15px;padding:13px 18px">
+          <i class="fa-solid fa-wand-magic-sparkles"></i> Invent Algorithm
+        </button>
+      </div>
+
+      <!-- Right: Live metrics + chart -->
+      <div>
+        <!-- Metric cards -->
+        <div class="metrics" style="margin-bottom:12px">
+          <div class="m-card">
+            <div class="m-icon mi-indigo"><i class="fa-solid fa-trophy"></i></div>
+            <div><span class="m-lab">Fitness</span><div id="mFit" class="m-val">—</div></div>
+          </div>
+          <div class="m-card">
+            <div class="m-icon mi-sky"><i class="fa-solid fa-rotate"></i></div>
+            <div><span class="m-lab">Generation</span><div id="mGen" class="m-val">—</div></div>
+          </div>
+          <div class="m-card">
+            <div class="m-icon mi-violet"><i class="fa-solid fa-sitemap"></i></div>
+            <div><span class="m-lab">AST Depth</span><div id="mDepth" class="m-val">—</div><div id="mComplex" class="m-sub"></div></div>
+          </div>
+          <div class="m-card">
+            <div class="m-icon mi-mint"><i class="fa-solid fa-stopwatch"></i></div>
+            <div><span class="m-lab">Time</span><div id="mTime" class="m-val">—</div></div>
+          </div>
+        </div>
+
+        <!-- Live chart -->
+        <div class="card" style="margin-bottom:12px">
+          <div class="card-head">
+            <h3><i class="fa-solid fa-chart-line" style="color:var(--indigo)"></i> Live Fitness Evolution</h3>
+            <span id="statusBadge" class="badge b-ready">Ready</span>
+          </div>
+          <div class="prog"><div id="progFill" class="prog-fill"></div></div>
+          <div class="chart-box"><canvas id="chartEvo"></canvas></div>
+        </div>
+
+        <!-- Test cases -->
+        <div class="card">
+          <div class="card-head">
+            <h3><i class="fa-solid fa-list-check" style="color:var(--mint)"></i> Benchmark Test Cases</h3>
+          </div>
+          <div id="testList" class="test-list"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Discovered Algorithm section -->
     <div id="noveltyBanner" class="hidden"></div>
-
-    <!-- Metrics -->
-    <div class="metrics">
-      <div class="m-card">
-        <div class="m-icon mi-indigo"><i class="fa-solid fa-trophy"></i></div>
-        <div>
-          <span class="m-lab">Fitness Accuracy</span>
-          <div id="mFit" class="m-val">—</div>
-        </div>
-      </div>
-      <div class="m-card">
-        <div class="m-icon mi-sky"><i class="fa-solid fa-rotate"></i></div>
-        <div>
-          <span class="m-lab">Generations</span>
-          <div id="mGen" class="m-val">—</div>
-        </div>
-      </div>
-      <div class="m-card">
-        <div class="m-icon mi-violet"><i class="fa-solid fa-sitemap"></i></div>
-        <div>
-          <span class="m-lab">AST Depth</span>
-          <div id="mDepth" class="m-val">—</div>
-          <div id="mComplex" class="m-sub"></div>
-        </div>
-      </div>
-      <div class="m-card">
-        <div class="m-icon mi-mint"><i class="fa-solid fa-stopwatch"></i></div>
-        <div>
-          <span class="m-lab">Time Taken</span>
-          <div id="mTime" class="m-val">—</div>
-        </div>
-      </div>
-    </div>
-
-    <div class="g2">
-      <!-- Live Chart -->
-      <div class="card">
-        <div class="card-head">
-          <h3><i class="fa-solid fa-chart-line" style="color:var(--indigo)"></i> Live Fitness Evolution</h3>
-          <span id="statusBadge" class="badge b-ready">Ready</span>
-        </div>
-        <div class="prog"><div id="progFill" class="prog-fill"></div></div>
-        <div class="chart-box"><canvas id="chartEvo"></canvas></div>
-      </div>
-
-      <!-- Test Cases -->
-      <div class="card">
-        <div class="card-head">
-          <h3><i class="fa-solid fa-list-check" style="color:var(--mint)"></i> Benchmark Test Cases</h3>
-        </div>
-        <div id="testList" class="test-list"></div>
-      </div>
-    </div>
-
-    <!-- Discovered Algorithm -->
     <div class="card mt">
       <div class="card-head">
         <h3><i class="fa-solid fa-atom" style="color:var(--violet)"></i> Discovered Algorithm</h3>
         <span id="algoNote" style="font-size:12px;color:var(--t3)">Run synthesis to invent</span>
       </div>
-
       <div id="algoNameRow" class="hidden" style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:14px">
         <div class="algo-name">
           <i class="fa-solid fa-tag"></i>
@@ -282,10 +546,9 @@
         </div>
         <span id="algoComplexBadge" class="complexity-badge hidden"></span>
       </div>
-
       <div class="g2">
         <div>
-          <span class="sub-lab">📖 Plain English Overview &amp; Step Narrative</span>
+          <span class="sub-lab">📖 Plain English Overview</span>
           <div id="englishOut" class="english-out">
             <p style="color:var(--t3);font-style:italic">The narrative explanation will appear here after synthesis...</p>
           </div>
@@ -300,7 +563,7 @@
       </div>
     </div>
 
-    <!-- AI Explainer Panel (appears after synthesis) -->
+    <!-- AI explainer -->
     <div class="card mt hidden" id="aiExplainerCard">
       <div class="card-head">
         <h3><i class="fa-solid fa-wand-sparkles" style="color:#a78bfa"></i> AI Algorithm Analysis</h3>
@@ -308,18 +571,15 @@
       </div>
       <div id="aiExplainerContent">
         <div style="display:flex;align-items:center;gap:8px;color:var(--t3);font-size:13px">
-          <i class="fa-solid fa-spinner fa-spin"></i> Analysing with Llama 3.1 70B...
+          <i class="fa-solid fa-spinner fa-spin"></i> Analysing algorithm...
         </div>
       </div>
     </div>
 
-  </div>
-
-  <!-- ─── TAB 2: STEP ANIMATOR ─── -->
-  <div id="t-anim" class="tab-body">
-    <div class="card">
+    <!-- Integrated: Step Animator -->
+    <div class="card mt">
       <div class="card-head">
-        <h3><i class="fa-solid fa-wand-magic-sparkles" style="color:var(--peach)"></i> Interactive Step Visualizer</h3>
+        <h3><i class="fa-solid fa-film" style="color:var(--peach)"></i> Step-by-Step Animator</h3>
       </div>
       <div class="anim-ctrl">
         <div class="fg" style="flex:1;margin-bottom:0">
@@ -328,66 +588,50 @@
         </div>
         <button id="btnRunAnim" class="btn btn-ghost"><i class="fa-solid fa-circle-play"></i> Run</button>
       </div>
-
       <div id="animEmpty" class="empty-state">
         <i class="fa-solid fa-triangle-exclamation"></i>
-        Invent an algorithm first from the <strong>Invention Lab</strong> tab!
+        Invent an algorithm first, then animate it here!
       </div>
-
       <div id="animPanel" class="hidden">
         <div class="scrubber">
-          <button id="btnFirst" class="btn btn-icon" title="First"><i class="fa-solid fa-backward-fast"></i></button>
-          <button id="btnPrev"  class="btn btn-icon" title="Prev"><i class="fa-solid fa-backward-step"></i></button>
+          <button id="btnFirst" class="btn btn-icon"><i class="fa-solid fa-backward-fast"></i></button>
+          <button id="btnPrev"  class="btn btn-icon"><i class="fa-solid fa-backward-step"></i></button>
           <input type="range" id="stepSlider" min="0" max="0" value="0" style="flex:1">
-          <button id="btnNext"  class="btn btn-icon" title="Next"><i class="fa-solid fa-forward-step"></i></button>
-          <button id="btnLast"  class="btn btn-icon" title="Last"><i class="fa-solid fa-forward-fast"></i></button>
+          <button id="btnNext"  class="btn btn-icon"><i class="fa-solid fa-forward-step"></i></button>
+          <button id="btnLast"  class="btn btn-icon"><i class="fa-solid fa-forward-fast"></i></button>
           <span class="s-count" id="stepCount">0 / 0</span>
         </div>
         <div class="action-pill" id="actionPill"><i class="fa-solid fa-circle-dot"></i> Ready</div>
         <div class="arr-viz" id="arrayViz"></div>
       </div>
     </div>
-  </div>
 
-  <!-- ─── TAB 3: EXPORT & PROVE ─── -->
-  <div id="t-export" class="tab-body">
-    <div id="exportEmpty" class="empty-state card">
-      <i class="fa-solid fa-triangle-exclamation"></i>
-      Invent an algorithm first from the <strong>Invention Lab</strong> tab!
-    </div>
-
-    <div id="exportPanel" class="hidden">
-      <div class="g2" style="margin-bottom:18px">
-        <!-- Formal Proof -->
-        <div class="card">
-          <div class="card-head">
-            <h3><i class="fa-solid fa-shield-halved" style="color:var(--mint)"></i> Formal Verification Proof</h3>
-          </div>
-          <div id="verifyBox" class="vbox na"><i class="fa-solid fa-hourglass"></i> <span>Run synthesis first</span></div>
-          <div style="margin-top:14px" class="guide-box violet">
-            <div class="gicon"><i class="fa-solid fa-book"></i></div>
-            <div class="gcontent">
-              <h4>0-1 Principle Theorem (Knuth, 1968)</h4>
-              <p>If a compare-swap algorithm sorts ALL 2ⁿ binary (0/1) sequences, it is <em>mathematically guaranteed</em> to sort ANY real values of length N.</p>
+    <!-- Integrated: Export & Prove -->
+    <div class="card mt" id="exportCard">
+      <div class="card-head">
+        <h3><i class="fa-solid fa-shield-halved" style="color:var(--mint)"></i> Export & Formal Proof</h3>
+      </div>
+      <div id="exportEmpty" style="text-align:center;padding:24px;color:var(--t3);font-size:13px">
+        <i class="fa-solid fa-hourglass" style="display:block;font-size:24px;margin-bottom:8px;color:var(--t4)"></i>
+        Run synthesis first
+      </div>
+      <div id="exportPanel" class="hidden">
+        <div class="g2" style="margin-bottom:18px">
+          <div>
+            <div id="verifyBox" class="vbox na"><i class="fa-solid fa-hourglass"></i> <span>Run synthesis first</span></div>
+            <div style="margin-top:14px" class="guide-box violet">
+              <div class="gicon"><i class="fa-solid fa-book"></i></div>
+              <div class="gcontent">
+                <h4>0-1 Principle Theorem (Knuth, 1968)</h4>
+                <p>If a compare-swap algorithm sorts ALL 2ⁿ binary (0/1) sequences, it is <em>mathematically guaranteed</em> to sort ANY real values of length N.</p>
+              </div>
             </div>
           </div>
-        </div>
-
-        <!-- Identity Card -->
-        <div class="card">
-          <div class="card-head">
-            <h3><i class="fa-solid fa-id-card" style="color:var(--sky)"></i> Algorithm Identity Card</h3>
+          <div>
+            <table class="dtable" style="font-size:12.5px">
+              <tbody id="identityBody"></tbody>
+            </table>
           </div>
-          <table class="dtable" style="font-size:12.5px">
-            <tbody id="identityBody"></tbody>
-          </table>
-        </div>
-      </div>
-
-      <!-- Code Export -->
-      <div class="card">
-        <div class="card-head">
-          <h3><i class="fa-solid fa-code" style="color:var(--indigo)"></i> Exportable Code</h3>
         </div>
         <div class="exp-tabs">
           <button class="exp-tab on"  data-lang="python">🐍 Python</button>
@@ -400,136 +644,69 @@
         </div>
         <div class="code-wrap">
           <button class="cp-btn" onclick="copyEl('exportCode')">Copy</button>
-          <pre id="exportCode" class="code-out" style="height:320px">// Code will appear here</pre>
+          <pre id="exportCode" class="code-out" style="height:280px">// Code will appear here</pre>
         </div>
       </div>
     </div>
+
   </div>
 
-  <!-- ─── AI TASK BUILDER TAB ─── -->
-  <div id="t-ai" class="tab-body">
-
-    <!-- Hero -->
-    <div class="hero-banner hb-accent">
-      <div class="hero-banner-icon"><i class="fa-solid fa-wand-sparkles" style="font-size:28px;color:var(--accent)"></i></div>
-      <div class="hero-banner-body">
-        <h3>AI-Powered Algorithm Synthesis</h3>
-        <p>Describe in plain English what you want an algorithm to do. <strong>Groq AI (Llama 3.1 70B)</strong> converts your description into precise test cases, then the <strong>Genetic Programming engine</strong> evolves a real algorithm that satisfies them. The AI writes zero algorithm code — it only defines the goal. The algorithm is 100% discovered by evolution.</p>
-      </div>
-    </div>
-
-    <div class="g2" style="gap:20px;align-items:start">
-
-      <!-- Left: Input -->
-      <div>
-        <div class="card" style="margin-bottom:16px">
-          <div class="card-head">
-            <h3><i class="fa-solid fa-comment-dots" style="color:#a78bfa"></i> Describe Your Algorithm</h3>
-            <span class="badge b-ready" id="aiBadge">Ready</span>
-          </div>
-
-          <div class="fg">
-            <div class="fl"><span class="fl-label">What should the algorithm do?</span></div>
-            <textarea id="aiDescription" class="fi" rows="4" style="resize:vertical;font-size:13px;line-height:1.6"
-              placeholder="Examples:
-• Sort 4 numbers in ascending order
-• Move the largest number to the end
-• Reverse 3 elements in place
-• Put even numbers before odd numbers
-• Sort 3 numbers in descending order"></textarea>
-          </div>
-
-          <!-- Quick prompts -->
-          <div style="margin-bottom:12px">
-            <div class="fl-label" style="margin-bottom:6px;font-size:11px;color:var(--t3);text-transform:uppercase;letter-spacing:0.8px">Quick Examples</div>
-            <div style="display:flex;flex-wrap:wrap;gap:5px" id="aiQuickPrompts">
-              <button class="ai-prompt-btn" onclick="setAiPrompt('Sort 4 numbers in ascending order')">Sort 4 ascending</button>
-              <button class="ai-prompt-btn" onclick="setAiPrompt('Move the minimum element to the first position in a 4-element array')">Min to front</button>
-              <button class="ai-prompt-btn" onclick="setAiPrompt('Reverse 4 elements in place')">Reverse array</button>
-              <button class="ai-prompt-btn" onclick="setAiPrompt('Sort 3 numbers in descending order')">Sort descending</button>
-              <button class="ai-prompt-btn" onclick="setAiPrompt('Put even numbers before odd numbers in a 4-element array')">Even before odd</button>
-              <button class="ai-prompt-btn" onclick="setAiPrompt('Move the maximum element to the last position in a 3-element array')">Max to end</button>
-            </div>
-          </div>
-
-          <button id="btnAiGenerate" class="btn btn-block" style="background:linear-gradient(135deg,#7c3aed,#3b82f6);color:#fff;font-size:14px;padding:12px;font-weight:600">
-            <i class="fa-solid fa-wand-sparkles"></i> Generate Task with AI
-          </button>
-
-          <div id="aiError" class="hidden ai-error-box"></div>
-        </div>
-
-        <!-- AI Suggested Variations -->
-        <div class="card hidden" id="aiVariationsCard">
-          <div class="card-head">
-            <h3><i class="fa-solid fa-lightbulb" style="color:#f59e0b"></i> Try These Next</h3>
-          </div>
-          <div id="aiVariationsList"></div>
-        </div>
-      </div>
-
-      <!-- Right: Generated Task + Evolve -->
-      <div>
-        <div class="card" id="aiTaskCard" style="margin-bottom:16px">
-          <div class="card-head">
-            <h3><i class="fa-solid fa-list-check" style="color:#34d399"></i> Generated Task</h3>
-            <span id="aiDiffBadge" class="badge b-ready"></span>
-          </div>
-
-          <div id="aiTaskEmpty" style="text-align:center;padding:32px;color:var(--t3);font-size:13px">
-            <i class="fa-solid fa-arrow-left" style="display:block;font-size:24px;margin-bottom:8px;color:var(--t4)"></i>
-            Describe an algorithm and click Generate
-          </div>
-
-          <div id="aiTaskContent" class="hidden">
-            <div style="margin-bottom:10px">
-              <div style="font-size:10px;font-weight:600;color:var(--t3);text-transform:uppercase;letter-spacing:0.8px;margin-bottom:4px">Task Name</div>
-              <div id="aiTaskName" style="font-family:var(--mono);font-size:13px;color:var(--t1);font-weight:600"></div>
-            </div>
-            <div style="margin-bottom:12px">
-              <div style="font-size:10px;font-weight:600;color:var(--t3);text-transform:uppercase;letter-spacing:0.8px;margin-bottom:4px">Description</div>
-              <div id="aiTaskDesc" style="font-size:12.5px;color:var(--t2);line-height:1.55"></div>
-            </div>
-            <div style="margin-bottom:14px">
-              <div style="font-size:10px;font-weight:600;color:var(--t3);text-transform:uppercase;letter-spacing:0.8px;margin-bottom:6px">Test Cases (AI Generated)</div>
-              <div id="aiTestCases" style="display:flex;flex-direction:column;gap:5px"></div>
-            </div>
-            <div id="aiHint" class="ai-hint-box"></div>
-
-            <button id="btnAiEvolve" class="btn btn-primary btn-block" style="font-size:14px;padding:12px">
-              <i class="fa-solid fa-dna"></i> Evolve Algorithm for This Task
-            </button>
-          </div>
-        </div>
-
-        <!-- Evolution Result -->
-        <div class="card hidden" id="aiResultCard">
-          <div class="card-head">
-            <h3><i class="fa-solid fa-trophy" style="color:#f59e0b"></i> Evolved Algorithm</h3>
-            <span id="aiResultBadge" class="badge b-ready"></span>
-          </div>
-          <div id="aiResultContent"></div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- ─── RESEARCH LAB TAB ─── -->
+  <!-- ─── TAB 3: RESEARCH HUB ─── -->
   <div id="t-research" class="tab-body">
-    <div class="card">
+
+    <!-- AI Task Builder at top -->
+    <div class="card" style="margin-bottom:18px">
+      <div class="card-head">
+        <h3><i class="fa-solid fa-wand-sparkles" style="color:#a78bfa"></i> AI Task Builder</h3>
+        <span class="badge b-ready" id="aiBadge">Ready</span>
+      </div>
+      <div class="fg">
+        <div class="fl"><span class="fl-label">Describe your algorithm in plain English</span></div>
+        <textarea id="aiDescription" class="fi" rows="3" style="resize:vertical;font-size:13px"
+          placeholder="e.g. Sort 4 numbers in ascending order • Move the largest to the end • Reverse 3 elements in place"></textarea>
+      </div>
+      <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px" id="aiQuickPrompts">
+        <button class="ai-prompt-btn" onclick="setAiPrompt('Sort 4 numbers in ascending order')">Sort 4 ascending</button>
+        <button class="ai-prompt-btn" onclick="setAiPrompt('Move the minimum element to the first position in a 4-element array')">Min to front</button>
+        <button class="ai-prompt-btn" onclick="setAiPrompt('Reverse 4 elements in place')">Reverse array</button>
+        <button class="ai-prompt-btn" onclick="setAiPrompt('Sort 3 numbers in descending order')">Sort descending</button>
+        <button class="ai-prompt-btn" onclick="setAiPrompt('Put even numbers before odd numbers in a 4-element array')">Even before odd</button>
+      </div>
+      <button id="btnAiGenerate" class="btn btn-block" style="background:linear-gradient(135deg,#7c3aed,#3b82f6);color:#fff;font-size:14px;padding:12px;font-weight:600">
+        <i class="fa-solid fa-wand-sparkles"></i> Generate Task with AI
+      </button>
+      <div id="aiError" class="hidden ai-error-box"></div>
+      <div id="aiTaskContent" class="hidden" style="margin-top:14px">
+        <div style="font-size:10px;font-weight:600;color:var(--t3);text-transform:uppercase;margin-bottom:4px">Generated Task</div>
+        <div id="aiTaskName" style="font-family:var(--mono);font-size:13px;color:var(--t1);font-weight:600;margin-bottom:6px"></div>
+        <div id="aiTaskDesc" style="font-size:12.5px;color:var(--t2);line-height:1.55;margin-bottom:10px"></div>
+        <div id="aiTestCases" style="display:flex;flex-direction:column;gap:5px;margin-bottom:12px"></div>
+        <div id="aiHint" class="ai-hint-box"></div>
+        <button id="btnAiEvolve" class="btn btn-primary btn-block" style="margin-top:10px">
+          <i class="fa-solid fa-dna"></i> Evolve Algorithm for This Task
+        </button>
+      </div>
+      <div class="card hidden" id="aiResultCard" style="margin-top:12px">
+        <div class="card-head">
+          <h3><i class="fa-solid fa-trophy" style="color:#f59e0b"></i> Evolved Algorithm</h3>
+          <span id="aiResultBadge" class="badge b-ready"></span>
+        </div>
+        <div id="aiResultContent"></div>
+      </div>
+      <div class="card hidden" id="aiVariationsCard" style="margin-top:12px">
+        <div class="card-head">
+          <h3><i class="fa-solid fa-lightbulb" style="color:#f59e0b"></i> Try These Next</h3>
+        </div>
+        <div id="aiVariationsList"></div>
+      </div>
+    </div>
+
+    <!-- Controlled Experiment Runner -->
+    <div class="card" style="margin-bottom:18px">
       <div class="card-head">
         <h3><i class="fa-solid fa-microscope" style="color:var(--sky)"></i> Controlled Experiment Runner</h3>
         <button id="btn-generate-report" class="btn btn-sky"><i class="fa-solid fa-file-pdf"></i> Generate Paper Report</button>
       </div>
-
-      <div class="guide-box indigo">
-        <div class="gicon"><i class="fa-solid fa-atom"></i></div>
-        <div class="gcontent">
-          <h4>Research Core: Baseline vs. Memory-Guided Transfer Search</h4>
-          <p>Evaluates whether accumulated strategy knowledge reduces candidate evaluation cost on unseen computational tasks. Rigorously accounts for <strong>Censored Timeouts</strong> and <strong>Benchmark-Specific Solution Thresholds</strong>.</p>
-        </div>
-      </div>
-
       <div class="g2 mt">
         <div class="fg">
           <label class="fl-label"><i class="fa-solid fa-list-check"></i> Select Benchmark Task</label>
@@ -550,7 +727,6 @@
             </optgroup>
           </select>
         </div>
-
         <div class="fg">
           <label class="fl-label"><i class="fa-solid fa-sliders"></i> Experiment Mode</label>
           <select id="exp-method-select" class="fs">
@@ -559,80 +735,66 @@
           </select>
         </div>
       </div>
-
       <div class="g2">
         <div class="fg">
-          <label class="fl-label"><i class="fa-solid fa-dice"></i> Random Seeds (Comma-separated)</label>
+          <label class="fl-label">Random Seeds (Comma-separated)</label>
           <input type="text" id="exp-seeds-input" class="fi" value="42,101,202,303,404">
-          <span class="hint">5 seeds used for fast acceptance test; 10-30+ supported.</span>
         </div>
-        <div class="fg" style="display:flex; gap:10px; align-items:flex-end;">
-          <div style="flex:1;">
-            <label class="fl-label">Population</label>
-            <input type="number" id="exp-pop-input" class="fi" value="40">
-          </div>
-          <div style="flex:1;">
-            <label class="fl-label">Generations</label>
-            <input type="number" id="exp-gen-input" class="fi" value="25">
-          </div>
+        <div class="fg" style="display:flex;gap:10px;align-items:flex-end">
+          <div style="flex:1"><label class="fl-label">Population</label><input type="number" id="exp-pop-input" class="fi" value="40"></div>
+          <div style="flex:1"><label class="fl-label">Generations</label><input type="number" id="exp-gen-input" class="fi" value="25"></div>
         </div>
       </div>
-
-      <div style="display:flex; gap:12px;" class="mt">
-        <button id="btn-run-exp" class="btn btn-primary" style="flex:2;"><i class="fa-solid fa-flask"></i> Simulate Experiment (Offline Data)</button>
-        <button id="btn-run-ablation" class="btn btn-ghost" style="flex:1;"><i class="fa-solid fa-layer-group"></i> Run 5-Tier Ablation Study</button>
+      <div style="display:flex;gap:12px;" class="mt">
+        <button id="btn-run-exp" class="btn btn-primary" style="flex:2"><i class="fa-solid fa-flask"></i> Simulate Experiment</button>
+        <button id="btn-run-ablation" class="btn btn-ghost" style="flex:1"><i class="fa-solid fa-layer-group"></i> 5-Tier Ablation Study</button>
       </div>
     </div>
 
     <div id="exp-results-card" class="mt"></div>
     <div id="ablation-results-card" class="mt"></div>
 
+    <!-- Algorithmic Memory -->
     <div class="card mt">
-      <div class="card-head">
-        <h3><i class="fa-solid fa-database" style="color:var(--sky)"></i> Recorded Experiment Artifacts (ALGOFORGE-EXP-XXX)</h3>
-      </div>
-      <div id="artifacts-list"></div>
-    </div>
-  </div>
-
-  <!-- ─── ALGORITHMIC MEMORY TAB ─── -->
-  <div id="t-memory" class="tab-body">
-    <div class="card">
       <div class="card-head">
         <h3><i class="fa-solid fa-brain" style="color:var(--indigo)"></i> Algorithmic Strategy Knowledge Base</h3>
       </div>
-      <div class="guide-box mint">
+      <div class="guide-box mint" style="margin-bottom:12px">
         <div class="gicon"><i class="fa-solid fa-network-wired"></i></div>
         <div class="gcontent">
           <h4>Extracted Reusable Structural Strategies</h4>
-          <p>Shows <strong>${OFFLINE_STRATEGIES.length} extracted structural strategies</strong> learned from successful program discoveries. Tracks historical transfer success and positive/negative transfer gain across tasks. The full live memory engine runs via <code>python main.py</code>.</p>
+          <p>Learned strategies from past discoveries — transferred to new problems for 2.7× faster convergence.</p>
         </div>
       </div>
       <div id="memory-strategies-list"></div>
     </div>
-  </div>
 
-  <!-- ─── TAB 4: HALL OF FAME ─── -->
-  <div id="t-hof" class="tab-body">
-    <div class="guide-box peach" style="margin-bottom:14px">
-      <div class="gicon"><i class="fa-solid fa-crown"></i></div>
-      <div class="gcontent">
-        <h4>Hall of Fame Leaderboard</h4>
-        <p>Highest-scoring algorithm ever discovered for each task. Evolve algorithms with <strong>Seed 0</strong> to break records!</p>
+    <!-- Pareto Archive + Hall of Fame merged -->
+    <div class="g2 mt">
+      <div class="card">
+        <div class="card-head">
+          <h3><i class="fa-solid fa-chart-scatter" style="color:var(--violet)"></i> Pareto Frontier</h3>
+        </div>
+        <div class="chart-box"><canvas id="chartPareto"></canvas></div>
+      </div>
+      <div class="card">
+        <div class="card-head">
+          <h3><i class="fa-solid fa-crown" style="color:var(--peach)"></i> Hall of Fame</h3>
+        </div>
+        <div id="hofLoading" class="empty-state"><i class="fa-solid fa-spinner fa-spin"></i> Loading...</div>
+        <div id="hofGrid" class="hof-grid hidden"></div>
       </div>
     </div>
-    <div id="hofLoading" class="empty-state"><i class="fa-solid fa-spinner fa-spin"></i> Loading...</div>
-    <div id="hofGrid" class="hof-grid hidden"></div>
-  </div>
 
-  <!-- ─── TAB 5: ARCHIVE ─── -->
-  <div id="t-archive" class="tab-body">
-    <div class="card">
+    <!-- Experiment Artifacts -->
+    <div class="card mt">
       <div class="card-head">
-        <h3><i class="fa-solid fa-chart-scatter" style="color:var(--violet)"></i> Pareto Frontier (Accuracy vs Code Simplicity)</h3>
+        <h3><i class="fa-solid fa-database" style="color:var(--sky)"></i> Experiment Artifacts (ALGOFORGE-EXP-XXX)</h3>
       </div>
-      <div class="chart-box"><canvas id="chartPareto"></canvas></div>
+      <div id="artifacts-list"></div>
     </div>
+
+    <!-- All Discoveries table -->
     <div class="card mt">
       <div class="card-head">
         <h3><i class="fa-solid fa-database" style="color:var(--sky)"></i> All Discovered Algorithms</h3>
@@ -640,570 +802,9 @@
       </div>
       <div style="overflow-x:auto">
         <table class="dtable">
-          <thead>
-            <tr><th>Name</th><th>Task</th><th>Fitness</th><th>Depth</th><th>Status</th><th>Time</th></tr>
-          </thead>
+          <thead><tr><th>Name</th><th>Task</th><th>Fitness</th><th>Depth</th><th>Status</th><th>Time</th></tr></thead>
           <tbody id="archiveBody"></tbody>
         </table>
-      </div>
-    </div>
-  </div>
-
-  <!-- ─── TAB 6: SYSTEM SPECS & DEEP TECHNICAL GUIDE ─── -->
-  <div id="t-howto" class="tab-body">
-
-    <!-- Hero -->
-    <div class="hero-banner hb-howto" style="padding:24px 28px;margin-bottom:20px">
-      <div class="hero-banner-icon"><i class="fa-solid fa-microscope" style="font-size:32px;color:var(--accent)"></i></div>
-      <div class="hero-banner-body">
-        <h2 style="font-size:20px;margin-bottom:6px">ALGOFORGE — Technical Architecture</h2>
-        <p style="font-size:13.5px;line-height:1.7;max-width:720px">A browser-native Genetic Programming engine for automated algorithm synthesis. Discovers, names, formally verifies, and exports novel algorithms as executable code — running entirely client-side with no cloud inference. Architecturally parallel to Google DeepMind's <strong>AlphaDev</strong> (Nature, 2023) at the fixed-N comparator network scale.</p>
-      </div>
-    </div>
-
-    <!-- Core Architecture -->
-    <div class="card" style="margin-bottom:16px">
-      <div class="card-head">
-        <h3><i class="fa-solid fa-sitemap" style="color:var(--indigo)"></i> Core Engine Architecture</h3>
-        <span class="badge b-done">5 Modules</span>
-      </div>
-      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:14px;margin-top:4px">
-
-        <div class="module-card">
-          <div class="module-card-label mc-accent">MODULE 1 — AST REPRESENTATION</div>
-          <p>Programs are encoded as <strong>Abstract Syntax Trees</strong> with typed nodes: <code>CompareSwapNode</code>, <code>SwapNode</code>, <code>ReverseRangeNode</code>, <code>LoopNode</code>, <code>IfNode</code>, <code>BinaryOpNode</code>. Each node is independently cloneable and mutable — enabling crossover at any point in the tree.</p>
-          <div style="margin-top:10px;font-family:var(--mono);font-size:11px;color:var(--info);background:var(--bg-deep);padding:8px 10px;border-radius:8px;line-height:1.6;border:1px solid var(--border)">ProgramNode<br>&boxvr;&mdash; CompareSwap(0, 3)<br>&boxvr;&mdash; CompareSwap(1, 2)<br>&boxur;&mdash; LoopNode(i, 0, n)<br>&nbsp;&nbsp;&nbsp;&nbsp;&boxur;&mdash; CompareSwap(i, i+1)</div>
-        </div>
-
-        <div class="module-card">
-          <div class="module-card-label mc-success">MODULE 2 — GENETIC ENGINE</div>
-          <p>Population-based GP with <strong>Mulberry32 seeded PRNG</strong> for full reproducibility. Selection: tournament (k=2). Crossover: single-point subtree exchange. Mutation: node add/remove/replace. Elitism: top 10% preserved each generation. Fitness: element-wise accuracy minus step-count and depth penalties.</p>
-          <div style="margin-top:10px;display:grid;grid-template-columns:1fr 1fr;gap:6px;font-size:11px;color:var(--t2)">
-            <span><strong style="color:var(--success)">Pop:</strong> 30–120</span>
-            <span><strong style="color:var(--success)">Gen:</strong> 30–200</span>
-            <span><strong style="color:var(--success)">Mut:</strong> 0.25–0.35</span>
-            <span><strong style="color:var(--success)">Crs:</strong> 0.65–0.70</span>
-          </div>
-        </div>
-
-        <div class="module-card">
-          <div class="module-card-label mc-info">MODULE 3 — MEMETIC REPAIR</div>
-          <p>If GP plateaus below 95% fitness, a <strong>local repair pass</strong> activates. For sorting tasks: identifies all failing (i,j) pairs in the output, injects exactly the missing comparators, and re-evaluates. Falls back to structured bubble-sort network if needed. Guarantees convergence for well-defined sorting tasks.</p>
-          <div style="margin-top:10px;font-size:11px;color:var(--info)">Repair trigger: fitness &lt; 95% after final generation</div>
-        </div>
-
-        <div class="module-card">
-          <div class="module-card-label mc-violet">MODULE 4 — FORMAL VERIFICATION</div>
-          <p>Uses <strong>Knuth's 0-1 Principle (1968)</strong>: a compare-swap network that correctly sorts all 2ⁿ binary (0/1) inputs is provably correct for all real-valued inputs. ALGOFORGE exhaustively tests all binary vectors for N ≤ 6, providing a mathematical correctness certificate — not just empirical test passing.</p>
-          <div style="margin-top:10px;font-size:11px;color:#a78bfa">Verified for: sort_2 (4 inputs), sort_3 (8), sort_4 (16), sort_6 (64)</div>
-        </div>
-
-        <div class="module-card">
-          <div class="module-card-label mc-warning">MODULE 5 — ALGORITHMIC MEMORY</div>
-          <p>The Python backend extracts <strong>structural subtree strategies</strong> from successful programs and stores them in SQLite. On new tasks, the memory retriever injects high-fitness subtrees into the initial population — giving evolution a head start. Measured 63% mean reduction in evaluations-to-solution vs memoryless baseline (sort_2, seeds 42+101).</p>
-          <div style="margin-top:10px;font-size:11px;color:var(--warning)">Live data: 3 strategies | 4 transfer attempts | 75% success rate</div>
-        </div>
-
-        <div class="module-card">
-          <div class="module-card-label" style="color:#a78bfa">MODULE 6 — NOVELTY DETECTION</div>
-          <p>Each discovered program is serialized to a canonical JSON AST string and compared against the <strong>localStorage run history</strong> (client-side) or SQLite archive (Python backend). Structural duplicates are flagged; genuinely new topologies trigger the novelty banner. Hall of Fame stores the best-per-task fitness record.</p>
-          <div style="margin-top:10px;font-size:11px;color:#a78bfa">Persistent across sessions via localStorage (200 run cap)</div>
-        </div>
-
-      </div>
-    </div>
-
-    <!-- AlphaDev Comparison -->
-    <div class="card" style="margin-bottom:16px">
-      <div class="card-head">
-        <h3><i class="fa-solid fa-brain" style="color:var(--peach)"></i> AlphaDev Connection &amp; Honest Scope</h3>
-      </div>
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
-        <div class="compare-card">
-          <div class="compare-card-title" style="color:var(--warning)">Google DeepMind AlphaDev (Nature, 2023)</div>
-          <ul style="font-size:12px;color:var(--t2);line-height:1.9;padding-left:16px">
-            <li>Reinforcement Learning (AlphaZero-style)</li>
-            <li>Operates on x86 assembly instruction sequences</li>
-            <li>Discovers N=3,4,5 sort routines 1 instruction faster than LLVM std::sort</li>
-            <li>Training: thousands of GPU-hours on Google TPUs</li>
-            <li>Verified by Google's production compiler team</li>
-          </ul>
-        </div>
-        <div class="compare-card">
-          <div class="compare-card-title" style="color:var(--accent)">ALGOFORGE (This Project)</div>
-          <ul style="font-size:12px;color:var(--t2);line-height:1.9;padding-left:16px">
-            <li>Genetic Programming (evolutionary search)</li>
-            <li>Operates on typed AST node sequences</li>
-            <li>Discovers N=2–6 sorting &amp; novel transformation networks</li>
-            <li>Runs entirely in the browser — zero cloud compute</li>
-            <li>Optimizes correctness (fitness %) + simplicity (depth)</li>
-            <li>Verified via Knuth 0-1 Principle exhaustive testing</li>
-          </ul>
-        </div>
-      </div>
-      <div class="shared-principle-box">
-        <strong>Shared Principle:</strong> Both systems treat algorithm synthesis as a discrete combinatorial search over a program space, evaluated against correctness criteria. AlphaDev operates at hardware scale; ALGOFORGE demonstrates the same fundamental approach entirely in a browser — a valid research prototype of the same paradigm.
-      </div>
-    </div>
-
-    <!-- Search Space Table -->
-    <div class="card" style="margin-bottom:16px">
-      <div class="card-head">
-        <h3><i class="fa-solid fa-chart-area" style="color:var(--violet)"></i> Search Space Analysis</h3>
-      </div>
-      <div style="overflow-x:auto">
-        <table class="dtable">
-          <thead><tr><th>Array Size N</th><th>Permutations (N!)</th><th>0-1 Vectors (2ⁿ)</th><th>~Compare-Swap Trees</th><th>ALGOFORGE Status</th></tr></thead>
-          <tbody>
-            <tr><td>N = 2</td><td>2</td><td>4</td><td>~10²</td><td><span class="badge b-done">✅ ~30 evals</span></td></tr>
-            <tr><td>N = 3</td><td>6</td><td>8</td><td>~10³</td><td><span class="badge b-done">✅ ~40 evals</span></td></tr>
-            <tr><td>N = 4</td><td>24</td><td>16</td><td>~10⁵</td><td><span class="badge b-done">✅ ~60 evals</span></td></tr>
-            <tr><td>N = 5</td><td>120</td><td>32</td><td>~10⁷</td><td><span class="badge b-running">⏱ Hard — needs repair</span></td></tr>
-            <tr><td>N = 6</td><td>720</td><td>64</td><td>~10⁸</td><td><span class="badge b-running">⏱ Ultra — repair needed</span></td></tr>
-            <tr><td>N = 1000</td><td>&gt;10²⁵⁶⁷</td><td>2¹⁰⁰⁰</td><td>&gt;10¹⁰⁰⁰</td><td><span class="badge" style="background:rgba(255,46,99,0.15);color:#FF2E63">🚫 Open Problem</span></td></tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
-
-    <!-- Real Results -->
-    <div class="card" style="margin-bottom:16px">
-      <div class="card-head">
-        <h3><i class="fa-solid fa-flask" style="color:var(--mint)"></i> Real Experimental Results (Python Engine)</h3>
-        <span class="badge b-done">16 Recorded Runs</span>
-      </div>
-      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:10px;margin-bottom:14px">
-        <div class="m-card" style="flex-direction:column;text-align:center;padding:14px">
-          <div class="hof-fitness perfect" style="font-size:22px">87.5%</div>
-          <div class="m-sub">Overall Success Rate</div>
-        </div>
-        <div class="m-card" style="flex-direction:column;text-align:center;padding:14px">
-          <div class="hof-fitness good" style="font-size:22px">2.7×</div>
-          <div class="m-sub">GP Speedup vs Random Search</div>
-        </div>
-        <div class="m-card" style="flex-direction:column;text-align:center;padding:14px">
-          <div class="hof-fitness good" style="font-size:22px">99.6%</div>
-          <div class="m-sub">Peak Fitness (sort tasks)</div>
-        </div>
-        <div class="m-card" style="flex-direction:column;text-align:center;padding:14px">
-          <div class="hof-fitness perfect" style="font-size:22px">100%</div>
-          <div class="m-sub">Deterministic Reproducibility</div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Tech Stack -->
-    <div class="card" style="margin-bottom:16px">
-      <div class="card-head">
-        <h3><i class="fa-solid fa-layer-group" style="color:var(--sky)"></i> Full Technology Stack</h3>
-      </div>
-      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px">
-        <div class="stack-card">
-          <div class="stack-label sl-info">FRONTEND</div>
-          <ul class="stack-list">
-            <li>Vanilla JS ES2020 — zero framework</li>
-            <li>Chart.js 4.4 — live fitness charts</li>
-            <li>Custom CSS dark theme</li>
-            <li>Deployed on Netlify (fully static)</li>
-          </ul>
-        </div>
-        <div class="stack-card">
-          <div class="stack-label sl-success">BROWSER GP ENGINE</div>
-          <ul class="stack-list">
-            <li>10 typed AST node classes</li>
-            <li>Mulberry32 seeded PRNG</li>
-            <li>Tournament selection + crossover</li>
-            <li>Memetic local repair pass</li>
-          </ul>
-        </div>
-        <div class="stack-card">
-          <div class="stack-label sl-warning">PYTHON BACKEND (local)</div>
-          <ul class="stack-list">
-            <li>Python 3.11 + Flask REST API</li>
-            <li>SQLite — archive + memory DB</li>
-            <li>Strategy extraction + transfer</li>
-            <li>5-tier ablation suite</li>
-          </ul>
-        </div>
-        <div class="stack-card">
-          <div class="stack-label sl-violet">THEORY FORGE</div>
-          <ul class="stack-list">
-            <li>Symbolic Regression (10 families)</li>
-            <li>Least-squares + log-linear fit</li>
-            <li>Prime sieve, Collatz, derangement</li>
-            <li>Evolutionary formula discovery</li>
-          </ul>
-        </div>
-      </div>
-    </div>
-
-    <!-- Interview Pitch -->
-    <div class="card card-accent-success" style="margin-bottom:16px">
-      <div class="card-head">
-        <h3><i class="fa-solid fa-person-chalkboard" style="color:var(--success)"></i> 2-Minute Interview Pitch</h3>
-        <span class="badge b-done">Interview Ready</span>
-      </div>
-      <div class="pitch-box">
-        "ALGOFORGE is a browser-native Genetic Programming engine that automatically synthesizes and formally verifies sorting algorithms. Instead of writing algorithms by hand, it treats algorithm design as a search problem — evolving a population of candidate programs represented as Abstract Syntax Trees, selecting the fittest, crossing them over, and mutating them across generations. It's architecturally similar to Google DeepMind's AlphaDev, published in Nature in 2023, which used reinforcement learning to discover faster sorting routines — the difference is that AlphaDev operates on assembly instructions with GPU-scale training, while ALGOFORGE demonstrates the same fundamental principle running entirely in the browser.<br><br>
-        The engine uses Knuth's 0-1 Principle for formal verification — mathematically guaranteed correct for all real inputs. It also includes a Python research backend with an algorithmic memory system that extracts reusable structural strategies from past runs and injects them into future searches — measured as a 2.7× reduction in evaluations-to-solution versus the memoryless baseline."
-      </div>
-      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px">
-        <div class="qa-card">
-          <div class="qa-question">"How is this not brute force?"</div>
-          <div class="qa-answer">GP uses selection pressure — bad programs die, good ones reproduce. For N=4 (10⁵ search space), GP finds the answer in ~60 evaluations, not millions.</div>
-        </div>
-        <div class="qa-card">
-          <div class="qa-question">"What's the fitness function?"</div>
-          <div class="qa-answer">Element-wise accuracy across test cases, minus a step-count penalty (favours efficiency) and AST depth penalty (favours simplicity). Pareto trade-off between accuracy and code size.</div>
-        </div>
-        <div class="qa-card">
-          <div class="qa-question">"Can it find truly new algorithms?"</div>
-          <div class="qa-answer">Yes at fixed-N. Each seed explores a different AST region. With seed 0, each run is a genuinely unique topology — no two seeds produce the same comparator ordering.</div>
-        </div>
-        <div class="qa-card">
-          <div class="qa-question">"What are the limitations?"</div>
-          <div class="qa-answer">Fixed-N only — search space explodes beyond N≈6. No generalization to arbitrary N. Full research mode requires the Python backend; browser runs a client-side GP subset.</div>
-        </div>
-      </div>
-    </div>
-
-  </div>
-
-  <!-- ─── TAB 7: THEORY FORGE ─── -->
-  <div id="t-theory" class="tab-body">
-
-    <!-- Hero Banner -->
-    <div class="hero-banner hb-warning">
-      <div class="hero-banner-icon"><i class="fa-solid fa-atom" style="font-size:28px;color:var(--warning)"></i></div>
-      <div class="hero-banner-body">
-        <h3 style="color:var(--warning)">Theory Forge — AI-Powered Symbolic Discovery Engine</h3>
-        <p>Based on <strong>MIT's AI Feynman</strong> (2020) and <strong>Princeton PySR</strong> research. Input any observed data (x &rarr; y measurements), and the Genetic Programming engine evolves the <em>hidden mathematical law</em> that governs it — exactly like Newton discovered F=ma from falling apple observations. Also generates novel mathematical conjectures no human has verified yet.</p>
-      </div>
-    </div>
-
-    <!-- NOVEL THEORY INVENTOR -->
-    <div class="card" style="margin-bottom:18px;border:1px solid rgba(251,146,60,0.35)">
-      <div class="card-head">
-        <h3><i class="fa-solid fa-flask-vial" style="color:var(--peach)"></i> 🧬 Mathematical Theory Explorer — AI-Powered Computational Discovery</h3>
-        <span class="badge" id="theoryInventBadge" style="background:rgba(251,146,60,0.15);color:var(--peach);border:1px solid rgba(251,146,60,0.4)">Ready</span>
-      </div>
-
-      <div style="background:rgba(251,146,60,0.06);border:1px solid rgba(251,146,60,0.15);border-radius:12px;padding:14px;margin-bottom:16px">
-        <p style="font-size:13px;color:var(--t1);line-height:1.65;margin:0">
-          This engine uses <strong>Evolutionary Symbolic Search</strong> to computationally derive mathematical patterns from domains like prime numbers, sequences, and dynamical systems.
-          It generates candidate rules, evaluates them against real data, and surfaces the best-fitting patterns with verified numerical evidence.
-          Some results rediscover known theorems from scratch; others surface empirical patterns worth further investigation. Every output includes an honest assessment of what is proved vs. what is a hypothesis.
-        </p>
-      </div>
-
-      <div class="g2" style="margin-bottom:14px">
-        <div class="fg">
-          <div class="fl"><span class="fl-label">Mathematical Domain</span></div>
-          <select id="theoryDomain" class="fs">
-            <option value="primeStructure">🔢 Prime Number Deep Structure</option>
-            <option value="numberIdentity">∞ Integer Sequence Identities</option>
-            <option value="fractalGeometry">🌀 Fractal & Recursive Geometry</option>
-            <option value="combinatorial">🎲 Combinatorial Laws</option>
-            <option value="dynamicSystems">⚙️ Dynamical System Invariants</option>
-            <option value="cryptoArithmetic">🔐 Modular Arithmetic Patterns</option>
-          </select>
-        </div>
-        <div class="fg">
-          <div class="fl"><span class="fl-label">Discovery Depth</span><span class="vp" id="theoryDepthV">Hard</span></div>
-          <select id="theoryDepth" class="fs">
-            <option value="easy">Easy — Surface patterns (fast)</option>
-            <option value="medium">Medium — Multi-variable rules</option>
-            <option value="hard" selected>Hard — Deep cross-domain rules</option>
-            <option value="ultra">Ultra — Frontier exploration</option>
-          </select>
-        </div>
-      </div>
-
-      <button id="btnInventTheory" class="btn btn-primary btn-block" style="background:linear-gradient(135deg,#EA580C,#7C3AED);font-size:15px;padding:14px">
-        <i class="fa-solid fa-wand-magic-sparkles"></i> Invent Novel Mathematical Theory
-      </button>
-
-      <!-- Live progress -->
-      <div id="theoryProgress" class="hidden" style="margin-top:14px">
-        <div class="prog" style="margin-bottom:8px"><div id="theoryProgFill" class="prog-fill" style="background:linear-gradient(90deg,#EA580C,#7C3AED)"></div></div>
-        <div id="theoryStatus" style="font-size:12px;color:var(--t3);font-family:var(--mono)">Initializing symbolic search...</div>
-      </div>
-
-      <!-- Result -->
-      <div id="theoryResult" class="hidden" style="margin-top:18px">
-        <div style="background:linear-gradient(135deg,rgba(234,88,12,0.08),rgba(124,58,237,0.08));border:1px solid rgba(251,146,60,0.3);border-radius:16px;padding:20px">
-          <div style="font-size:10px;letter-spacing:2px;color:var(--t3);margin-bottom:8px">DISCOVERED NOVEL THEORY</div>
-          <div id="theoryTitle" style="font-size:17px;font-weight:800;color:var(--peach);margin-bottom:8px"></div>
-          <div id="theoryEquation" style="font-family:var(--mono);font-size:15px;color:var(--sky);background:rgba(0,0,0,0.2);padding:12px 16px;border-radius:10px;margin-bottom:14px;line-height:1.8"></div>
-          <div id="theoryProof" style="font-size:12.5px;color:var(--mint);margin-bottom:10px"></div>
-          <div id="theoryExplain" style="font-size:13px;color:var(--t1);line-height:1.7;margin-bottom:12px"></div>
-          <div id="theoryNoveltyClaim" style="font-size:12px;color:var(--peach);font-style:italic;border-top:1px solid rgba(255,255,255,0.08);padding-top:10px"></div>
-        </div>
-        <div style="margin-top:10px;display:flex;gap:8px;flex-wrap:wrap">
-          <button class="btn btn-ghost" onclick="inventNewTheory()"><i class="fa-solid fa-rotate"></i> Discover Another</button>
-          <button class="btn btn-ghost" onclick="copyTheory()"><i class="fa-solid fa-copy"></i> Copy Theory</button>
-          <button class="btn btn-ghost" onclick="exportTheoryPDF()"><i class="fa-solid fa-file-pdf"></i> Export as Research Note</button>
-        </div>
-        <div class="chart-box" style="margin-top:16px;height:200px"><canvas id="chartTheory"></canvas></div>
-      </div>
-    </div>
-
-    <div class="g2" style="margin-bottom:18px">
-      <!-- Symbolic Regression Lab -->
-      <div class="card">
-        <div class="card-head">
-          <h3><i class="fa-solid fa-function" style="color:var(--sky)"></i> Symbolic Regression Lab</h3>
-          <span class="badge b-ready" id="symBadge">Ready</span>
-        </div>
-
-        <div class="guide-box sky" style="margin-bottom:14px">
-          <div class="gicon"><i class="fa-solid fa-lightbulb"></i></div>
-          <div class="gcontent">
-            <h4>How to Use This</h4>
-            <p>Enter observed (x, y) data pairs — these are like real experimental measurements. The AI will evolve symbolic equations (formulas with +, ×, ^, log, sin) to discover the hidden law. Try the presets!</p>
-          </div>
-        </div>
-
-        <div style="margin-bottom:12px">
-          <div class="fl"><span class="fl-label">Preset Datasets</span></div>
-          <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px">
-            <button class="btn btn-ghost" style="font-size:11px" onclick="loadPreset('gravity')">🍎 Newton Gravity</button>
-            <button class="btn btn-ghost" style="font-size:11px" onclick="loadPreset('pendulum')">⏱ Pendulum</button>
-            <button class="btn btn-ghost" style="font-size:11px" onclick="loadPreset('kepler')">🪐 Kepler Orbit</button>
-            <button class="btn btn-ghost" style="font-size:11px" onclick="loadPreset('wave')">🌊 Wave Energy</button>
-            <button class="btn btn-ghost" style="font-size:11px" onclick="loadPreset('custom')">✏️ Custom</button>
-          </div>
-          <div class="fg">
-            <div class="fl"><span class="fl-label">Data Points (x,y per line)</span></div>
-            <textarea id="symData" class="fi" rows="7" style="font-family:var(--mono);font-size:12px;resize:vertical">1, 1
-2, 4
-3, 9
-4, 16
-5, 25
-6, 36
-7, 49
-8, 64</textarea>
-          </div>
-          <div class="fg">
-            <div class="fl"><span class="fl-label">Allowed Operations</span></div>
-            <div style="display:flex;gap:8px;flex-wrap:wrap">
-              <label style="font-size:12px;color:var(--t2);display:flex;gap:5px;align-items:center"><input type="checkbox" id="opAdd" checked> + − </label>
-              <label style="font-size:12px;color:var(--t2);display:flex;gap:5px;align-items:center"><input type="checkbox" id="opMul" checked> × ÷ </label>
-              <label style="font-size:12px;color:var(--t2);display:flex;gap:5px;align-items:center"><input type="checkbox" id="opPow" checked> x^n </label>
-              <label style="font-size:12px;color:var(--t2);display:flex;gap:5px;align-items:center"><input type="checkbox" id="opLog"> log </label>
-              <label style="font-size:12px;color:var(--t2);display:flex;gap:5px;align-items:center"><input type="checkbox" id="opSin"> sin/cos </label>
-            </div>
-          </div>
-        </div>
-
-        <button id="btnSymDiscover" class="btn btn-primary btn-block">
-          <i class="fa-solid fa-wand-magic-sparkles"></i> Discover Mathematical Law
-        </button>
-
-        <div id="symResult" class="hidden" style="margin-top:16px">
-          <div style="background:rgba(56,189,248,0.08);border:1px solid rgba(56,189,248,0.25);border-radius:14px;padding:16px">
-            <div style="font-size:11px;color:var(--t3);margin-bottom:4px">DISCOVERED EQUATION</div>
-            <div id="symFormula" style="font-family:var(--mono);font-size:20px;color:var(--sky);font-weight:700;margin-bottom:8px">f(x) = ?</div>
-            <div id="symName" style="font-size:13px;color:var(--peach);font-weight:600;margin-bottom:8px"></div>
-            <div id="symR2" style="font-size:12px;color:var(--t2);margin-bottom:10px"></div>
-            <div id="symExplain" style="font-size:12.5px;color:var(--t1);line-height:1.6"></div>
-          </div>
-          <div class="chart-box" style="margin-top:14px"><canvas id="chartSymbol"></canvas></div>
-        </div>
-      </div>
-
-      <!-- Mathematical Conjecture Generator -->
-      <div class="card">
-        <div class="card-head">
-          <h3><i class="fa-solid fa-infinity" style="color:var(--violet)"></i> Mathematical Conjecture Generator</h3>
-          <span class="badge b-ready" id="conjBadge">Ready</span>
-        </div>
-
-        <div class="guide-box violet" style="margin-bottom:14px">
-          <div class="gicon"><i class="fa-solid fa-book-skull"></i></div>
-          <div class="gcontent">
-            <h4>What is a Mathematical Conjecture?</h4>
-            <p>A conjecture is a mathematical pattern or identity that <em>appears</em> true for all tested values but has not yet been formally proved. Like Goldbach's Conjecture (1742): every even number > 2 is the sum of two primes — still unproven after 280 years!</p>
-          </div>
-        </div>
-
-        <div class="fg">
-          <div class="fl"><span class="fl-label">Domain</span></div>
-          <select id="conjDomain" class="fs">
-            <option value="prime">Prime Number Patterns</option>
-            <option value="sequence">Integer Sequences</option>
-            <option value="geometry">Geometric Identities</option>
-            <option value="probability">Probabilistic Structures</option>
-            <option value="chaos">Chaotic System Attractors</option>
-          </select>
-        </div>
-
-        <div class="fg">
-          <div class="fl"><span class="fl-label">Test Range (N up to)</span><span class="vp" id="conjRangeV">1000</span></div>
-          <input type="range" id="conjRange" min="100" max="10000" step="100" value="1000">
-        </div>
-
-        <button id="btnConjGen" class="btn btn-primary btn-block" style="background:linear-gradient(135deg,#7C3AED,#4F46E5)">
-          <i class="fa-solid fa-atom fa-spin"></i> Generate Novel Conjecture
-        </button>
-
-        <div id="conjResult" class="hidden" style="margin-top:16px">
-          <div style="background:rgba(167,139,250,0.08);border:1px solid rgba(167,139,250,0.25);border-radius:14px;padding:16px">
-            <div style="font-size:11px;color:var(--t3);margin-bottom:4px">GENERATED CONJECTURE</div>
-            <div id="conjTitle" style="font-size:15px;color:var(--violet);font-weight:700;margin-bottom:6px"></div>
-            <div id="conjStatement" style="font-family:var(--mono);font-size:13px;color:var(--sky);margin-bottom:10px;line-height:1.7;background:rgba(0,0,0,0.15);padding:10px;border-radius:8px"></div>
-            <div id="conjVerify" style="font-size:12px;color:var(--mint);margin-bottom:8px"></div>
-            <div id="conjExplain" style="font-size:12.5px;color:var(--t1);line-height:1.6"></div>
-            <div id="conjCounterEx" style="font-size:11.5px;color:var(--t3);margin-top:8px;font-style:italic"></div>
-          </div>
-          <div style="margin-top:10px;display:flex;gap:8px">
-            <button class="btn btn-ghost" style="font-size:11px" onclick="regenerateConjecture()"><i class="fa-solid fa-rotate"></i> New Conjecture</button>
-            <button class="btn btn-ghost" style="font-size:11px" onclick="copyConjecture()"><i class="fa-solid fa-copy"></i> Copy Statement</button>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Historical Context -->
-    <div class="card">
-      <div class="card-head">
-        <h3><i class="fa-solid fa-hourglass" style="color:var(--peach)"></i> Famous Discoveries That Changed Science</h3>
-      </div>
-      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px">
-        <div style="background:rgba(251,146,60,0.07);border:1px solid rgba(251,146,60,0.2);border-radius:12px;padding:14px">
-          <div style="font-size:22px;margin-bottom:6px">🍎</div>
-          <div style="font-size:13px;font-weight:700;color:var(--peach);margin-bottom:4px">Newton, 1687</div>
-          <div style="font-family:var(--mono);font-size:13px;color:var(--sky);margin-bottom:6px">F = Gm₁m₂/r²</div>
-          <div style="font-size:11.5px;color:var(--t3)">Universal gravitation — derived by observing apple fall + planet orbits. This EXACT formula can be rediscovered by Symbolic Regression from orbital data.</div>
-        </div>
-        <div style="background:rgba(129,140,248,0.07);border:1px solid rgba(129,140,248,0.2);border-radius:12px;padding:14px">
-          <div style="font-size:22px;margin-bottom:6px">⚡</div>
-          <div style="font-size:13px;font-weight:700;color:var(--indigo);margin-bottom:4px">Einstein, 1905</div>
-          <div style="font-family:var(--mono);font-size:13px;color:var(--sky);margin-bottom:6px">E = mc²</div>
-          <div style="font-size:11.5px;color:var(--t3)">Mass-energy equivalence. MIT's AI Feynman rediscovered this equation purely from numerical data in 2020.</div>
-        </div>
-        <div style="background:rgba(52,211,153,0.07);border:1px solid rgba(52,211,153,0.2);border-radius:12px;padding:14px">
-          <div style="font-size:22px;margin-bottom:6px">🌀</div>
-          <div style="font-size:13px;font-weight:700;color:var(--mint);margin-bottom:4px">Euler, 1748</div>
-          <div style="font-family:var(--mono);font-size:13px;color:var(--sky);margin-bottom:6px">e^(iπ) + 1 = 0</div>
-          <div style="font-size:11.5px;color:var(--t3)">Euler's identity — called the most beautiful equation in mathematics. Still no AI has re-derived it symbolically from scratch.</div>
-        </div>
-        <div style="background:rgba(56,189,248,0.07);border:1px solid rgba(56,189,248,0.2);border-radius:12px;padding:14px">
-          <div style="font-size:22px;margin-bottom:6px">🔬</div>
-          <div style="font-size:13px;font-weight:700;color:var(--sky);margin-bottom:4px">DeepMind, 2023</div>
-          <div style="font-family:var(--mono);font-size:13px;color:var(--sky);margin-bottom:6px">AlphaDev sorting</div>
-          <div style="font-size:11.5px;color:var(--t3)">AI discovered a faster sorting algorithm than any human found in 50 years. Published in Nature. ALGOFORGE implements the same principle.</div>
-        </div>
-      </div>
-    </div>
-
-    <!-- ════════════ TRUE EVOLUTIONARY FORMULA DISCOVERY ════════════ -->
-    <div class="card" style="margin-bottom:18px;border:1px solid rgba(52,211,153,0.35)">
-      <div class="card-head">
-        <h3><i class="fa-solid fa-dna" style="color:var(--mint)"></i> 🔭 True Evolutionary Formula Discovery — Genuine AI Mathematical Research</h3>
-        <span class="badge b-ready" id="discovBadge">Ready</span>
-      </div>
-
-      <div style="background:rgba(52,211,153,0.06);border:1px solid rgba(52,211,153,0.18);border-radius:12px;padding:14px;margin-bottom:16px">
-        <p style="font-size:13px;color:var(--t1);line-height:1.65;margin:0">
-          This is the <strong>real deal</strong>. The AI starts with <em>zero knowledge</em> of the formula — no templates, no hints.
-          It evolves random symbolic expression trees (ASTs) using Genetic Programming, tests each one against real mathematical sequences,
-          scores by accuracy + cross-domain surprise (does it unexpectedly involve π, e, or φ?), and surfaces the best candidate laws.
-          <strong>Every run produces a genuinely unique formula that was never pre-programmed.</strong>
-        </p>
-      </div>
-
-      <div class="g2" style="margin-bottom:14px">
-        <div class="fg">
-          <div class="fl"><span class="fl-label">Target Sequence</span></div>
-          <select id="discovSeq" class="fs">
-            <option value="Prime Numbers">🔢 Prime Numbers (p₁,p₂,...)</option>
-            <option value="Fibonacci">🐚 Fibonacci Sequence</option>
-            <option value="Perfect Squares">⬛ Perfect Squares</option>
-            <option value="Triangular Numbers">🔺 Triangular Numbers</option>
-            <option value="Cube Numbers">🧊 Cube Numbers</option>
-            <option value="Catalan Numbers">🌿 Catalan Numbers</option>
-            <option value="Euler Totient">🔐 Euler's Totient φ(n)</option>
-            <option value="Twin Prime Gaps">♊ Twin Prime Gaps</option>
-            <option value="Factorial Mod 7">♾ Factorial mod 7</option>
-            <option value="Collatz Max">🌀 Collatz Max Values</option>
-          </select>
-        </div>
-        <div class="fg">
-          <div class="fl"><span class="fl-label">Population Size</span><span class="vp" id="discovPopV">80</span></div>
-          <input type="range" id="discovPop" min="30" max="200" step="10" value="80"
-            oninput="document.getElementById('discovPopV').textContent=this.value">
-        </div>
-      </div>
-
-      <div class="g2" style="margin-bottom:14px">
-        <div class="fg">
-          <div class="fl"><span class="fl-label">Generations</span><span class="vp" id="discovGenV">80</span></div>
-          <input type="range" id="discovGen" min="20" max="300" step="10" value="80"
-            oninput="document.getElementById('discovGenV').textContent=this.value">
-        </div>
-        <div style="display:flex;flex-direction:column;gap:8px;justify-content:flex-end">
-          <label style="font-size:12px;color:var(--t2);display:flex;gap:8px;align-items:center">
-            <input type="checkbox" id="discovLog"> Allow log( ) / ln( )
-          </label>
-          <label style="font-size:12px;color:var(--t2);display:flex;gap:8px;align-items:center">
-            <input type="checkbox" id="discovTrig"> Allow sin( ) / cos( )
-          </label>
-          <label style="font-size:12px;color:var(--t2);display:flex;gap:8px;align-items:center">
-            <input type="checkbox" id="discovPow" checked> Allow ^ (powers)
-          </label>
-        </div>
-      </div>
-
-      <div style="display:flex;gap:10px;margin-bottom:14px">
-        <button id="btnDiscover" class="btn btn-primary" style="flex:1;background:linear-gradient(135deg,#059669,#4F46E5);font-size:14px;padding:13px">
-          <i class="fa-solid fa-microscope"></i> Discover Novel Formula
-        </button>
-        <button id="btnStopDiscover" class="btn btn-ghost" style="padding:13px 18px">
-          <i class="fa-solid fa-stop"></i> Stop
-        </button>
-      </div>
-
-      <!-- Progress -->
-      <div class="prog" style="margin-bottom:8px"><div id="discovProgFill" class="prog-fill" style="background:linear-gradient(90deg,#059669,#4F46E5);width:0%"></div></div>
-      <div id="discovProgress" style="font-size:12px;color:var(--t3);font-family:var(--mono);margin-bottom:10px;min-height:16px"></div>
-
-      <!-- Live display -->
-      <div style="background:rgba(0,0,0,0.15);border-radius:10px;padding:12px;margin-bottom:12px;display:flex;gap:20px;flex-wrap:wrap;align-items:center">
-        <div><span style="font-size:11px;color:var(--t3)">CURRENT BEST</span><br><span id="discovFormula" style="font-family:var(--mono);font-size:14px;color:var(--mint)">—</span></div>
-        <div><span style="font-size:11px;color:var(--t3)">FITNESS</span><br><span id="discovFitness" style="font-size:18px;font-weight:900;color:var(--peach)">—</span></div>
-      </div>
-
-      <!-- Evolution chart -->
-      <div class="chart-box" style="margin-bottom:18px"><canvas id="chartDiscovery"></canvas></div>
-
-      <!-- RESULT PANEL -->
-      <div id="discovResultPanel" class="hidden">
-        <div style="background:linear-gradient(135deg,rgba(5,150,105,0.1),rgba(79,70,229,0.1));border:1px solid rgba(52,211,153,0.35);border-radius:16px;padding:20px;margin-bottom:14px">
-          <div style="font-size:10px;letter-spacing:2px;color:var(--t3);margin-bottom:8px">EVOLUTIONARY DISCOVERY REPORT</div>
-          <div id="discovName" style="font-size:17px;font-weight:800;color:var(--mint);margin-bottom:6px"></div>
-          <div style="font-size:12px;color:var(--t3);margin-bottom:12px">Sequence: <span id="discovSeqLabel" style="color:var(--sky)"></span></div>
-          <div id="discovFormulaFinal" style="font-family:var(--mono);font-size:18px;color:var(--sky);background:rgba(0,0,0,0.25);padding:12px 16px;border-radius:10px;margin-bottom:14px"></div>
-          <div style="display:flex;gap:14px;flex-wrap:wrap;margin-bottom:12px">
-            <span id="discovR2" style="font-size:12px;background:rgba(52,211,153,0.1);color:var(--mint);border:1px solid rgba(52,211,153,0.3);padding:4px 10px;border-radius:20px"></span>
-            <span id="discovNov" style="font-size:12px;background:rgba(251,146,60,0.1);color:var(--peach);border:1px solid rgba(251,146,60,0.3);padding:4px 10px;border-radius:20px"></span>
-            <span id="discovDepth" style="font-size:12px;background:rgba(129,140,248,0.1);color:var(--indigo);border:1px solid rgba(129,140,248,0.3);padding:4px 10px;border-radius:20px"></span>
-            <span id="discovOps" style="font-size:12px;color:var(--t3)"></span>
-          </div>
-          <div style="margin-bottom:12px">
-            <div style="font-size:11px;color:var(--t3);margin-bottom:6px">VERIFICATION SAMPLES</div>
-            <table class="dtable" style="font-size:11.5px">
-              <thead><tr><th>n</th><th>Actual</th><th>Predicted</th><th>Error</th></tr></thead>
-              <tbody id="discovSamples"></tbody>
-            </table>
-          </div>
-          <div id="discovExplain" style="font-size:13px;color:var(--t1);line-height:1.7;border-top:1px solid rgba(255,255,255,0.07);padding-top:12px"></div>
-        </div>
-        <div style="display:flex;gap:8px;flex-wrap:wrap">
-          <button class="btn btn-ghost" onclick="copyDiscovery()"><i class="fa-solid fa-copy"></i> Copy Report</button>
-          <button class="btn btn-ghost" onclick="exportDiscovery()"><i class="fa-solid fa-download"></i> Download .txt</button>
-          <button class="btn btn-ghost" onclick="document.getElementById('btnDiscover').click()"><i class="fa-solid fa-rotate"></i> Discover Again</button>
-        </div>
       </div>
     </div>
 
@@ -1214,7 +815,7 @@
 
 <!-- MODAL REPORT EXPORTER -->
 <div id="modal-report" class="modal-bg" onclick="if(event.target===this)this.classList.remove('on')">
-  <div class="modal-box" style="max-width:800px;">
+  <div class="modal-box" style="max-width:800px">
     <div class="modal-head">
       <h3><i class="fa-solid fa-file-pdf" style="color:var(--sky)"></i> Auto-Generated Research Paper Report</h3>
       <button class="btn-icon" onclick="document.getElementById('modal-report').classList.remove('on')"><i class="fa-solid fa-xmark"></i></button>
@@ -1226,9 +827,10 @@
 <script src="engine.js?v=4.0"></script>
 <script src="config.js"></script>
 <script src="groq_ai.js"></script>
+<script src="oracle.js?v=1.0"></script>
 <script src="theory.js?v=4.0"></script>
 <script src="discovery.js?v=3.0"></script>
 <script src="research_lab.js?v=4.0"></script>
-<script src="app.js?v=5.1"></script>
+<script src="app.js?v=6.0"></script>
 </body>
 </html>

@@ -43,8 +43,11 @@ document.querySelectorAll(".tab").forEach(btn => {
         btn.classList.add("on");
         const body = $(btn.dataset.tab);
         if (body) body.classList.add("on");
-        if (btn.dataset.tab === "t-archive") loadArchive();
-        if (btn.dataset.tab === "t-hof")     loadHoF();
+        // Research Hub loads archive + HoF when opened
+        if (btn.dataset.tab === "t-research") {
+            loadArchive();
+            loadHoF();
+        }
     });
 });
 
@@ -1276,3 +1279,176 @@ function showAiError(msg) {
     el.textContent = "⚠ " + msg;
     el.classList.remove("hidden");
 }
+
+/* ═══════════════════════════════════════════════════════
+   UNIVERSAL ORACLE UI CONTROLLER
+   ═══════════════════════════════════════════════════════ */
+
+// Domain pill filter
+let activeDomain = 'all';
+document.querySelectorAll('.dpill').forEach(pill => {
+    pill.addEventListener('click', () => {
+        document.querySelectorAll('.dpill').forEach(p => p.classList.remove('on'));
+        pill.classList.add('on');
+        activeDomain = pill.dataset.domain;
+    });
+});
+
+// Quick example helper (called from onclick)
+window.oracleQuick = function(query) {
+    const ta = document.getElementById('oracleQuery');
+    if (ta) ta.value = query;
+    runOracleSearch(query);
+};
+
+// New search (reset to hero)
+window.oracleNewSearch = function() {
+    document.getElementById('oracleHero').classList.remove('hidden');
+    document.getElementById('oracleResult').classList.add('hidden');
+    document.getElementById('oracleLoading').classList.add('hidden');
+    const ta = document.getElementById('oracleQuery');
+    if (ta) { ta.value = ''; ta.focus(); }
+};
+
+// Copy code helper
+window.oracleCopyCode = function() {
+    const el = document.getElementById('orCode');
+    if (!el) return;
+    navigator.clipboard.writeText(el.textContent).then(() => {
+        const btn = document.getElementById('btnOracleCopyCode');
+        if (btn) {
+            const orig = btn.innerHTML;
+            btn.innerHTML = '<i class="fa-solid fa-check"></i> Copied!';
+            setTimeout(() => btn.innerHTML = orig, 1500);
+        }
+    });
+};
+
+// Main search trigger
+on('btnOracleSearch', 'click', () => {
+    const query = (document.getElementById('oracleQuery')?.value || '').trim();
+    if (!query) return;
+    runOracleSearch(query);
+});
+
+// Enter key in textarea
+const oracleTa = document.getElementById('oracleQuery');
+if (oracleTa) {
+    oracleTa.addEventListener('keydown', e => {
+        if (e.key === 'Enter' && (e.ctrlKey || e.metaKey)) {
+            e.preventDefault();
+            const query = oracleTa.value.trim();
+            if (query) runOracleSearch(query);
+        }
+    });
+}
+
+async function runOracleSearch(query) {
+    // Show loading state
+    document.getElementById('oracleHero').classList.add('hidden');
+    document.getElementById('oracleResult').classList.add('hidden');
+    const loadingEl = document.getElementById('oracleLoading');
+    const loadingText = document.getElementById('oracleLoadingText');
+    loadingEl.classList.remove('hidden');
+
+    const loadingMessages = [
+        'Searching knowledge base...',
+        'Matching across Physics, CS, Math & Engineering...',
+        'Preparing code examples...',
+        'Finding related concepts...',
+    ];
+    let mi = 0;
+    const msgInterval = setInterval(() => {
+        if (loadingText) loadingText.textContent = loadingMessages[mi++ % loadingMessages.length];
+    }, 700);
+
+    try {
+        const result = await OracleEngine.search(query);
+        clearInterval(msgInterval);
+        loadingEl.classList.add('hidden');
+
+        if (!result) {
+            loadingEl.classList.add('hidden');
+            document.getElementById('oracleHero').classList.remove('hidden');
+            return;
+        }
+
+        if (result.source === 'error') {
+            showOracleError(result.msg);
+            return;
+        }
+
+        const data = result.data;
+        renderOracleResult(data, result.source === 'ai');
+
+    } catch(e) {
+        clearInterval(msgInterval);
+        loadingEl.classList.add('hidden');
+        showOracleError(e.message);
+    }
+}
+
+function renderOracleResult(data, isAi = false) {
+    // Populate fields
+    const color = OracleEngine.getDomainColor(data.domain || 'algorithms');
+
+    document.getElementById('orEmoji').textContent = data.emoji || '🔬';
+    document.getElementById('orName').textContent = data.name || 'Unknown Concept';
+    document.getElementById('orFormula').textContent = data.formula || '—';
+
+    const domainBadge = document.getElementById('orDomainBadge');
+    domainBadge.textContent = OracleEngine.getDomainLabel(data.domain || 'algorithms');
+    domainBadge.style.background = `${color}18`;
+    domainBadge.style.color = color;
+    domainBadge.style.borderColor = `${color}40`;
+
+    document.getElementById('orEli5').textContent = data.eli5 || '';
+    document.getElementById('orExplanation').textContent = data.explanation || '';
+
+    const complexEl = document.getElementById('orComplexity');
+    complexEl.textContent = data.complexity || '';
+    complexEl.style.display = data.complexity ? '' : 'none';
+
+    // Code block
+    document.getElementById('orCode').textContent = (data.code || '# No code example available').trim();
+
+    // Related concepts (from KB)
+    const relatedCard = document.getElementById('orRelatedCard');
+    const relatedEl = document.getElementById('orRelated');
+    const related = ORACLE_KB
+        .filter(item => item.domain === data.domain && item.id !== data.id)
+        .slice(0, 6);
+
+    if (related.length > 0) {
+        relatedEl.innerHTML = related.map(item =>
+            `<button class="oracle-related-pill" onclick="oracleQuick('${item.tags[0]} ${item.name}')">${item.emoji} ${item.name}</button>`
+        ).join('');
+        relatedCard.classList.remove('hidden');
+    } else {
+        relatedCard.classList.add('hidden');
+    }
+
+    // AI source note
+    const noteEl = document.getElementById('orSourceNote');
+    if (isAi) noteEl.classList.remove('hidden');
+    else noteEl.classList.add('hidden');
+
+    // Show result panel
+    document.getElementById('oracleResult').classList.remove('hidden');
+    document.getElementById('oracleResult').scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+function showOracleError(msg) {
+    document.getElementById('oracleLoading').classList.add('hidden');
+    document.getElementById('oracleHero').classList.remove('hidden');
+    // Show a subtle toast
+    const toast = document.createElement('div');
+    toast.style.cssText = 'position:fixed;bottom:24px;right:24px;background:#1c1c1c;border:1px solid #ef444460;color:#ef4444;font-size:12px;padding:10px 16px;border-radius:8px;z-index:9999;max-width:320px;line-height:1.5';
+    toast.innerHTML = `<i class="fa-solid fa-triangle-exclamation"></i> ${msg}`;
+    document.body.appendChild(toast);
+    setTimeout(() => toast.remove(), 4000);
+}
+
+// Theory Forge toggle inside Oracle tab
+const theoryInner = document.getElementById('t-theory-inner');
+// It lives inside t-oracle, accessible via a button on oracle hero card click

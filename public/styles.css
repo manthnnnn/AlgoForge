@@ -1,4 +1,4 @@
-﻿/* ═══════════════════════════════════════════════════════
+/* ═══════════════════════════════════════════════════════
    ALGOFORGE — Premium Professional Dark Theme
    Single accent, warm off-blacks, refined typography
    Inspired by Linear · Vercel · Notion Pro
@@ -477,3 +477,250 @@ input[type="range"] {
 ::-webkit-scrollbar-track { background: transparent; }
 ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
 ::-webkit-scrollbar-thumb:hover { background: var(--border-hl); }
+
+/* ═══════════════════════════════════════════════════════
+   UNIVERSAL ORACLE — v3.0 UI Styles
+   ═══════════════════════════════════════════════════════ */
+
+/* ── Sidebar: Oracle Search Section ── */
+.oracle-search-section { display: flex; flex-direction: column; gap: 8px; }
+
+.oracle-input-wrap {
+    position: relative;
+    display: flex;
+    align-items: flex-start;
+}
+.oracle-search-icon {
+    position: absolute;
+    top: 10px; left: 11px;
+    color: var(--t3); font-size: 12px;
+    pointer-events: none; z-index: 1;
+}
+.oracle-textarea {
+    width: 100%; padding: 9px 11px 9px 32px;
+    background: var(--bg-input);
+    border: 1px solid var(--border);
+    border-radius: var(--r-sm);
+    color: var(--t1); font-family: var(--font); font-size: 12.5px;
+    line-height: 1.6; outline: none; resize: none;
+    transition: border-color 0.15s;
+}
+.oracle-textarea:focus { border-color: var(--border-focus); }
+.oracle-textarea::placeholder { color: var(--t3); font-size: 11.5px; }
+
+/* ── Domain Filter Pills ── */
+.domain-pills {
+    display: flex; flex-wrap: wrap; gap: 4px;
+}
+.dpill {
+    font-size: 10.5px; font-weight: 500; padding: 3px 9px;
+    border-radius: 20px; background: var(--bg-hover);
+    color: var(--t3); border: 1px solid var(--border);
+    cursor: pointer; font-family: var(--font); transition: all 0.15s;
+}
+.dpill:hover { color: var(--t2); border-color: var(--border-hl); }
+.dpill.on {
+    background: var(--accent-dim); color: var(--accent);
+    border-color: var(--accent-bdr);
+}
+
+/* ── Quick Examples ── */
+.quick-examples {
+    display: flex; flex-direction: column; gap: 4px;
+}
+.qex {
+    width: 100%; text-align: left;
+    padding: 6px 10px;
+    font-size: 12px; font-weight: 500;
+    border-radius: var(--r-xs);
+    background: transparent; color: var(--t3);
+    border: 1px solid transparent;
+    cursor: pointer; font-family: var(--font);
+    transition: all 0.12s;
+}
+.qex:hover {
+    background: var(--bg-hover); color: var(--t1);
+    border-color: var(--border);
+}
+
+/* ═══ ORACLE HERO STATE ═══ */
+.oracle-hero {
+    display: flex; flex-direction: column; align-items: center;
+    text-align: center; padding: 40px 20px 30px;
+    animation: fadeUp 0.25s var(--ease);
+}
+.oracle-hero-icon {
+    width: 64px; height: 64px;
+    background: linear-gradient(135deg, rgba(59,130,246,0.2), rgba(167,139,250,0.2));
+    border: 1px solid rgba(59,130,246,0.3);
+    border-radius: var(--r-xl);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 28px; margin-bottom: 20px;
+    box-shadow: 0 0 40px rgba(59,130,246,0.15);
+}
+.oracle-hero h2 {
+    font-size: 22px; font-weight: 700;
+    color: var(--t1); letter-spacing: -0.5px;
+    margin-bottom: 10px;
+}
+.oracle-hero p {
+    font-size: 13.5px; color: var(--t2);
+    line-height: 1.7; max-width: 520px;
+    margin-bottom: 28px;
+}
+
+/* Hero domain cards grid */
+.hero-domain-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr);
+    gap: 12px; width: 100%; max-width: 700px;
+}
+.hero-domain-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--r-md);
+    padding: 16px 14px; cursor: pointer;
+    display: flex; flex-direction: column; align-items: center;
+    text-align: center; gap: 5px;
+    transition: all 0.18s var(--ease);
+}
+.hero-domain-card:hover {
+    border-color: var(--accent-bdr);
+    background: var(--accent-dim);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 20px rgba(59,130,246,0.12);
+}
+.hdc-emoji { font-size: 24px; }
+.hdc-label {
+    font-size: 12.5px; font-weight: 600;
+    color: var(--t1);
+}
+.hdc-hint {
+    font-size: 10.5px; color: var(--t3);
+    line-height: 1.4;
+}
+
+/* ═══ ORACLE LOADING ═══ */
+.oracle-loading {
+    display: flex; flex-direction: column;
+    align-items: center; gap: 14px;
+    padding: 60px 20px;
+    color: var(--t3); font-size: 13px;
+    animation: fadeUp 0.2s var(--ease);
+}
+.oracle-spinner {
+    width: 36px; height: 36px;
+    border: 3px solid var(--border);
+    border-top-color: var(--accent);
+    border-radius: 50%;
+    animation: spin 0.7s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* ═══ ORACLE RESULT ═══ */
+/* Result header */
+.oracle-result-header {
+    display: flex; align-items: flex-start;
+    gap: 16px; padding: 20px 22px;
+    background: linear-gradient(135deg, rgba(59,130,246,0.05), rgba(167,139,250,0.05));
+    border: 1px solid rgba(59,130,246,0.2);
+    border-radius: var(--r-xl);
+    margin-bottom: 18px;
+    animation: fadeUp 0.22s var(--ease);
+}
+.oracle-result-emoji {
+    font-size: 38px; flex-shrink: 0; line-height: 1;
+    margin-top: 2px;
+}
+.oracle-result-meta { flex: 1; min-width: 0; }
+.oracle-result-domain-badge {
+    display: inline-block;
+    font-size: 9px; font-weight: 700; letter-spacing: 1.5px;
+    text-transform: uppercase; padding: 2px 9px;
+    border-radius: 20px; margin-bottom: 6px;
+    background: var(--accent-dim); color: var(--accent);
+    border: 1px solid var(--accent-bdr);
+}
+.oracle-result-name {
+    font-size: 20px; font-weight: 700;
+    color: var(--t1); letter-spacing: -0.4px;
+    margin-bottom: 6px; line-height: 1.2;
+}
+.oracle-result-formula {
+    font-family: var(--mono); font-size: 13.5px;
+    color: var(--info); background: rgba(96,165,250,0.08);
+    border: 1px solid rgba(96,165,250,0.2);
+    padding: 5px 12px; border-radius: var(--r-xs);
+    display: inline-block;
+}
+.oracle-result-actions {
+    display: flex; flex-direction: column;
+    gap: 6px; flex-shrink: 0;
+}
+
+/* Result 2-col then full-width grid */
+.oracle-result-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: auto auto auto;
+    gap: 14px;
+}
+.oracle-eli5-card { border-color: rgba(245,158,11,0.3); }
+.oracle-code-card {
+    grid-column: 1 / -1; /* full width */
+}
+.oracle-eli5-text {
+    font-size: 14px; color: var(--t1);
+    line-height: 1.8; font-style: italic;
+    border-left: 3px solid var(--warning);
+    padding-left: 14px;
+}
+.oracle-explain-text {
+    font-size: 13px; color: var(--t2);
+    line-height: 1.75;
+}
+.oracle-code-card .code-out {
+    height: auto; min-height: 240px; max-height: 460px;
+    font-size: 12px;
+}
+
+/* Related pills */
+.oracle-related-pills { display: flex; flex-wrap: wrap; gap: 7px; }
+.oracle-related-pill {
+    font-size: 11.5px; font-weight: 500; padding: 5px 12px;
+    border-radius: 20px; cursor: pointer;
+    background: var(--bg-hover); color: var(--t2);
+    border: 1px solid var(--border);
+    transition: all 0.15s; font-family: var(--font);
+}
+.oracle-related-pill:hover {
+    background: var(--accent-dim); color: var(--accent);
+    border-color: var(--accent-bdr);
+}
+
+/* Source note */
+.oracle-source-note {
+    display: flex; align-items: center; gap: 7px;
+    margin-top: 10px; padding: 8px 12px;
+    background: rgba(245,158,11,0.06);
+    border: 1px solid rgba(245,158,11,0.2);
+    border-radius: var(--r-sm);
+    font-size: 11.5px; color: var(--warning);
+}
+
+/* ─── Responsive ─── */
+@media (max-width: 900px) {
+    .sidebar { width: 260px; min-width: 260px; }
+    .hero-domain-grid { grid-template-columns: repeat(2, 1fr); }
+    .oracle-result-grid { grid-template-columns: 1fr; }
+    .oracle-code-card { grid-column: 1; }
+    .g2 { grid-template-columns: 1fr; }
+    .metrics { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 640px) {
+    .app { flex-direction: column; }
+    .sidebar { width: 100%; height: auto; position: static; }
+    .main { padding: 16px; }
+    .hero-domain-grid { grid-template-columns: repeat(2, 1fr); }
+    .oracle-result-header { flex-direction: column; }
+    .metrics { grid-template-columns: 1fr 1fr; }
+}

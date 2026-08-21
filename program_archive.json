@@ -8443,5 +8443,541 @@
       "time_seconds": 0.01102590560913086,
       "seed": 42
     }
+  },
+  {
+    "id": 117,
+    "task_name": "zigzag_sort_4",
+    "fitness": 99.51,
+    "steps_taken": 0,
+    "ast_depth": 3,
+    "generation": 3,
+    "timestamp": 1786269303.4644222,
+    "program_ast": {
+      "type": "ProgramNode",
+      "statements": [
+        {
+          "type": "CompareSwapNode",
+          "idx1": {
+            "type": "ConstNode",
+            "value": 0
+          },
+          "idx2": {
+            "type": "ConstNode",
+            "value": 1
+          }
+        },
+        {
+          "type": "CompareSwapNode",
+          "idx1": {
+            "type": "ConstNode",
+            "value": 0
+          },
+          "idx2": {
+            "type": "ConstNode",
+            "value": 2
+          }
+        },
+        {
+          "type": "CompareSwapNode",
+          "idx1": {
+            "type": "ConstNode",
+            "value": 0
+          },
+          "idx2": {
+            "type": "ConstNode",
+            "value": 3
+          }
+        },
+        {
+          "type": "CompareSwapNode",
+          "idx1": {
+            "type": "ConstNode",
+            "value": 1
+          },
+          "idx2": {
+            "type": "ConstNode",
+            "value": 2
+          }
+        },
+        {
+          "type": "CompareSwapNode",
+          "idx1": {
+            "type": "ConstNode",
+            "value": 1
+          },
+          "idx2": {
+            "type": "ConstNode",
+            "value": 3
+          }
+        },
+        {
+          "type": "CompareSwapNode",
+          "idx1": {
+            "type": "ConstNode",
+            "value": 2
+          },
+          "idx2": {
+            "type": "ConstNode",
+            "value": 1
+          }
+        }
+      ]
+    },
+    "is_duplicate": false,
+    "is_best": true,
+    "metadata": {
+      "time_seconds": 0.030471324920654297,
+      "seed": null
+    }
+  },
+  {
+    "id": 118,
+    "task_name": "bit_parity_partition",
+    "fitness": 82.9033,
+    "steps_taken": 0,
+    "ast_depth": 3,
+    "generation": 60,
+    "timestamp": 1786269324.9620519,
+    "program_ast": {
+      "type": "ProgramNode",
+      "statements": [
+        {
+          "type": "CompareSwapNode",
+          "idx1": {
+            "type": "ConstNode",
+            "value": 3
+          },
+          "idx2": {
+            "type": "ConstNode",
+            "value": 1
+          }
+        },
+        {
+          "type": "CompareSwapNode",
+          "idx1": {
+            "type": "ConstNode",
+            "value": 1
+          },
+          "idx2": {
+            "type": "ConstNode",
+            "value": 2
+          }
+        },
+        {
+          "type": "CompareSwapNode",
+          "idx1": {
+            "type": "ConstNode",
+            "value": 2
+          },
+          "idx2": {
+            "type": "ConstNode",
+            "value": 0
+          }
+        },
+        {
+          "type": "CompareSwapNode",
+          "idx1": {
+            "type": "ConstNode",
+            "value": 0
+          },
+          "idx2": {
+            "type": "ConstNode",
+            "value": 3
+          }
+        }
+      ]
+    },
+    "is_duplicate": false,
+    "is_best": true,
+    "metadata": {
+      "time_seconds": 0.5613691806793213,
+      "seed": null
+    }
+  },
+  {
+    "id": 119,
+    "task_name": "bit_parity_partition",
+    "fitness": 66.2367,
+    "steps_taken": 0,
+    "ast_depth": 3,
+    "generation": 60,
+    "timestamp": 1786269330.3244798,
+    "program_ast": {
+      "type": "ProgramNode",
+      "statements": [
+        {
+          "type": "CompareSwapNode",
+          "idx1": {
+            "type": "ConstNode",
+            "value": 3
+          },
+          "idx2": {
+            "type": "ConstNode",
+            "value": 2
+          }
+        },
+        {
+          "type": "CompareSwapNode",
+          "idx1": {
+            "type": "ConstNode",
+            "value": 1
+          },
+          "idx2": {
+            "type": "ConstNode",
+            "value": 0
+          }
+        },
+        {
+          "type": "CompareSwapNode",
+          "idx1": {
+            "type": "ConstNode",
+            "value": 2
+          },
+          "idx2": {
+            "type": "ConstNode",
+            "value": 1
+          }
+        },
+        {
+          "type": "CompareSwapNode",
+          "idx1": {
+            "type": "ConstNode",
+            "value": 1
+          },
+          "idx2": {
+            "type": "ConstNode",
+            "value": 3
+          }
+        }
+      ]
+    },
+    "is_duplicate": false,
+    "is_best": false,
+    "metadata": {
+      "time_seconds": 0.5117404460906982,
+      "seed": null
+    }
+  },
+  {
+    "id": 120,
+    "task_name": "bit_parity_partition",
+    "fitness": 66.2667,
+    "steps_taken": 0,
+    "ast_depth": 3,
+    "generation": 60,
+    "timestamp": 1786269335.1279263,
+    "program_ast": {
+      "type": "ProgramNode",
+      "statements": [
+        {
+          "type": "CompareSwapNode",
+          "idx1": {
+            "type": "ConstNode",
+            "value": 2
+          },
+          "idx2": {
+            "type": "ConstNode",
+            "value": 0
+          }
+        },
+        {
+          "type": "CompareSwapNode",
+          "idx1": {
+            "type": "ConstNode",
+            "value": 0
+          },
+          "idx2": {
+            "type": "ConstNode",
+            "value": 1
+          }
+        },
+        {
+          "type": "CompareSwapNode",
+          "idx1": {
+            "type": "ConstNode",
+            "value": 1
+          },
+          "idx2": {
+            "type": "ConstNode",
+            "value": 3
+          }
+        }
+      ]
+    },
+    "is_duplicate": false,
+    "is_best": false,
+    "metadata": {
+      "time_seconds": 0.43140363693237305,
+      "seed": null
+    }
+  },
+  {
+    "id": 121,
+    "task_name": "cascade_sort_5",
+    "fitness": 99.51,
+    "steps_taken": 0,
+    "ast_depth": 3,
+    "generation": 20,
+    "timestamp": 1786287255.113535,
+    "program_ast": {
+      "type": "ProgramNode",
+      "statements": [
+        {
+          "type": "CompareSwapNode",
+          "idx1": {
+            "type": "ConstNode",
+            "value": 1
+          },
+          "idx2": {
+            "type": "ConstNode",
+            "value": 4
+          }
+        },
+        {
+          "type": "CompareSwapNode",
+          "idx1": {
+            "type": "ConstNode",
+            "value": 0
+          },
+          "idx2": {
+            "type": "ConstNode",
+            "value": 4
+          }
+        },
+        {
+          "type": "CompareSwapNode",
+          "idx1": {
+            "type": "ConstNode",
+            "value": 0
+          },
+          "idx2": {
+            "type": "ConstNode",
+            "value": 3
+          }
+        },
+        {
+          "type": "CompareSwapNode",
+          "idx1": {
+            "type": "ConstNode",
+            "value": 1
+          },
+          "idx2": {
+            "type": "ConstNode",
+            "value": 2
+          }
+        },
+        {
+          "type": "CompareSwapNode",
+          "idx1": {
+            "type": "ConstNode",
+            "value": 0
+          },
+          "idx2": {
+            "type": "ConstNode",
+            "value": 1
+          }
+        },
+        {
+          "type": "CompareSwapNode",
+          "idx1": {
+            "type": "ConstNode",
+            "value": 2
+          },
+          "idx2": {
+            "type": "ConstNode",
+            "value": 3
+          }
+        }
+      ]
+    },
+    "is_duplicate": false,
+    "is_best": true,
+    "metadata": {
+      "time_seconds": 0.36272192001342773,
+      "seed": null
+    }
+  },
+  {
+    "id": 122,
+    "task_name": "cascade_sort_5",
+    "fitness": 99.39,
+    "steps_taken": 0,
+    "ast_depth": 3,
+    "generation": 120,
+    "timestamp": 1786287280.040707,
+    "program_ast": {
+      "type": "ProgramNode",
+      "statements": [
+        {
+          "type": "CompareSwapNode",
+          "idx1": {
+            "type": "ConstNode",
+            "value": 0
+          },
+          "idx2": {
+            "type": "ConstNode",
+            "value": 1
+          }
+        },
+        {
+          "type": "CompareSwapNode",
+          "idx1": {
+            "type": "ConstNode",
+            "value": 0
+          },
+          "idx2": {
+            "type": "ConstNode",
+            "value": 2
+          }
+        },
+        {
+          "type": "CompareSwapNode",
+          "idx1": {
+            "type": "ConstNode",
+            "value": 0
+          },
+          "idx2": {
+            "type": "ConstNode",
+            "value": 3
+          }
+        },
+        {
+          "type": "CompareSwapNode",
+          "idx1": {
+            "type": "ConstNode",
+            "value": 0
+          },
+          "idx2": {
+            "type": "ConstNode",
+            "value": 4
+          }
+        },
+        {
+          "type": "CompareSwapNode",
+          "idx1": {
+            "type": "ConstNode",
+            "value": 1
+          },
+          "idx2": {
+            "type": "ConstNode",
+            "value": 2
+          }
+        },
+        {
+          "type": "CompareSwapNode",
+          "idx1": {
+            "type": "ConstNode",
+            "value": 1
+          },
+          "idx2": {
+            "type": "ConstNode",
+            "value": 3
+          }
+        },
+        {
+          "type": "CompareSwapNode",
+          "idx1": {
+            "type": "ConstNode",
+            "value": 1
+          },
+          "idx2": {
+            "type": "ConstNode",
+            "value": 4
+          }
+        },
+        {
+          "type": "CompareSwapNode",
+          "idx1": {
+            "type": "ConstNode",
+            "value": 2
+          },
+          "idx2": {
+            "type": "ConstNode",
+            "value": 3
+          }
+        },
+        {
+          "type": "CompareSwapNode",
+          "idx1": {
+            "type": "ConstNode",
+            "value": 2
+          },
+          "idx2": {
+            "type": "ConstNode",
+            "value": 4
+          }
+        },
+        {
+          "type": "CompareSwapNode",
+          "idx1": {
+            "type": "ConstNode",
+            "value": 3
+          },
+          "idx2": {
+            "type": "ConstNode",
+            "value": 4
+          }
+        }
+      ]
+    },
+    "is_duplicate": false,
+    "is_best": false,
+    "metadata": {
+      "time_seconds": 1.3914189338684082,
+      "seed": null
+    }
+  },
+  {
+    "id": 123,
+    "task_name": "sort_3",
+    "fitness": 99.6,
+    "steps_taken": 0,
+    "ast_depth": 3,
+    "generation": 40,
+    "timestamp": 1786287293.4353595,
+    "program_ast": {
+      "type": "ProgramNode",
+      "statements": [
+        {
+          "type": "CompareSwapNode",
+          "idx1": {
+            "type": "ConstNode",
+            "value": 0
+          },
+          "idx2": {
+            "type": "ConstNode",
+            "value": 2
+          }
+        },
+        {
+          "type": "CompareSwapNode",
+          "idx1": {
+            "type": "ConstNode",
+            "value": 0
+          },
+          "idx2": {
+            "type": "ConstNode",
+            "value": 1
+          }
+        },
+        {
+          "type": "CompareSwapNode",
+          "idx1": {
+            "type": "ConstNode",
+            "value": 1
+          },
+          "idx2": {
+            "type": "ConstNode",
+            "value": 2
+          }
+        }
+      ]
+    },
+    "is_duplicate": true,
+    "is_best": true,
+    "metadata": {
+      "time_seconds": 0.14819836616516113,
+      "seed": null
+    }
   }
 ]
