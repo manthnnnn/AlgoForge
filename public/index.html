@@ -1,836 +1,655 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ALGOFORGE — Universal Knowledge Oracle</title>
-<meta name="description" content="Discover the simplest algorithm, physics law, or mathematical theory for any problem in the world. Powered by Genetic Programming + Groq AI.">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
-<link rel="stylesheet" href="styles.css?v=8.0">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AlgoForge AI — Discover Better Ways to Solve Problems</title>
+    <meta name="description" content="Explore algorithms, test different approaches, and uncover what works best — one experiment at a time. An interactive algorithm discovery lab.">
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+    <!-- Icons & Libraries -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+
+    <!-- Styles -->
+    <link rel="stylesheet" href="styles.css?v=2.0">
 </head>
 <body>
-<canvas id="confetti-canvas"></canvas>
 
-<div class="app">
-
-<!-- ═══════════════════ SIDEBAR ═══════════════════ -->
-<aside class="sidebar">
-  <!-- Brand -->
-  <div class="brand">
-    <div class="brand-icon"><i class="fa-solid fa-bolt-lightning"></i></div>
-    <div>
-      <h1>ALGOFORGE</h1>
-      <p>Universal Knowledge Oracle v3.0</p>
-    </div>
-  </div>
-
-  <!-- ── Oracle Search ── -->
-  <div class="oracle-search-section">
-    <p class="s-label"><i class="fa-solid fa-globe"></i> Universal Search</p>
-    <div class="oracle-input-wrap">
-      <i class="fa-solid fa-magnifying-glass oracle-search-icon"></i>
-      <textarea id="oracleQuery" class="oracle-textarea" placeholder="Ask anything...&#10;&#10;• How does gravity work?&#10;• Find shortest path in graph&#10;• Simulate epidemic spread&#10;• Fourier transform&#10;• PID controller for robot&#10;• DNA sequence alignment" rows="6"></textarea>
-    </div>
-    <!-- Domain filter pills -->
-    <div class="domain-pills">
-      <button class="dpill on" data-domain="all">All</button>
-      <button class="dpill" data-domain="physics">🚀 Physics</button>
-      <button class="dpill" data-domain="algorithms">💻 Algorithms</button>
-      <button class="dpill" data-domain="mathematics">📐 Math</button>
-      <button class="dpill" data-domain="engineering">⚙️ Engineering</button>
-      <button class="dpill" data-domain="science">🔬 Science</button>
-    </div>
-    <button id="btnOracleSearch" class="btn btn-primary btn-block" style="margin-top:10px;font-size:14px;padding:12px">
-      <i class="fa-solid fa-wand-magic-sparkles"></i> Find Concept & Code
-    </button>
-  </div>
-
-  <!-- ── Quick examples ── -->
-  <div style="margin-top:8px">
-    <p class="s-label" style="margin-bottom:6px"><i class="fa-solid fa-bolt"></i> Quick Examples</p>
-    <div class="quick-examples">
-      <button class="qex" onclick="oracleQuick('dijkstra shortest path graph')">Dijkstra's Algorithm</button>
-      <button class="qex" onclick="oracleQuick('newton gravity force mass')">Newton Gravity</button>
-      <button class="qex" onclick="oracleQuick('fourier transform signal frequency')">Fourier Transform</button>
-      <button class="qex" onclick="oracleQuick('dynamic programming knapsack')">Dynamic Programming</button>
-      <button class="qex" onclick="oracleQuick('pid controller temperature')">PID Controller</button>
-      <button class="qex" onclick="oracleQuick('bayes theorem probability')">Bayes' Theorem</button>
-      <button class="qex" onclick="oracleQuick('neural network backpropagation')">Neural Network</button>
-      <button class="qex" onclick="oracleQuick('SIR epidemic model virus spread')">Epidemic Model</button>
-      <button class="qex" onclick="oracleQuick('binary search sorted array')">Binary Search</button>
-      <button class="qex" onclick="oracleQuick('kepler orbit planet period')">Kepler's Laws</button>
-    </div>
-  </div>
-
-  <!-- ── Bottom link ── -->
-  <div style="margin-top:auto;padding-top:14px;border-top:1px solid var(--border)">
-    <a href="https://algoforgeai.netlify.app" target="_blank" class="cv-link" style="display:flex;align-items:center;gap:6px;font-size:12px;color:var(--t3)">
-      <i class="fa-solid fa-arrow-up-right-from-square"></i> algoforgeai.netlify.app
-    </a>
-  </div>
-</aside>
-
-<!-- ═══════════════════ MAIN WORKSPACE ═══════════════════ -->
-<main class="main">
-
-  <!-- Top Bar -->
-  <div class="top-bar">
-    <div>
-      <h2>Universal Knowledge Oracle</h2>
-      <p>Any concept · Any domain · Simplest explanation + working code</p>
-    </div>
-    <div class="top-stats">
-      <div class="top-stat">
-        <div class="top-stat-val" id="tsTotal">—</div>
-        <div class="top-stat-lab">Total Runs</div>
-      </div>
-      <div class="top-stat">
-        <div class="top-stat-val" id="tsNovel">—</div>
-        <div class="top-stat-lab">Novel Discoveries</div>
-      </div>
-      <div class="top-stat">
-        <div class="top-stat-val" id="tsBest">—%</div>
-        <div class="top-stat-lab">Best Fitness</div>
-      </div>
-    </div>
-  </div>
-
-  <!-- 3 TABS -->
-  <div class="tabs">
-    <button class="tab on" data-tab="t-oracle">
-      <i class="fa-solid fa-globe"></i> Universal Oracle
-    </button>
-    <button class="tab" data-tab="t-lab">
-      <i class="fa-solid fa-dna"></i> Discovery Studio
-    </button>
-    <button class="tab" data-tab="t-research">
-      <i class="fa-solid fa-microscope"></i> Research Hub
-    </button>
-  </div>
-
-  <!-- ─── TAB 1: UNIVERSAL ORACLE ─── -->
-  <div id="t-oracle" class="tab-body on">
-
-    <!-- Hero welcome state -->
-    <div id="oracleHero" class="oracle-hero">
-      <div class="oracle-hero-icon"><i class="fa-solid fa-globe"></i></div>
-      <h2>What do you want to understand?</h2>
-      <p>Search for any concept across <strong>Physics, Computer Science, Mathematics, Engineering, Biology, and more</strong>. Get the simplest explanation, the governing formula, and working code — instantly.</p>
-      <div class="hero-domain-grid">
-        <div class="hero-domain-card" onclick="oracleQuick('newton gravity force')">
-          <span class="hdc-emoji">🚀</span>
-          <span class="hdc-label">Physics & Space</span>
-          <span class="hdc-hint">Gravity, Waves, Thermodynamics, Relativity</span>
-        </div>
-        <div class="hero-domain-card" onclick="oracleQuick('dijkstra shortest path')">
-          <span class="hdc-emoji">💻</span>
-          <span class="hdc-label">Algorithms & CS</span>
-          <span class="hdc-hint">Pathfinding, Sorting, DP, Hashing, Trees</span>
-        </div>
-        <div class="hero-domain-card" onclick="oracleQuick('fourier transform signal')">
-          <span class="hdc-emoji">📐</span>
-          <span class="hdc-label">Mathematics</span>
-          <span class="hdc-hint">Fourier, Bayes, Graph Theory, Calculus</span>
-        </div>
-        <div class="hero-domain-card" onclick="oracleQuick('pid controller robot')">
-          <span class="hdc-emoji">⚙️</span>
-          <span class="hdc-label">Engineering</span>
-          <span class="hdc-hint">PID Control, Queueing Theory, Neural Nets</span>
-        </div>
-        <div class="hero-domain-card" onclick="oracleQuick('SIR epidemic model')">
-          <span class="hdc-emoji">🔬</span>
-          <span class="hdc-label">Biology & Science</span>
-          <span class="hdc-hint">DNA Alignment, Epidemics, Evolution</span>
-        </div>
-        <div class="hero-domain-card" onclick="oracleQuick('custom synthesis evolve algorithm')">
-          <span class="hdc-emoji">⚡</span>
-          <span class="hdc-label">Invent New Algorithm</span>
-          <span class="hdc-hint">No known solution? We synthesize one from scratch</span>
-        </div>
-      </div>
-    </div>
-
-    <!-- Loading state -->
-    <div id="oracleLoading" class="oracle-loading hidden">
-      <div class="oracle-spinner"></div>
-      <div id="oracleLoadingText">Searching knowledge base...</div>
-    </div>
-
-    <!-- Result panel -->
-    <div id="oracleResult" class="hidden">
-
-      <!-- Result header card -->
-      <div class="oracle-result-header">
-        <div class="oracle-result-emoji" id="orEmoji">🚀</div>
-        <div class="oracle-result-meta">
-          <div class="oracle-result-domain-badge" id="orDomainBadge">Physics</div>
-          <div class="oracle-result-name" id="orName">Newton's Law</div>
-          <div class="oracle-result-formula" id="orFormula">F = G·m₁·m₂/r²</div>
-        </div>
-        <div class="oracle-result-actions">
-          <button class="btn btn-ghost" id="btnOracleCopyCode" onclick="oracleCopyCode()">
-            <i class="fa-solid fa-copy"></i> Copy Code
-          </button>
-          <button class="btn btn-ghost" onclick="oracleNewSearch()">
-            <i class="fa-solid fa-magnifying-glass"></i> New Search
-          </button>
-        </div>
-      </div>
-
-      <div class="oracle-result-grid">
-
-        <!-- ELI5 -->
-        <div class="card oracle-eli5-card">
-          <div class="card-head">
-            <h3><i class="fa-solid fa-child" style="color:#f59e0b"></i> Simple Explanation</h3>
-            <span class="badge" style="background:rgba(245,158,11,0.12);color:#f59e0b;border:1px solid rgba(245,158,11,0.3)">ELI5</span>
-          </div>
-          <p id="orEli5" class="oracle-eli5-text"></p>
-        </div>
-
-        <!-- Technical explanation -->
-        <div class="card">
-          <div class="card-head">
-            <h3><i class="fa-solid fa-book-open" style="color:#60a5fa"></i> Technical Explanation</h3>
-            <span class="badge b-ready" id="orComplexity"></span>
-          </div>
-          <p id="orExplanation" class="oracle-explain-text"></p>
-        </div>
-
-        <!-- Code block – full width -->
-        <div class="card oracle-code-card">
-          <div class="card-head">
-            <h3><i class="fa-solid fa-code" style="color:#a78bfa"></i> Working Python Code</h3>
-            <div style="display:flex;gap:8px">
-              <span class="badge" style="background:rgba(167,139,250,0.1);color:#a78bfa;border:1px solid rgba(167,139,250,0.25)">Python</span>
-              <button class="cp-btn" onclick="oracleCopyCode()">Copy</button>
+    <!-- ════════════════════ TOP NAVIGATION BAR ════════════════════ -->
+    <header class="navbar">
+        <div class="nav-container">
+            <div class="brand-group" id="navBrand">
+                <div class="brand-icon">
+                    <i class="fa-solid fa-network-wired"></i>
+                </div>
+                <div class="brand-text">
+                    <span class="brand-name">AlgoForge AI</span>
+                    <span class="brand-tag">Discovery Lab</span>
+                </div>
             </div>
-          </div>
-          <div class="code-wrap" style="margin-top:0">
-            <pre id="orCode" class="code-out" style="height:auto;min-height:200px;max-height:500px"></pre>
-          </div>
-        </div>
 
-        <!-- Related concepts -->
-        <div class="card" id="orRelatedCard">
-          <div class="card-head">
-            <h3><i class="fa-solid fa-link" style="color:#34d399"></i> Related Concepts</h3>
-          </div>
-          <div id="orRelated" class="oracle-related-pills"></div>
-        </div>
+            <nav class="nav-links">
+                <button class="nav-link" id="navDiscover"><i class="fa-solid fa-compass"></i> Discover</button>
+                <button class="nav-link" id="navOracle"><i class="fa-solid fa-atom"></i> Formula Oracle</button>
+                <button class="nav-link" id="navProblems"><i class="fa-solid fa-cubes"></i> Examples</button>
+                <button class="nav-link" id="navHow"><i class="fa-regular fa-circle-question"></i> How It Works</button>
+                <button class="nav-link nav-link-badge" id="navHistory">
+                    <i class="fa-solid fa-clock-rotate-left"></i> My Experiments
+                    <span class="nav-badge" id="historyBadge" style="display:none;">0</span>
+                </button>
+            </nav>
 
-      </div>
-
-      <!-- AI source note -->
-      <div id="orSourceNote" class="oracle-source-note hidden">
-        <i class="fa-solid fa-wand-sparkles"></i>
-        <span>Generated by Groq AI — verify formulas before production use.</span>
-      </div>
-
-    </div>
-
-    <!-- Theory Forge section (kept as sub-panel) -->
-    <div id="t-theory-inner" class="hidden">
-      <!-- MATHEMATICAL THEORY EXPLORER -->
-      <div class="card" style="margin-bottom:18px;border:1px solid rgba(251,146,60,0.35)">
-        <div class="card-head">
-          <h3><i class="fa-solid fa-atom" style="color:var(--peach)"></i> Theory Forge — Evolutionary Mathematical Discovery</h3>
-          <span class="badge" id="theoryInventBadge" style="background:rgba(251,146,60,0.15);color:var(--peach);border:1px solid rgba(251,146,60,0.4)">Ready</span>
-        </div>
-        <div class="g2" style="margin-bottom:14px">
-          <div class="fg">
-            <div class="fl"><span class="fl-label">Mathematical Domain</span></div>
-            <select id="theoryDomain" class="fs">
-              <option value="primeStructure">🔢 Prime Number Deep Structure</option>
-              <option value="numberIdentity">∞ Integer Sequence Identities</option>
-              <option value="fractalGeometry">🌀 Fractal & Recursive Geometry</option>
-              <option value="combinatorial">🎲 Combinatorial Laws</option>
-              <option value="dynamicSystems">⚙️ Dynamical System Invariants</option>
-              <option value="cryptoArithmetic">🔐 Modular Arithmetic Patterns</option>
-            </select>
-          </div>
-          <div class="fg">
-            <div class="fl"><span class="fl-label">Discovery Depth</span><span class="vp" id="theoryDepthV">Hard</span></div>
-            <select id="theoryDepth" class="fs">
-              <option value="easy">Easy — Surface patterns (fast)</option>
-              <option value="medium">Medium — Multi-variable rules</option>
-              <option value="hard" selected>Hard — Deep cross-domain rules</option>
-              <option value="ultra">Ultra — Frontier exploration</option>
-            </select>
-          </div>
-        </div>
-        <button id="btnInventTheory" class="btn btn-primary btn-block" style="background:linear-gradient(135deg,#EA580C,#7C3AED);font-size:15px;padding:14px">
-          <i class="fa-solid fa-wand-magic-sparkles"></i> Invent Novel Mathematical Theory
-        </button>
-        <div id="theoryProgress" class="hidden" style="margin-top:14px">
-          <div class="prog" style="margin-bottom:8px"><div id="theoryProgFill" class="prog-fill" style="background:linear-gradient(90deg,#EA580C,#7C3AED)"></div></div>
-          <div id="theoryStatus" style="font-size:12px;color:var(--t3);font-family:var(--mono)">Initializing symbolic search...</div>
-        </div>
-        <div id="theoryResult" class="hidden" style="margin-top:18px">
-          <div style="background:linear-gradient(135deg,rgba(234,88,12,0.08),rgba(124,58,237,0.08));border:1px solid rgba(251,146,60,0.3);border-radius:16px;padding:20px">
-            <div style="font-size:10px;letter-spacing:2px;color:var(--t3);margin-bottom:8px">DISCOVERED NOVEL THEORY</div>
-            <div id="theoryTitle" style="font-size:17px;font-weight:800;color:var(--peach);margin-bottom:8px"></div>
-            <div id="theoryEquation" style="font-family:var(--mono);font-size:15px;color:var(--sky);background:rgba(0,0,0,0.2);padding:12px 16px;border-radius:10px;margin-bottom:14px;line-height:1.8"></div>
-            <div id="theoryProof" style="font-size:12.5px;color:var(--mint);margin-bottom:10px"></div>
-            <div id="theoryExplain" style="font-size:13px;color:var(--t1);line-height:1.7;margin-bottom:12px"></div>
-            <div id="theoryNoveltyClaim" style="font-size:12px;color:var(--peach);font-style:italic;border-top:1px solid rgba(255,255,255,0.08);padding-top:10px"></div>
-          </div>
-          <div style="margin-top:10px;display:flex;gap:8px;flex-wrap:wrap">
-            <button class="btn btn-ghost" onclick="inventNewTheory()"><i class="fa-solid fa-rotate"></i> Discover Another</button>
-            <button class="btn btn-ghost" onclick="copyTheory()"><i class="fa-solid fa-copy"></i> Copy Theory</button>
-            <button class="btn btn-ghost" onclick="exportTheoryPDF()"><i class="fa-solid fa-file-pdf"></i> Export as Research Note</button>
-          </div>
-          <div class="chart-box" style="margin-top:16px;height:200px"><canvas id="chartTheory"></canvas></div>
-        </div>
-      </div>
-
-      <!-- Symbolic Regression + Conjecture in a 2-col grid -->
-      <div class="g2" style="margin-bottom:18px">
-        <!-- Symbolic Regression Lab -->
-        <div class="card">
-          <div class="card-head">
-            <h3><i class="fa-solid fa-function" style="color:var(--sky)"></i> Symbolic Regression Lab</h3>
-            <span class="badge b-ready" id="symBadge">Ready</span>
-          </div>
-          <div style="margin-bottom:12px">
-            <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px">
-              <button class="btn btn-ghost" style="font-size:11px" onclick="loadPreset('gravity')">🍎 Newton Gravity</button>
-              <button class="btn btn-ghost" style="font-size:11px" onclick="loadPreset('pendulum')">⏱ Pendulum</button>
-              <button class="btn btn-ghost" style="font-size:11px" onclick="loadPreset('kepler')">🪐 Kepler Orbit</button>
-              <button class="btn btn-ghost" style="font-size:11px" onclick="loadPreset('wave')">🌊 Wave Energy</button>
-              <button class="btn btn-ghost" style="font-size:11px" onclick="loadPreset('custom')">✏️ Custom</button>
+            <div class="nav-actions">
+                <a href="https://github.com" target="_blank" rel="noopener" class="nav-icon-btn" title="AlgoForge Open Architecture">
+                    <i class="fa-brands fa-github"></i>
+                </a>
             </div>
-            <div class="fg">
-              <div class="fl"><span class="fl-label">Data Points (x,y per line)</span></div>
-              <textarea id="symData" class="fi" rows="7" style="font-family:var(--mono);font-size:12px;resize:vertical">1, 1
-2, 4
-3, 9
-4, 16
-5, 25
-6, 36
-7, 49
-8, 64</textarea>
+        </div>
+    </header>
+
+    <main class="main-content">
+
+        <!-- ════════════════════ HERO SECTION ════════════════════ -->
+        <section class="hero-section" id="landingHero">
+            <div class="hero-container">
+                <div class="hero-text-col">
+                    <div class="hero-pill">
+                        <span class="pill-spark"><i class="fa-solid fa-sparkles"></i></span>
+                        <span>An interactive algorithm discovery lab</span>
+                    </div>
+
+                    <h1 class="hero-title">AlgoForge AI</h1>
+
+                    <h2 class="hero-headline">Discover better ways to solve problems.</h2>
+
+                    <p class="hero-description">
+                        Explore algorithms, test different approaches, and uncover what works best — one experiment at a time.
+                    </p>
+
+                    <div class="hero-cta-group">
+                        <button class="btn btn-primary btn-lg" id="btnStartHero">
+                            Start Discovering <i class="fa-solid fa-arrow-right"></i>
+                        </button>
+                        <button class="btn btn-link btn-lg" id="btnSeeHow">
+                            See how it works
+                        </button>
+                    </div>
+
+                    <div class="hero-social-proof">
+                        <span class="proof-dot"></span>
+                        <span>Real in-browser execution · Empirical microbenchmarks · Zero simulation</span>
+                    </div>
+                </div>
+
+                <div class="hero-visual-col">
+                    <div class="hero-visual-card">
+                        <canvas id="heroCanvas" class="hero-canvas"></canvas>
+                        <div class="canvas-caption">
+                            <span><i class="fa-solid fa-diagram-project"></i> Search tree convergence towards optimal complexity</span>
+                        </div>
+                    </div>
+                </div>
             </div>
-          </div>
-          <button id="btnSymDiscover" class="btn btn-primary btn-block">
-            <i class="fa-solid fa-wand-magic-sparkles"></i> Discover Mathematical Law
-          </button>
-          <div id="symResult" class="hidden" style="margin-top:16px">
-            <div style="background:rgba(56,189,248,0.08);border:1px solid rgba(56,189,248,0.25);border-radius:14px;padding:16px">
-              <div style="font-size:11px;color:var(--t3);margin-bottom:4px">DISCOVERED EQUATION</div>
-              <div id="symFormula" style="font-family:var(--mono);font-size:20px;color:var(--sky);font-weight:700;margin-bottom:8px">f(x) = ?</div>
-              <div id="symName" style="font-size:13px;color:var(--peach);font-weight:600;margin-bottom:8px"></div>
-              <div id="symR2" style="font-size:12px;color:var(--t2);margin-bottom:10px"></div>
-              <div id="symExplain" style="font-size:12.5px;color:var(--t1);line-height:1.6"></div>
+        </section>
+
+        <!-- ════════════════════ 3 PHILOSOPHY STEPS IN PLAIN ENGLISH ════════════════════ -->
+        <section class="steps-overview-section" id="howItWorksSection">
+            <div class="section-container">
+                <div class="steps-section-header">
+                    <span class="sub-badge"><i class="fa-solid fa-lightbulb"></i> In Plain English</span>
+                    <h3 class="steps-section-title">How AlgoForge Works</h3>
+                    <p class="steps-section-desc">Think of AlgoForge like a <strong>test track for computer code</strong>. Different methods (algorithms) can solve the exact same problem, but one can take minutes while another takes a fraction of a millisecond!</p>
+                </div>
+
+                <div class="steps-grid">
+                    <div class="step-card">
+                        <div class="step-number">Step 01</div>
+                        <h3 class="step-title">Pick a Challenge</h3>
+                        <p class="step-desc">Choose a real puzzle — like finding duplicate files in huge lists, finding the fastest route on a map, or scheduling meetings without conflicts.</p>
+                    </div>
+
+                    <div class="step-card">
+                        <div class="step-number">Step 02</div>
+                        <h3 class="step-title">Watch Code Think</h3>
+                        <p class="step-desc">Look inside the machine. Instead of reading confusing math formulas, watch step-by-step visual animations to see how data moves in real-time.</p>
+                    </div>
+
+                    <div class="step-card">
+                        <div class="step-number">Step 03</div>
+                        <h3 class="step-title">Race on Real Data</h3>
+                        <p class="step-desc">No guessing or AI hallucinations. AlgoForge runs the actual code on thousands of items right in your browser and clocks the winner with a real stopwatch.</p>
+                    </div>
+                </div>
+
+                <!-- "Why not just ask a chatbot?" Callout Banner -->
+                <div class="chatbot-vs-lab-card">
+                    <div class="cvl-left">
+                        <div class="cvl-icon"><i class="fa-solid fa-flask-vial"></i></div>
+                        <div class="cvl-text">
+                            <h4>Why is this different from asking a normal AI chatbot?</h4>
+                            <p>Normal chatbots guess answers and frequently produce slow or broken code. AlgoForge actually <strong>runs, tests, and times real code</strong> right in front of you on identical datasets, giving you verified, honest proof.</p>
+                        </div>
+                    </div>
+                    <button class="btn btn-outline btn-sm" id="btnScrollToProblems">
+                        <i class="fa-solid fa-arrow-down"></i> Try an Experiment Below
+                    </button>
+                </div>
+
+                <!-- Live Teaser Preview Card -->
+                <div class="live-teaser-card">
+                    <div class="teaser-header">
+                        <div class="teaser-title-group">
+                            <span class="teaser-spark"><i class="fa-solid fa-bolt-lightning"></i></span>
+                            <div>
+                                <h4>Interactive Discovery Preview</h4>
+                                <p>See the empirical difference between O(N²) nested loops and O(N) hash sets on 1,000 items in real-time:</p>
+                            </div>
+                        </div>
+                        <button class="btn btn-primary btn-sm" id="teaserRunBtn">
+                            <i class="fa-solid fa-play"></i> Run 1,000 items test
+                        </button>
+                    </div>
+                    <div class="teaser-output" id="teaserOutput">
+                        <div class="teaser-placeholder">Click "Run 1,000 items test" to execute a live microbenchmark directly in your browser.</div>
+                    </div>
+                </div>
             </div>
-            <div class="chart-box" style="margin-top:14px"><canvas id="chartSymbol"></canvas></div>
-          </div>
-        </div>
+        </section>
 
-        <!-- Mathematical Conjecture Generator -->
-        <div class="card">
-          <div class="card-head">
-            <h3><i class="fa-solid fa-infinity" style="color:var(--violet)"></i> Conjecture Generator</h3>
-            <span class="badge b-ready" id="conjBadge">Ready</span>
-          </div>
-          <div class="fg">
-            <div class="fl"><span class="fl-label">Domain</span></div>
-            <select id="conjDomain" class="fs">
-              <option value="prime">Prime Number Patterns</option>
-              <option value="sequence">Integer Sequences</option>
-              <option value="geometry">Geometric Identities</option>
-              <option value="probability">Probabilistic Structures</option>
-              <option value="chaos">Chaotic System Attractors</option>
-            </select>
-          </div>
-          <div class="fg">
-            <div class="fl"><span class="fl-label">Test Range (N up to)</span><span class="vp" id="conjRangeV">1000</span></div>
-            <input type="range" id="conjRange" min="100" max="10000" step="100" value="1000">
-          </div>
-          <button id="btnConjGen" class="btn btn-primary btn-block" style="background:linear-gradient(135deg,#7C3AED,#4F46E5)">
-            <i class="fa-solid fa-atom fa-spin"></i> Generate Novel Conjecture
-          </button>
-          <div id="conjResult" class="hidden" style="margin-top:16px">
-            <div style="background:rgba(167,139,250,0.08);border:1px solid rgba(167,139,250,0.25);border-radius:14px;padding:16px">
-              <div style="font-size:11px;color:var(--t3);margin-bottom:4px">GENERATED CONJECTURE</div>
-              <div id="conjTitle" style="font-size:15px;color:var(--violet);font-weight:700;margin-bottom:6px"></div>
-              <div id="conjStatement" style="font-family:var(--mono);font-size:13px;color:var(--sky);margin-bottom:10px;line-height:1.7;background:rgba(0,0,0,0.15);padding:10px;border-radius:8px"></div>
-              <div id="conjVerify" style="font-size:12px;color:var(--mint);margin-bottom:8px"></div>
-              <div id="conjExplain" style="font-size:12.5px;color:var(--t1);line-height:1.6"></div>
-              <div id="conjCounterEx" style="font-size:11.5px;color:var(--t3);margin-top:8px;font-style:italic"></div>
+        <!-- ════════════════════ GUIDED WORKFLOW CONTAINER ════════════════════ -->
+        <section class="workflow-section" id="workflowContainer">
+            <div class="section-container">
+
+                <!-- Progress Bar Indicator -->
+                <div class="workflow-progress">
+                    <div class="step-indicator-item active" data-step="1">
+                        <span class="step-num">1</span>
+                        <span class="step-label">Problem</span>
+                    </div>
+                    <div class="step-divider"></div>
+                    <div class="step-indicator-item" data-step="2">
+                        <span class="step-num">2</span>
+                        <span class="step-label">Understand</span>
+                    </div>
+                    <div class="step-divider"></div>
+                    <div class="step-indicator-item" data-step="3">
+                        <span class="step-num">3</span>
+                        <span class="step-label">Explore</span>
+                    </div>
+                    <div class="step-divider"></div>
+                    <div class="step-indicator-item" data-step="4">
+                        <span class="step-num">4</span>
+                        <span class="step-label">Test</span>
+                    </div>
+                    <div class="step-divider"></div>
+                    <div class="step-indicator-item" data-step="5">
+                        <span class="step-num">5</span>
+                        <span class="step-label">Results</span>
+                    </div>
+                </div>
+
+                <!-- ─────────────────────────────────────────────────────────────
+                     STEP 1: CHOOSE A PROBLEM
+                ───────────────────────────────────────────────────────────── -->
+                <div class="workflow-step-view active" id="step1">
+                    <div class="step-header">
+                        <h2 class="step-main-heading">What would you like to solve?</h2>
+                        <p class="step-subheading">Start with an example or describe your own computational problem.</p>
+                    </div>
+
+                    <div class="problem-cards-grid">
+                        <!-- Card 1: Find Duplicates -->
+                        <div class="problem-card selected" data-problem-id="find_duplicates">
+                            <div class="pc-icon"><i class="fa-solid fa-copy"></i></div>
+                            <div class="pc-content">
+                                <h3 class="pc-title">Find duplicates</h3>
+                                <p class="pc-desc">Discover different ways to identify repeated values in a list.</p>
+                                <div class="pc-tags">
+                                    <span class="pc-tag">Arrays</span>
+                                    <span class="pc-tag">Hash Sets</span>
+                                    <span class="pc-tag">O(N²) vs O(N)</span>
+                                </div>
+                            </div>
+                            <div class="pc-check"><i class="fa-solid fa-circle-check"></i></div>
+                        </div>
+
+                        <!-- Card 2: Find Shortest Path -->
+                        <div class="problem-card" data-problem-id="shortest_path">
+                            <div class="pc-icon"><i class="fa-solid fa-route"></i></div>
+                            <div class="pc-content">
+                                <h3 class="pc-title">Find the shortest path</h3>
+                                <p class="pc-desc">Explore how algorithms find efficient routes through a graph.</p>
+                                <div class="pc-tags">
+                                    <span class="pc-tag">Graphs</span>
+                                    <span class="pc-tag">Dijkstra</span>
+                                    <span class="pc-tag">BFS</span>
+                                </div>
+                            </div>
+                            <div class="pc-check"><i class="fa-solid fa-circle-check"></i></div>
+                        </div>
+
+                        <!-- Card 3: Schedule Tasks -->
+                        <div class="problem-card" data-problem-id="schedule_tasks">
+                            <div class="pc-icon"><i class="fa-solid fa-calendar-check"></i></div>
+                            <div class="pc-content">
+                                <h3 class="pc-title">Schedule tasks</h3>
+                                <p class="pc-desc">Compare approaches for arranging tasks under simple constraints.</p>
+                                <div class="pc-tags">
+                                    <span class="pc-tag">Greedy</span>
+                                    <span class="pc-tag">Intervals</span>
+                                    <span class="pc-tag">Scheduling</span>
+                                </div>
+                            </div>
+                            <div class="pc-check"><i class="fa-solid fa-circle-check"></i></div>
+                        </div>
+                    </div>
+
+                    <!-- Custom Problem Description -->
+                    <div class="custom-problem-card">
+                        <label for="customProblemInput" class="custom-label">
+                            <i class="fa-solid fa-keyboard"></i> Or describe your problem in plain language:
+                        </label>
+                        <div class="custom-input-wrap">
+                            <textarea id="customProblemInput" rows="2" placeholder="e.g. How can I efficiently find duplicate items in a huge array? Or find the fastest route across network nodes?"></textarea>
+                            <button class="btn btn-outline" id="btnAnalyzeCustom">
+                                <i class="fa-solid fa-wand-magic-sparkles"></i> Match Problem
+                            </button>
+                        </div>
+                        <div class="quick-problem-chips">
+                            <span class="qpc-label">Try an example:</span>
+                            <button class="qpc-btn" data-text="How can I find duplicate numbers in an array efficiently?">Find duplicates</button>
+                            <button class="qpc-btn" data-text="Find the shortest route between nodes in a network">Shortest path</button>
+                            <button class="qpc-btn" data-text="Schedule non-overlapping tasks with start and end times">Task scheduling</button>
+                            <button class="qpc-btn" data-text="Newton's Law of Universal Gravitation">🍎 Newton's Gravity</button>
+                            <button class="qpc-btn" data-text="Kepler's Third Law of Planetary Motion">🪐 Kepler's Law</button>
+                            <button class="qpc-btn" data-text="Dijkstra's Algorithm formula">⚡ Dijkstra Formula</button>
+                        </div>
+                        <div id="customFeedback" class="feedback-box"></div>
+                    </div>
+
+                    <div class="step-nav-footer right-only">
+                        <button class="btn btn-primary btn-lg" id="btnStep1Next">
+                            Continue <i class="fa-solid fa-arrow-right"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- ─────────────────────────────────────────────────────────────
+                     STEP 2: UNDERSTAND THE PROBLEM
+                ───────────────────────────────────────────────────────────── -->
+                <div class="workflow-step-view" id="step2">
+                    <div class="step-header">
+                        <h2 class="step-main-heading" id="step2Title">Your challenge: Find duplicate values</h2>
+                        <p class="step-subheading" id="step2Tagline">Given a list of values, identify which values appear more than once.</p>
+                    </div>
+
+                    <!-- Visual Representation Container -->
+                    <div id="step2VisualContainer" class="step2-visual-wrapper"></div>
+
+                    <!-- What makes this interesting? -->
+                    <div class="insight-card">
+                        <div class="insight-icon"><i class="fa-solid fa-lightbulb"></i></div>
+                        <div class="insight-content">
+                            <h4>What makes this interesting?</h4>
+                            <p id="step2Why">Different approaches can produce the same correct answer while requiring dramatically different amounts of time or memory.</p>
+                        </div>
+                    </div>
+
+                    <!-- Dataset Size Selector -->
+                    <div class="size-selector-card">
+                        <div class="ssc-header">
+                            <h4>Choose Experiment Dataset Size</h4>
+                            <p>Select the scale of deterministic inputs for the upcoming microbenchmark:</p>
+                        </div>
+                        <div class="size-options-grid">
+                            <button class="size-btn" data-size="small">
+                                <span class="size-title">Small</span>
+                                <span class="size-desc">Fast baseline validation (~300 elements)</span>
+                            </button>
+                            <button class="size-btn selected" data-size="medium">
+                                <span class="size-title">Medium</span>
+                                <span class="size-desc">Noticeable separation (~2,500 elements)</span>
+                            </button>
+                            <button class="size-btn" data-size="large">
+                                <span class="size-title">Large</span>
+                                <span class="size-desc">Dramatic asymptotic scaling (~10,000 elements)</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="step-nav-footer">
+                        <button class="btn btn-outline" id="btnStep2Back"><i class="fa-solid fa-arrow-left"></i> Back</button>
+                        <button class="btn btn-primary btn-lg" id="btnStep2Next">Explore Approaches <i class="fa-solid fa-arrow-right"></i></button>
+                    </div>
+                </div>
+
+                <!-- ─────────────────────────────────────────────────────────────
+                     STEP 3: EXPLORE ALGORITHM APPROACHES
+                ───────────────────────────────────────────────────────────── -->
+                <div class="workflow-step-view" id="step3">
+                    <div class="step-header">
+                        <h2 class="step-main-heading">Let's explore possible solutions.</h2>
+                        <p class="step-subheading">Different approaches can solve the same problem. Let's compare them.</p>
+                    </div>
+
+                    <!-- Algorithm Cards Container -->
+                    <div class="approaches-grid" id="step3CardsContainer"></div>
+
+                    <!-- Step-by-Step Algorithm Trace Visualizer -->
+                    <div class="visualizer-section" id="step3VisualizerArea"></div>
+
+                    <div class="step-nav-footer">
+                        <button class="btn btn-outline" id="btnStep3Back"><i class="fa-solid fa-arrow-left"></i> Back</button>
+                        <button class="btn btn-primary btn-lg" id="btnStep3Next">Test these approaches <i class="fa-solid fa-arrow-right"></i></button>
+                    </div>
+                </div>
+
+                <!-- ─────────────────────────────────────────────────────────────
+                     STEP 4: RUN REAL EXPERIMENTS
+                ───────────────────────────────────────────────────────────── -->
+                <div class="workflow-step-view" id="step4">
+                    <div class="step-header">
+                        <h2 class="step-main-heading">Let's see what actually works.</h2>
+                        <p class="step-subheading">The experiment runner executes each candidate against identical deterministic test suites and measures real execution time.</p>
+                    </div>
+
+                    <div class="experiment-runner-card">
+                        <div class="erc-header">
+                            <div class="erc-info">
+                                <h3 id="pipelineStatusText">Ready to start benchmark</h3>
+                                <div class="erc-progress-wrap">
+                                    <div class="erc-progress-bar" id="pipelineProgressBar" style="width: 0%;"></div>
+                                </div>
+                            </div>
+                            <button class="btn btn-primary btn-lg" id="btnStartExperiment">
+                                <i class="fa-solid fa-play"></i> Run Experiment Now
+                            </button>
+                        </div>
+
+                        <!-- Real Execution Pipeline Items -->
+                        <div class="pipeline-list" id="pipelineItemsContainer"></div>
+
+                        <div class="runner-notice">
+                            <i class="fa-solid fa-circle-info"></i>
+                            <span>All runs execute in your browser via high-resolution <code>performance.now()</code>. Edge cases (empty arrays, duplicates, single elements) are verified before recording timing.</span>
+                        </div>
+                    </div>
+
+                    <div class="step-nav-footer">
+                        <button class="btn btn-outline" id="btnStep4Back"><i class="fa-solid fa-arrow-left"></i> Back to Explore</button>
+                    </div>
+                </div>
+
+                <!-- ─────────────────────────────────────────────────────────────
+                     STEP 5: RESULTS THAT MAKE SENSE
+                ───────────────────────────────────────────────────────────── -->
+                <div class="workflow-step-view" id="step5">
+                    <div class="step-header">
+                        <h2 class="step-main-heading">Here is what we discovered.</h2>
+                        <p class="step-subheading">Empirical results from real execution across identical test cases and datasets.</p>
+                    </div>
+
+                    <!-- Distinctive Discovery Moment Banner -->
+                    <div class="discovery-banner" id="discoveryBanner" style="display:none;">
+                        <div class="db-icon"><i class="fa-solid fa-award"></i></div>
+                        <div class="db-content" id="discoveryBannerText">
+                            <!-- Populated dynamically -->
+                        </div>
+                    </div>
+
+                    <!-- Results Comparison Table -->
+                    <div class="results-table-card">
+                        <div class="table-responsive">
+                            <table class="results-table">
+                                <thead>
+                                    <tr>
+                                        <th>Approach</th>
+                                        <th>Correctness</th>
+                                        <th>Execution Time</th>
+                                        <th>Speedup</th>
+                                        <th>Complexity</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="resultsTableBody">
+                                    <!-- Populated dynamically -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- Detailed Test Cases Breakdown -->
+                    <div class="test-suite-card">
+                        <button class="test-suite-toggle-btn" id="btnToggleTestBreakdown">
+                            <span class="tst-title"><i class="fa-solid fa-vial-circle-check"></i> Unit Test Suite Verification (<span id="testTotalPassed">100% Passed</span>)</span>
+                            <span class="tst-action"><span id="testToggleText">Inspect Test Cases</span> <i class="fa-solid fa-chevron-down" id="iconTestChevron"></i></span>
+                        </button>
+                        <div class="test-suite-breakdown" id="testSuiteBreakdown" style="display:none;"></div>
+                    </div>
+
+                    <!-- Execution Time Bar Chart -->
+                    <div class="chart-card">
+                        <div class="chart-header">
+                            <h4><i class="fa-solid fa-chart-column"></i> Execution Time Comparison (Lower is Better)</h4>
+                            <span class="chart-unit">Milliseconds (ms)</span>
+                        </div>
+                        <div class="chart-wrapper">
+                            <canvas id="resultsChartCanvas"></canvas>
+                        </div>
+                    </div>
+
+                    <!-- Plain-English Synthesis -->
+                    <div class="synthesis-grid">
+                        <div class="synthesis-card">
+                            <div class="sc-header mint">
+                                <i class="fa-solid fa-circle-check"></i>
+                                <h4>What worked?</h4>
+                            </div>
+                            <p id="whatWorkedText">All tested approaches verified output correctness across all unit test cases.</p>
+                        </div>
+
+                        <div class="synthesis-card">
+                            <div class="sc-header violet">
+                                <i class="fa-solid fa-graduation-cap"></i>
+                                <h4>What did we learn?</h4>
+                            </div>
+                            <p id="whatLearnedText">Asymptotic complexity manifested in real microbenchmarks.</p>
+                        </div>
+
+                        <div class="synthesis-card">
+                            <div class="sc-header amber">
+                                <i class="fa-solid fa-scale-unbalanced"></i>
+                                <h4>What are the limitations?</h4>
+                            </div>
+                            <p id="limitationsText">Browser JIT garbage collection introduce minor variance.</p>
+                        </div>
+                    </div>
+
+                    <!-- Optional AI Synthesis Box -->
+                    <div class="ai-synthesis-card" id="aiSynthesisBox" style="display:none;"></div>
+
+                    <!-- Action Bar -->
+                    <div class="results-actions-card">
+                        <div class="rac-left">
+                            <button class="btn btn-outline" id="btnSaveExperiment">
+                                <i class="fa-regular fa-bookmark"></i> Save to My Experiments
+                            </button>
+                            <button class="btn btn-outline" id="btnDownloadJson">
+                                <i class="fa-solid fa-file-code"></i> Download JSON Report
+                            </button>
+                            <button class="btn btn-outline" id="btnDownloadHtml">
+                                <i class="fa-solid fa-file-arrow-down"></i> Download HTML Report
+                            </button>
+                            <button class="btn btn-ghost" id="btnAiSynthesis">
+                                <i class="fa-solid fa-wand-magic-sparkles"></i> AI Synthesis
+                            </button>
+                        </div>
+                        <div class="rac-right">
+                            <button class="btn btn-primary btn-lg" id="btnTryAnother">
+                                Try Another Experiment <i class="fa-solid fa-rotate-right"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
             </div>
-            <div style="margin-top:10px;display:flex;gap:8px">
-              <button class="btn btn-ghost" style="font-size:11px" onclick="regenerateConjecture()"><i class="fa-solid fa-rotate"></i> New</button>
-              <button class="btn btn-ghost" style="font-size:11px" onclick="copyConjecture()"><i class="fa-solid fa-copy"></i> Copy</button>
+        </section>
+
+    </main>
+
+    <!-- ════════════════════ FOOTER ════════════════════ -->
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-brand">
+                <span class="brand-name">AlgoForge AI</span>
+                <p>An interactive algorithm discovery lab built for students, engineers, and researchers.</p>
             </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- True Evolutionary Formula Discovery -->
-      <div class="card" style="border:1px solid rgba(52,211,153,0.35)">
-        <div class="card-head">
-          <h3><i class="fa-solid fa-dna" style="color:var(--mint)"></i> True Evolutionary Formula Discovery</h3>
-          <span class="badge b-ready" id="discovBadge">Ready</span>
-        </div>
-        <div class="g2" style="margin-bottom:14px">
-          <div class="fg">
-            <div class="fl"><span class="fl-label">Target Sequence</span></div>
-            <select id="discovSeq" class="fs">
-              <option value="Prime Numbers">🔢 Prime Numbers</option>
-              <option value="Fibonacci">🐚 Fibonacci Sequence</option>
-              <option value="Perfect Squares">⬛ Perfect Squares</option>
-              <option value="Triangular Numbers">🔺 Triangular Numbers</option>
-              <option value="Cube Numbers">🧊 Cube Numbers</option>
-              <option value="Catalan Numbers">🌿 Catalan Numbers</option>
-              <option value="Euler Totient">🔐 Euler's Totient φ(n)</option>
-              <option value="Twin Prime Gaps">♊ Twin Prime Gaps</option>
-              <option value="Factorial Mod 7">♾ Factorial mod 7</option>
-              <option value="Collatz Max">🌀 Collatz Max Values</option>
-            </select>
-          </div>
-          <div class="fg">
-            <div class="fl"><span class="fl-label">Population</span><span class="vp" id="discovPopV">80</span></div>
-            <input type="range" id="discovPop" min="30" max="200" step="10" value="80"
-              oninput="document.getElementById('discovPopV').textContent=this.value">
-          </div>
-        </div>
-        <div style="display:flex;gap:10px;margin-bottom:14px">
-          <button id="btnDiscover" class="btn btn-primary" style="flex:1;background:linear-gradient(135deg,#059669,#4F46E5);font-size:14px;padding:13px">
-            <i class="fa-solid fa-microscope"></i> Discover Novel Formula
-          </button>
-          <button id="btnStopDiscover" class="btn btn-ghost" style="padding:13px 18px">
-            <i class="fa-solid fa-stop"></i> Stop
-          </button>
-        </div>
-        <div class="prog" style="margin-bottom:8px"><div id="discovProgFill" class="prog-fill" style="background:linear-gradient(90deg,#059669,#4F46E5);width:0%"></div></div>
-        <div id="discovProgress" style="font-size:12px;color:var(--t3);font-family:var(--mono);min-height:16px"></div>
-        <div class="chart-box" style="margin-bottom:18px"><canvas id="chartDiscovery"></canvas></div>
-        <div id="discovResultPanel" class="hidden">
-          <div style="background:linear-gradient(135deg,rgba(5,150,105,0.1),rgba(79,70,229,0.1));border:1px solid rgba(52,211,153,0.35);border-radius:16px;padding:20px">
-            <div id="discovName" style="font-size:17px;font-weight:800;color:var(--mint);margin-bottom:6px"></div>
-            <div id="discovFormulaFinal" style="font-family:var(--mono);font-size:18px;color:var(--sky);background:rgba(0,0,0,0.25);padding:12px 16px;border-radius:10px;margin-bottom:14px"></div>
-            <table class="dtable" style="font-size:11.5px">
-              <thead><tr><th>n</th><th>Actual</th><th>Predicted</th><th>Error</th></tr></thead>
-              <tbody id="discovSamples"></tbody>
-            </table>
-            <div id="discovExplain" style="font-size:13px;color:var(--t1);line-height:1.7;border-top:1px solid rgba(255,255,255,0.07);padding-top:12px;margin-top:12px"></div>
-          </div>
-          <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:10px">
-            <button class="btn btn-ghost" onclick="copyDiscovery()"><i class="fa-solid fa-copy"></i> Copy Report</button>
-            <button class="btn btn-ghost" onclick="exportDiscovery()"><i class="fa-solid fa-download"></i> Download .txt</button>
-          </div>
-        </div>
-      </div>
-    </div>
-
-  </div>
-
-  <!-- ─── TAB 2: DISCOVERY STUDIO ─── -->
-  <div id="t-lab" class="tab-body">
-
-    <div class="g2" style="margin-bottom:16px;align-items:start">
-      <!-- Left: Controls -->
-      <div>
-        <!-- Task selector -->
-        <div class="card" style="margin-bottom:12px">
-          <div class="card-head">
-            <h3><i class="fa-solid fa-crosshairs" style="color:var(--accent)"></i> Synthesis Task</h3>
-          </div>
-          <div class="fg">
-            <label class="fl"><span class="fl-label">Invention Task</span></label>
-            <select id="taskSelect" class="fs"></select>
-          </div>
-          <div id="taskDesc" class="task-desc-box">Select a task to see details.</div>
-          <div id="taskMeta" style="display:flex;gap:7px;align-items:center;flex-wrap:wrap"></div>
-        </div>
-
-        <!-- Evolution tuning -->
-        <div class="card" style="margin-bottom:12px">
-          <div class="card-head">
-            <h3><i class="fa-solid fa-sliders" style="color:var(--violet)"></i> Evolution Tuning</h3>
-          </div>
-          <div class="fg">
-            <div class="fl"><span class="fl-label">Population Size</span><span id="popV" class="vp">60</span></div>
-            <input type="range" id="popSize" min="20" max="150" step="10" value="60">
-          </div>
-          <div class="fg">
-            <div class="fl"><span class="fl-label">Generations</span><span id="genV" class="vp">60</span></div>
-            <input type="range" id="genCount" min="10" max="300" step="10" value="60">
-          </div>
-          <div class="fg">
-            <div class="fl"><span class="fl-label">Mutation Rate</span><span id="mutV" class="vp">0.35</span></div>
-            <input type="range" id="mutRate" min="0.05" max="0.85" step="0.05" value="0.35">
-          </div>
-          <div class="fg">
-            <div class="fl"><span class="fl-label">Crossover Rate</span><span id="crsV" class="vp">0.70</span></div>
-            <input type="range" id="crsRate" min="0.10" max="1.00" step="0.05" value="0.70">
-          </div>
-          <div class="fg">
-            <div class="fl"><span class="fl-label">Max AST Depth</span><span id="depV" class="vp">6</span></div>
-            <input type="range" id="depthVal" min="3" max="9" step="1" value="6">
-          </div>
-          <div class="fg">
-            <div class="fl"><span class="fl-label">Random Seed</span><span class="m-sub" style="margin-top:0">0 = random</span></div>
-            <div class="seed-row">
-              <input type="number" id="seedVal" class="fi" value="0" min="0">
-              <button id="btnDice" class="dice-btn" title="Roll new random seed"><i class="fa-solid fa-dice"></i></button>
+            <div class="footer-copy">
+                &copy; 2026 AlgoForge AI · Repeatable, evidence-based algorithm exploration.
             </div>
-            <div class="hint" id="seedTip"><strong>Seed 0</strong> = unique discovery every run!</div>
-          </div>
         </div>
+    </footer>
 
-        <button id="btnInvent" class="btn btn-primary btn-block" style="font-size:15px;padding:13px 18px">
-          <i class="fa-solid fa-wand-magic-sparkles"></i> Invent Algorithm
-        </button>
-      </div>
+    <!-- ════════════════════ MODALS & DRAWERS ════════════════════ -->
 
-      <!-- Right: Live metrics + chart -->
-      <div>
-        <!-- Metric cards -->
-        <div class="metrics" style="margin-bottom:12px">
-          <div class="m-card">
-            <div class="m-icon mi-indigo"><i class="fa-solid fa-trophy"></i></div>
-            <div><span class="m-lab">Fitness</span><div id="mFit" class="m-val">—</div></div>
-          </div>
-          <div class="m-card">
-            <div class="m-icon mi-sky"><i class="fa-solid fa-rotate"></i></div>
-            <div><span class="m-lab">Generation</span><div id="mGen" class="m-val">—</div></div>
-          </div>
-          <div class="m-card">
-            <div class="m-icon mi-violet"><i class="fa-solid fa-sitemap"></i></div>
-            <div><span class="m-lab">AST Depth</span><div id="mDepth" class="m-val">—</div><div id="mComplex" class="m-sub"></div></div>
-          </div>
-          <div class="m-card">
-            <div class="m-icon mi-mint"><i class="fa-solid fa-stopwatch"></i></div>
-            <div><span class="m-lab">Time</span><div id="mTime" class="m-val">—</div></div>
-          </div>
-        </div>
-
-        <!-- Live chart -->
-        <div class="card" style="margin-bottom:12px">
-          <div class="card-head">
-            <h3><i class="fa-solid fa-chart-line" style="color:var(--indigo)"></i> Live Fitness Evolution</h3>
-            <span id="statusBadge" class="badge b-ready">Ready</span>
-          </div>
-          <div class="prog"><div id="progFill" class="prog-fill"></div></div>
-          <div class="chart-box"><canvas id="chartEvo"></canvas></div>
-        </div>
-
-        <!-- Test cases -->
-        <div class="card">
-          <div class="card-head">
-            <h3><i class="fa-solid fa-list-check" style="color:var(--mint)"></i> Benchmark Test Cases</h3>
-          </div>
-          <div id="testList" class="test-list"></div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Discovered Algorithm section -->
-    <div id="noveltyBanner" class="hidden"></div>
-    <div class="card mt">
-      <div class="card-head">
-        <h3><i class="fa-solid fa-atom" style="color:var(--violet)"></i> Discovered Algorithm</h3>
-        <span id="algoNote" style="font-size:12px;color:var(--t3)">Run synthesis to invent</span>
-      </div>
-      <div id="algoNameRow" class="hidden" style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:14px">
-        <div class="algo-name">
-          <i class="fa-solid fa-tag"></i>
-          <span id="algoNameTxt">—</span>
-          <span id="algoSeedTxt" style="font-size:10px;opacity:0.65"></span>
-        </div>
-        <span id="algoComplexBadge" class="complexity-badge hidden"></span>
-      </div>
-      <div class="g2">
-        <div>
-          <span class="sub-lab">📖 Plain English Overview</span>
-          <div id="englishOut" class="english-out">
-            <p style="color:var(--t3);font-style:italic">The narrative explanation will appear here after synthesis...</p>
-          </div>
-        </div>
-        <div>
-          <span class="sub-lab">🌳 AST Structure</span>
-          <div class="code-wrap">
-            <button class="cp-btn" onclick="copyEl('astOut')">Copy</button>
-            <pre id="astOut" class="code-out">// AST will appear here...</pre>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- AI explainer -->
-    <div class="card mt hidden" id="aiExplainerCard">
-      <div class="card-head">
-        <h3><i class="fa-solid fa-wand-sparkles" style="color:#a78bfa"></i> AI Algorithm Analysis</h3>
-        <span class="badge" id="aiExplainerBadge" style="background:rgba(139,92,246,0.12);color:#a78bfa;border:1px solid rgba(139,92,246,0.3)">Groq AI</span>
-      </div>
-      <div id="aiExplainerContent">
-        <div style="display:flex;align-items:center;gap:8px;color:var(--t3);font-size:13px">
-          <i class="fa-solid fa-spinner fa-spin"></i> Analysing algorithm...
-        </div>
-      </div>
-    </div>
-
-    <!-- Integrated: Step Animator -->
-    <div class="card mt">
-      <div class="card-head">
-        <h3><i class="fa-solid fa-film" style="color:var(--peach)"></i> Step-by-Step Animator</h3>
-      </div>
-      <div class="anim-ctrl">
-        <div class="fg" style="flex:1;margin-bottom:0">
-          <div class="fl"><span class="fl-label">Input Array (JSON)</span></div>
-          <input type="text" id="animInput" class="fi" value="[9, 2, 7, 1, 5, 3]">
-        </div>
-        <button id="btnRunAnim" class="btn btn-ghost"><i class="fa-solid fa-circle-play"></i> Run</button>
-      </div>
-      <div id="animEmpty" class="empty-state">
-        <i class="fa-solid fa-triangle-exclamation"></i>
-        Invent an algorithm first, then animate it here!
-      </div>
-      <div id="animPanel" class="hidden">
-        <div class="scrubber">
-          <button id="btnFirst" class="btn btn-icon"><i class="fa-solid fa-backward-fast"></i></button>
-          <button id="btnPrev"  class="btn btn-icon"><i class="fa-solid fa-backward-step"></i></button>
-          <input type="range" id="stepSlider" min="0" max="0" value="0" style="flex:1">
-          <button id="btnNext"  class="btn btn-icon"><i class="fa-solid fa-forward-step"></i></button>
-          <button id="btnLast"  class="btn btn-icon"><i class="fa-solid fa-forward-fast"></i></button>
-          <span class="s-count" id="stepCount">0 / 0</span>
-        </div>
-        <div class="action-pill" id="actionPill"><i class="fa-solid fa-circle-dot"></i> Ready</div>
-        <div class="arr-viz" id="arrayViz"></div>
-      </div>
-    </div>
-
-    <!-- Integrated: Export & Prove -->
-    <div class="card mt" id="exportCard">
-      <div class="card-head">
-        <h3><i class="fa-solid fa-shield-halved" style="color:var(--mint)"></i> Export & Formal Proof</h3>
-      </div>
-      <div id="exportEmpty" style="text-align:center;padding:24px;color:var(--t3);font-size:13px">
-        <i class="fa-solid fa-hourglass" style="display:block;font-size:24px;margin-bottom:8px;color:var(--t4)"></i>
-        Run synthesis first
-      </div>
-      <div id="exportPanel" class="hidden">
-        <div class="g2" style="margin-bottom:18px">
-          <div>
-            <div id="verifyBox" class="vbox na"><i class="fa-solid fa-hourglass"></i> <span>Run synthesis first</span></div>
-            <div style="margin-top:14px" class="guide-box violet">
-              <div class="gicon"><i class="fa-solid fa-book"></i></div>
-              <div class="gcontent">
-                <h4>0-1 Principle Theorem (Knuth, 1968)</h4>
-                <p>If a compare-swap algorithm sorts ALL 2ⁿ binary (0/1) sequences, it is <em>mathematically guaranteed</em> to sort ANY real values of length N.</p>
-              </div>
+    <!-- My Experiments Modal -->
+    <div class="modal-overlay" id="historyModal">
+        <div class="modal-card">
+            <div class="modal-header">
+                <div class="modal-title-group">
+                    <i class="fa-solid fa-clock-rotate-left"></i>
+                    <h3>My Saved Experiments</h3>
+                </div>
+                <button class="btn-modal-close" id="btnCloseHistory">&times;</button>
             </div>
-          </div>
-          <div>
-            <table class="dtable" style="font-size:12.5px">
-              <tbody id="identityBody"></tbody>
-            </table>
-          </div>
+            <div class="modal-body" id="historyList">
+                <!-- Dynamically populated or empty state -->
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-ghost btn-sm" id="btnClearHistory">
+                    <i class="fa-solid fa-trash-can"></i> Clear All History
+                </button>
+            </div>
         </div>
-        <div class="exp-tabs">
-          <button class="exp-tab on"  data-lang="python">🐍 Python</button>
-          <button class="exp-tab" data-lang="cpp">⚙ C++</button>
-          <button class="exp-tab" data-lang="java">☕ Java</button>
-          <button class="exp-tab" data-lang="rust">🦀 Rust</button>
-          <button class="exp-tab" data-lang="go">🐹 Go</button>
-          <button class="exp-tab" data-lang="pseudo">📄 Pseudocode</button>
-          <button class="exp-tab" data-lang="json">📊 JSON AST</button>
-        </div>
-        <div class="code-wrap">
-          <button class="cp-btn" onclick="copyEl('exportCode')">Copy</button>
-          <pre id="exportCode" class="code-out" style="height:280px">// Code will appear here</pre>
-        </div>
-      </div>
     </div>
 
-  </div>
-
-  <!-- ─── TAB 3: RESEARCH HUB ─── -->
-  <div id="t-research" class="tab-body">
-
-    <!-- AI Task Builder at top -->
-    <div class="card" style="margin-bottom:18px">
-      <div class="card-head">
-        <h3><i class="fa-solid fa-wand-sparkles" style="color:#a78bfa"></i> AI Task Builder</h3>
-        <span class="badge b-ready" id="aiBadge">Ready</span>
-      </div>
-      <div class="fg">
-        <div class="fl"><span class="fl-label">Describe your algorithm in plain English</span></div>
-        <textarea id="aiDescription" class="fi" rows="3" style="resize:vertical;font-size:13px"
-          placeholder="e.g. Sort 4 numbers in ascending order • Move the largest to the end • Reverse 3 elements in place"></textarea>
-      </div>
-      <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px" id="aiQuickPrompts">
-        <button class="ai-prompt-btn" onclick="setAiPrompt('Sort 4 numbers in ascending order')">Sort 4 ascending</button>
-        <button class="ai-prompt-btn" onclick="setAiPrompt('Move the minimum element to the first position in a 4-element array')">Min to front</button>
-        <button class="ai-prompt-btn" onclick="setAiPrompt('Reverse 4 elements in place')">Reverse array</button>
-        <button class="ai-prompt-btn" onclick="setAiPrompt('Sort 3 numbers in descending order')">Sort descending</button>
-        <button class="ai-prompt-btn" onclick="setAiPrompt('Put even numbers before odd numbers in a 4-element array')">Even before odd</button>
-      </div>
-      <button id="btnAiGenerate" class="btn btn-block" style="background:linear-gradient(135deg,#7c3aed,#3b82f6);color:#fff;font-size:14px;padding:12px;font-weight:600">
-        <i class="fa-solid fa-wand-sparkles"></i> Generate Task with AI
-      </button>
-      <div id="aiError" class="hidden ai-error-box"></div>
-      <div id="aiTaskContent" class="hidden" style="margin-top:14px">
-        <div style="font-size:10px;font-weight:600;color:var(--t3);text-transform:uppercase;margin-bottom:4px">Generated Task</div>
-        <div id="aiTaskName" style="font-family:var(--mono);font-size:13px;color:var(--t1);font-weight:600;margin-bottom:6px"></div>
-        <div id="aiTaskDesc" style="font-size:12.5px;color:var(--t2);line-height:1.55;margin-bottom:10px"></div>
-        <div id="aiTestCases" style="display:flex;flex-direction:column;gap:5px;margin-bottom:12px"></div>
-        <div id="aiHint" class="ai-hint-box"></div>
-        <button id="btnAiEvolve" class="btn btn-primary btn-block" style="margin-top:10px">
-          <i class="fa-solid fa-dna"></i> Evolve Algorithm for This Task
-        </button>
-      </div>
-      <div class="card hidden" id="aiResultCard" style="margin-top:12px">
-        <div class="card-head">
-          <h3><i class="fa-solid fa-trophy" style="color:#f59e0b"></i> Evolved Algorithm</h3>
-          <span id="aiResultBadge" class="badge b-ready"></span>
+    <!-- Universal Knowledge & Formula Oracle Modal -->
+    <div class="modal-overlay" id="oracleModal">
+        <div class="modal-card modal-lg">
+            <div class="modal-header">
+                <div class="modal-title-group">
+                    <i class="fa-solid fa-atom"></i>
+                    <h3>Universal Knowledge & Formula Oracle</h3>
+                </div>
+                <button class="btn-modal-close" id="btnCloseOracle">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p class="oracle-modal-sub">Search for any concept, law, or algorithm across <strong>Physics, Mathematics, Computer Science, Biology, and Engineering</strong>. Discover the governing mathematical formula, plain-English explanation, and working code.</p>
+                <div class="oracle-modal-input-wrap">
+                    <input type="text" id="oracleSearchInput" placeholder="e.g. Gravity, Kepler, Dijkstra, Binary Search, Entropy, Fourier..." />
+                    <button class="btn btn-primary" id="btnOracleModalSearch">
+                        <i class="fa-solid fa-magnifying-glass"></i> Discover Formula
+                    </button>
+                </div>
+                <div class="oracle-quick-tags">
+                    <button class="oqt-btn" data-q="gravity">🍎 Gravity</button>
+                    <button class="oqt-btn" data-q="kepler">🪐 Kepler's 3rd Law</button>
+                    <button class="oqt-btn" data-q="dijkstra">⚡ Dijkstra</button>
+                    <button class="oqt-btn" data-q="binary search">🎯 Binary Search</button>
+                    <button class="oqt-btn" data-q="entropy">🔥 2nd Law Thermodynamics</button>
+                    <button class="oqt-btn" data-q="fourier">📡 Fourier Transform</button>
+                    <button class="oqt-btn" data-q="bayes">🎲 Bayes' Theorem</button>
+                </div>
+                <div id="oracleModalOutput" class="oracle-modal-output">
+                    <div class="oracle-empty-state">
+                        <i class="fa-solid fa-square-root-variable"></i>
+                        <p>Type a scientific concept or formula name above to uncover its mathematical law and working implementation.</p>
+                    </div>
+                </div>
+            </div>
         </div>
-        <div id="aiResultContent"></div>
-      </div>
-      <div class="card hidden" id="aiVariationsCard" style="margin-top:12px">
-        <div class="card-head">
-          <h3><i class="fa-solid fa-lightbulb" style="color:#f59e0b"></i> Try These Next</h3>
-        </div>
-        <div id="aiVariationsList"></div>
-      </div>
     </div>
 
-    <!-- Controlled Experiment Runner -->
-    <div class="card" style="margin-bottom:18px">
-      <div class="card-head">
-        <h3><i class="fa-solid fa-microscope" style="color:var(--sky)"></i> Controlled Experiment Runner</h3>
-        <button id="btn-generate-report" class="btn btn-sky"><i class="fa-solid fa-file-pdf"></i> Generate Paper Report</button>
-      </div>
-      <div class="g2 mt">
-        <div class="fg">
-          <label class="fl-label"><i class="fa-solid fa-list-check"></i> Select Benchmark Task</label>
-          <select id="exp-problem-select" class="fs">
-            <optgroup label="Training Set (Memory Construction)">
-              <option value="sort_2">sort_2 (2 Elements)</option>
-              <option value="sort_3">sort_3 (3 Elements)</option>
-              <option value="sort_4">sort_4 (4 Elements)</option>
-              <option value="min_first">min_first (Minimum to Front)</option>
-              <option value="reverse_3">reverse_3 (In-place Reverse)</option>
-            </optgroup>
-            <optgroup label="Held-Out Test Set (Unseen Transfer)">
-              <option value="zigzag_sort_4">zigzag_sort_4 (Valley-Peak Sort)</option>
-              <option value="even_odd_partition">even_odd_partition (Parity Partition)</option>
-              <option value="pancake_flip_sort">pancake_flip_sort (Prefix Flips)</option>
-              <option value="bit_parity_partition">bit_parity_partition (Bitwise Parity)</option>
-              <option value="cascade_sort_5">cascade_sort_5 (5-Element Sort)</option>
-            </optgroup>
-          </select>
+    <!-- How It Works Modal -->
+    <div class="modal-overlay" id="howModal">
+        <div class="modal-card modal-lg">
+            <div class="modal-header">
+                <div class="modal-title-group">
+                    <i class="fa-solid fa-compass"></i>
+                    <h3>How AlgoForge Works (In Simple English)</h3>
+                </div>
+                <button class="btn-modal-close" id="btnCloseHow">&times;</button>
+            </div>
+            <div class="modal-body">
+                <!-- Analogy Box -->
+                <div class="how-analogy-box">
+                    <div class="hab-icon"><i class="fa-solid fa-lightbulb"></i></div>
+                    <div class="hab-text">
+                        <strong>The Simple Idea:</strong> Think of AlgoForge as a <em>test track for computer code</em>.
+                        When you ask a computer to solve a task, there are multiple recipes (algorithms) to do it. All of them can give the correct answer, but one recipe might take 5 minutes while another takes 0.001 seconds!
+                    </div>
+                </div>
+
+                <div class="how-steps-list">
+                    <div class="how-step-item">
+                        <div class="hsi-num">1</div>
+                        <div class="hsi-content">
+                            <h4>Pick a Problem You Care About</h4>
+                            <p>Choose a real-world task like <strong>finding duplicate photos</strong>, <strong>finding the fastest road route on a map</strong>, or <strong>scheduling tasks without conflicts</strong>. You see actual input data and expected outputs.</p>
+                        </div>
+                    </div>
+
+                    <div class="how-step-item">
+                        <div class="hsi-num">2</div>
+                        <div class="hsi-content">
+                            <h4>Watch Different Ideas in Action</h4>
+                            <p>Instead of reading complex math equations, watch step-by-step visual animations. Press <strong>Play</strong>, <strong>Pause</strong>, or <strong>Next Step</strong> to see how each method searches through data in real-time.</p>
+                        </div>
+                    </div>
+
+                    <div class="how-step-item">
+                        <div class="hsi-num">3</div>
+                        <div class="hsi-content">
+                            <h4>Race the Code on Real Data</h4>
+                            <p>AlgoForge runs the actual code right inside your browser on thousands of items. A digital stopwatch measures the exact speed down to the microsecond so you can see which idea is truly fastest.</p>
+                        </div>
+                    </div>
+
+                    <div class="how-step-item">
+                        <div class="hsi-num">4</div>
+                        <div class="hsi-content">
+                            <h4>Verified With Tests & Zero Guesswork</h4>
+                            <p>Unlike normal AI chatbots that guess answers and sometimes write broken code, AlgoForge tests every method against strict edge cases (like empty lists or tricky inputs) to guarantee it's 100% correct before declaring a winner.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="how-modal-footer-tip">
+                    <div class="hmf-left">
+                        <i class="fa-solid fa-circle-check"></i>
+                        <span>Ready to see it in action? Run an experiment in under 30 seconds!</span>
+                    </div>
+                    <button class="btn btn-primary btn-sm" id="btnModalStartDiscovering">
+                        Start Discovering <i class="fa-solid fa-arrow-right"></i>
+                    </button>
+                </div>
+            </div>
         </div>
-        <div class="fg">
-          <label class="fl-label"><i class="fa-solid fa-sliders"></i> Experiment Mode</label>
-          <select id="exp-method-select" class="fs">
-            <option value="memory_augmented">ALGOFORGE Memory GP (Mode B)</option>
-            <option value="memoryless_baseline">Memoryless Baseline GP (Mode A)</option>
-          </select>
-        </div>
-      </div>
-      <div class="g2">
-        <div class="fg">
-          <label class="fl-label">Random Seeds (Comma-separated)</label>
-          <input type="text" id="exp-seeds-input" class="fi" value="42,101,202,303,404">
-        </div>
-        <div class="fg" style="display:flex;gap:10px;align-items:flex-end">
-          <div style="flex:1"><label class="fl-label">Population</label><input type="number" id="exp-pop-input" class="fi" value="40"></div>
-          <div style="flex:1"><label class="fl-label">Generations</label><input type="number" id="exp-gen-input" class="fi" value="25"></div>
-        </div>
-      </div>
-      <div style="display:flex;gap:12px;" class="mt">
-        <button id="btn-run-exp" class="btn btn-primary" style="flex:2"><i class="fa-solid fa-flask"></i> Simulate Experiment</button>
-        <button id="btn-run-ablation" class="btn btn-ghost" style="flex:1"><i class="fa-solid fa-layer-group"></i> 5-Tier Ablation Study</button>
-      </div>
     </div>
 
-    <div id="exp-results-card" class="mt"></div>
-    <div id="ablation-results-card" class="mt"></div>
+    <!-- Toast Notification -->
+    <div id="toastNotification" class="toast-box"></div>
 
-    <!-- Algorithmic Memory -->
-    <div class="card mt">
-      <div class="card-head">
-        <h3><i class="fa-solid fa-brain" style="color:var(--indigo)"></i> Algorithmic Strategy Knowledge Base</h3>
-      </div>
-      <div class="guide-box mint" style="margin-bottom:12px">
-        <div class="gicon"><i class="fa-solid fa-network-wired"></i></div>
-        <div class="gcontent">
-          <h4>Extracted Reusable Structural Strategies</h4>
-          <p>Learned strategies from past discoveries — transferred to new problems for 2.7× faster convergence.</p>
-        </div>
-      </div>
-      <div id="memory-strategies-list"></div>
-    </div>
-
-    <!-- Pareto Archive + Hall of Fame merged -->
-    <div class="g2 mt">
-      <div class="card">
-        <div class="card-head">
-          <h3><i class="fa-solid fa-chart-scatter" style="color:var(--violet)"></i> Pareto Frontier</h3>
-        </div>
-        <div class="chart-box"><canvas id="chartPareto"></canvas></div>
-      </div>
-      <div class="card">
-        <div class="card-head">
-          <h3><i class="fa-solid fa-crown" style="color:var(--peach)"></i> Hall of Fame</h3>
-        </div>
-        <div id="hofLoading" class="empty-state"><i class="fa-solid fa-spinner fa-spin"></i> Loading...</div>
-        <div id="hofGrid" class="hof-grid hidden"></div>
-      </div>
-    </div>
-
-    <!-- Experiment Artifacts -->
-    <div class="card mt">
-      <div class="card-head">
-        <h3><i class="fa-solid fa-database" style="color:var(--sky)"></i> Experiment Artifacts (ALGOFORGE-EXP-XXX)</h3>
-      </div>
-      <div id="artifacts-list"></div>
-    </div>
-
-    <!-- All Discoveries table -->
-    <div class="card mt">
-      <div class="card-head">
-        <h3><i class="fa-solid fa-database" style="color:var(--sky)"></i> All Discovered Algorithms</h3>
-        <span id="archiveCount" class="badge b-ready">0 entries</span>
-      </div>
-      <div style="overflow-x:auto">
-        <table class="dtable">
-          <thead><tr><th>Name</th><th>Task</th><th>Fitness</th><th>Depth</th><th>Status</th><th>Time</th></tr></thead>
-          <tbody id="archiveBody"></tbody>
-        </table>
-      </div>
-    </div>
-
-  </div>
-
-</main>
-</div>
-
-<!-- MODAL REPORT EXPORTER -->
-<div id="modal-report" class="modal-bg" onclick="if(event.target===this)this.classList.remove('on')">
-  <div class="modal-box" style="max-width:800px">
-    <div class="modal-head">
-      <h3><i class="fa-solid fa-file-pdf" style="color:var(--sky)"></i> Auto-Generated Research Paper Report</h3>
-      <button class="btn-icon" onclick="document.getElementById('modal-report').classList.remove('on')"><i class="fa-solid fa-xmark"></i></button>
-    </div>
-    <div id="report-output"></div>
-  </div>
-</div>
-
-<script src="engine.js?v=4.0"></script>
-<script src="config.js"></script>
-<script src="groq_ai.js"></script>
-<script src="oracle.js?v=1.0"></script>
-<script src="theory.js?v=4.0"></script>
-<script src="discovery.js?v=3.0"></script>
-<script src="research_lab.js?v=4.0"></script>
-<script src="app.js?v=6.0"></script>
+    <!-- Scripts -->
+    <script src="config.js"></script>
+    <script src="oracle.js"></script>
+    <script src="algorithms.js"></script>
+    <script src="visualizer.js"></script>
+    <script src="experiment_engine.js"></script>
+    <script src="app.js"></script>
 </body>
 </html>

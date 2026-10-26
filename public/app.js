@@ -1,1454 +1,1615 @@
-// ══════════════════════════════════════════════════════════════════
-//  ALGOFORGE — Complete 1 Cr+ AI Algorithm Invention Engine
-// ══════════════════════════════════════════════════════════════════
+/**
+ * ALGOFORGE AI — Application Controller & Interactive Discovery Workflow
+ * Light theme particle canvas, rock-solid empirical benchmarking,
+ * Chart.js results comparison, and laboratory report exports.
+ */
 
-document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener('DOMContentLoaded', () => {
+    'use strict';
 
-// ──────────── State ────────────
-let evoChart = null, paretoChart = null;
-let currentAst = null, currentResult = null;
-let currentTrace = [], currentStep = 0;
-let allTasks = [];
-let currentLang = "python";
+    // ─────────────────────────────────────────────────────────────────────────────
+    // GLOBAL STATE
+    // ─────────────────────────────────────────────────────────────────────────────
+    const state = {
+        currentStep: 1, // 1: Choose, 2: Understand, 3: Explore, 4: Test, 5: Results
+        selectedProblemId: 'find_duplicates',
+        selectedSizeKey: 'medium',
+        selectedApproachIds: [],
+        currentReport: null,
+        resultsChart: null,
+        myExperiments: []
+    };
 
-// ──────────── Helper ────────────
-const $ = id => document.getElementById(id);
-const on = (id, ev, fn) => { const el = $(id); if (el) el.addEventListener(ev, fn); };
-
-// ──────────── Slider Bindings ────────────
-const sliders = [
-    ["popSize",  "popV",  v => v],
-    ["genCount", "genV",  v => v],
-    ["mutRate",  "mutV",  v => parseFloat(v).toFixed(2)],
-    ["crsRate",  "crsV",  v => parseFloat(v).toFixed(2)],
-    ["depthVal", "depV",  v => v],
-];
-sliders.forEach(([id, vid, fmt]) => {
-    on(id, "input", () => { const el = $(id); if(el) $(vid).textContent = fmt(el.value); });
-});
-
-// ──────────── Random Seed Dice ────────────
-on("btnDice", "click", () => {
-    $("seedVal").value = Math.floor(Math.random() * 9999) + 1;
-    $("seedTip").textContent = `Seed set! Unique algorithm guaranteed.`;
-    $("seedTip").style.color = "var(--sky)";
-    setTimeout(() => { $("seedTip").textContent = "🎲 Seed 0 = unique discovery every run!"; $("seedTip").style.color = ""; }, 2000);
-});
-
-// ──────────── Tabs ────────────
-document.querySelectorAll(".tab").forEach(btn => {
-    btn.addEventListener("click", () => {
-        document.querySelectorAll(".tab").forEach(b => b.classList.remove("on"));
-        document.querySelectorAll(".tab-body").forEach(p => p.classList.remove("on"));
-        btn.classList.add("on");
-        const body = $(btn.dataset.tab);
-        if (body) body.classList.add("on");
-        // Research Hub loads archive + HoF when opened
-        if (btn.dataset.tab === "t-research") {
-            loadArchive();
-            loadHoF();
-        }
-    });
-});
-
-// ──────────── Export Language Tabs ────────────
-document.querySelectorAll(".exp-tab").forEach(btn => {
-    btn.addEventListener("click", () => {
-        document.querySelectorAll(".exp-tab").forEach(b => b.classList.remove("on"));
-        btn.classList.add("on");
-        currentLang = btn.dataset.lang;
-        if (currentAst && currentResult) renderExport();
-    });
-});
-
-// ──────────── Init ────────────
-initCharts();
-loadTasks();
-loadStats();
-
-// ──────────── Load Tasks ────────────
-const DEFAULT_TASKS = [
-    { name: "bitonic_sort_6", difficulty: "Ultra", chip: "expert", steps_hint: "~12 swaps", desc: "🚀 WORLD CHANGING: Evolve 6-element Bitonic Parallel Sorting Network.", cases: [[[6,5,4,1,2,3],[1,2,3,4,5,6]],[[3,2,1,6,5,4],[1,2,3,4,5,6]],[[1,6,2,5,3,4],[1,2,3,4,5,6]],[[6,1,5,2,4,3],[1,2,3,4,5,6]]] },
-    { name: "pancake_flip_sort", difficulty: "Ultra", chip: "novel", steps_hint: "~6 flips", desc: "🌌 ULTRA NOVEL: Sort array using only prefix range flips.", cases: [[[4,1,3,2],[1,2,3,4]],[[3,2,4,1],[1,2,3,4]],[[2,4,1,3],[1,2,3,4]],[[4,3,2,1],[1,2,3,4]]] },
-    { name: "wavelet_haar_4", difficulty: "Ultra", chip: "novel", steps_hint: "~8 ops", desc: "🌌 ULTRA NOVEL: Compute 4-point Haar Wavelet averages & differences.", cases: [[[4,8,2,6],[6,4,-2,-2]],[[10,20,30,40],[15,35,-5,-5]]] },
-    { name: "run_length_compress_6", difficulty: "Ultra", chip: "novel", steps_hint: "~10 ops", desc: "🌌 ULTRA NOVEL: Discover Run-Length Sequence Compression.", cases: [[[1,1,1,2,2,3],[1,3,2,2,3,1]],[[5,5,5,5,1,1],[5,4,1,2,0,0]]] },
-    { name: "bit_parity_partition", difficulty: "Ultra", chip: "novel", steps_hint: "~5 ops", desc: "🌌 ULTRA NOVEL: Partition numbers using bitwise parity.", cases: [[[5,8,3,12],[8,12,5,3]],[[1,4,9,6],[4,6,1,9]]] },
-    { name: "cascade_sort_5", difficulty: "Expert", chip: "hard", steps_hint: "~10 swaps", desc: "🔥 EXPERT: Full sort of 5 elements — needs many nested loops!", cases: [[[5,4,3,2,1],[1,2,3,4,5]],[[3,1,4,1,5],[1,1,3,4,5]]] },
-    { name: "cascade_sort_6", difficulty: "Expert", chip: "expert", steps_hint: "~15 swaps", desc: "🔥 EXPERT: Full non-linear 6-element sorting network!", cases: [[[6,5,4,3,2,1],[1,2,3,4,5,6]],[[2,6,1,5,3,4],[1,2,3,4,5,6]]] },
-    { name: "zigzag_sort_4", difficulty: "Hard", chip: "novel", steps_hint: "~6 swaps", desc: "⚡ NOVEL: Arrange as valley-peak-valley-peak pattern.", cases: [[[3,1,4,2],[1,4,2,3]],[[5,8,1,6],[1,8,5,6]]] },
-    { name: "even_odd_partition", difficulty: "Hard", chip: "novel", steps_hint: "~4 swaps", desc: "⚡ NOVEL: Partition even numbers before odd numbers.", cases: [[[3,2,5,4],[2,4,3,5]],[[1,8,6,9],[8,6,1,9]]] },
-    { name: "bisplit_4", difficulty: "Hard", chip: "novel", steps_hint: "~6 swaps", desc: "⚡ NOVEL: Split array into sorted lower and upper halves.", cases: [[[4,1,3,2],[1,2,3,4]],[[7,5,9,6],[5,6,7,9]]] },
-    { name: "sort_4", difficulty: "Medium", chip: "medium", steps_hint: "~5 swaps", desc: "Sort 4 elements. Requires a full sorting network.", cases: [[[4,3,2,1],[1,2,3,4]],[[1,4,2,3],[1,2,3,4]]] },
-    { name: "reverse_3", difficulty: "Medium", chip: "medium", steps_hint: "~2 swaps", desc: "Reverse 3 elements in-place.", cases: [[[1,2,3],[3,2,1]],[[5,4,1],[1,4,5]]] },
-    { name: "max_last_3", difficulty: "Medium", chip: "medium", steps_hint: "~3 swaps", desc: "Push the maximum element to the last position.", cases: [[[3,1,2],[1,2,3]],[[5,9,2],[2,5,9]]] },
-    { name: "sort_3", difficulty: "Easy", chip: "easy", steps_hint: "~3 swaps", desc: "Sort 3 elements. Needs a 3-compare network.", cases: [[[3,2,1],[1,2,3]],[[1,3,2],[1,2,3]]] },
-    { name: "sort_2", difficulty: "Easy", chip: "easy", steps_hint: "~1 swap", desc: "Sort 2 elements. Simplest possible task.", cases: [[[2,1],[1,2]],[[5,3],[3,5]]] }
-];
-
-async function loadTasks() {
+    // Load saved experiments from localStorage
     try {
-        const r = await fetch("/api/tasks");
-        if (!r.ok) throw new Error("HTTP error " + r.status);
-        allTasks = await r.json();
+        const saved = localStorage.getItem('algoforge_experiments');
+        if (saved) state.myExperiments = JSON.parse(saved);
     } catch (e) {
-        allTasks = DEFAULT_TASKS;
+        state.myExperiments = [];
     }
 
-    const sel = $("taskSelect");
-    sel.innerHTML = "";
-    allTasks.forEach(t => {
-        const o = document.createElement("option");
-        o.value = t.name;
-        o.textContent = `${t.name}  —  ${t.difficulty}`;
-        sel.appendChild(o);
-    });
-    const def = allTasks.find(t => t.name === "sort_3") || allTasks[0];
-    if (def) sel.value = def.name;
-    updateTaskInfo();
-    applyTaskDefaults(def.name);
-    sel.addEventListener("change", () => { updateTaskInfo(); applyTaskDefaults($("taskSelect").value); });
-}
+    // ─────────────────────────────────────────────────────────────────────────────
+    // DOM REFERENCES
+    // ─────────────────────────────────────────────────────────────────────────────
+    const $ = id => document.getElementById(id);
+    const $$ = selector => document.querySelectorAll(selector);
 
-function updateTaskInfo() {
-    const t = allTasks.find(t => t.name === $("taskSelect").value);
-    if (!t) return;
-    $("taskDesc").textContent = t.desc || t.description || "";
-    const cm = { easy:"c-easy", medium:"c-medium", hard:"c-hard", novel:"c-novel", expert:"c-expert", ultra:"c-novel" };
-    const chip = cm[t.chip] || "c-easy";
-    $("taskMeta").innerHTML = `<span class="chip ${chip}">${t.difficulty}</span><span style="font-size:12px;color:var(--t3);margin-left:4px">${t.steps_hint || ""}</span>`;
-    renderTestCases(t);
-}
+    const dom = {
+        // Landing & Hero
+        landingHero: $('landingHero'),
+        btnStartHero: $('btnStartHero'),
+        btnSeeHow: $('btnSeeHow'),
+        heroCanvas: $('heroCanvas'),
+        teaserRunBtn: $('teaserRunBtn'),
+        teaserOutput: $('teaserOutput'),
 
-function renderTestCases(t) {
-    const tl = $("testList");
-    tl.innerHTML = "";
-    (t.cases || []).forEach((c, i) => {
-        const d = document.createElement("div");
-        d.className = "test-item";
-        d.innerHTML = `<span style="font-size:11px;color:var(--t3)">Case ${i+1}</span><span class="arr">[${c[0].join(", ")}]</span><span style="color:var(--indigo)">→</span><span class="tarr">[${c[1].join(", ")}]</span>`;
-        tl.appendChild(d);
-    });
-}
+        // Nav
+        navBrand: $('navBrand'),
+        navDiscover: $('navDiscover'),
+        navProblems: $('navProblems'),
+        navHow: $('navHow'),
+        navHistory: $('navHistory'),
+        historyBadge: $('historyBadge'),
 
-// ──────────── Per-Task Recommended GP Defaults ────────────
-const TASK_DEFAULTS = {
-    sort_2:               { pop: 30,  gen: 30,  mut: 0.30, crs: 0.70, depth: 4 },
-    sort_3:               { pop: 40,  gen: 40,  mut: 0.30, crs: 0.70, depth: 5 },
-    sort_4:               { pop: 60,  gen: 60,  mut: 0.30, crs: 0.70, depth: 6 },
-    reverse_3:            { pop: 30,  gen: 30,  mut: 0.30, crs: 0.70, depth: 4 },
-    max_last_3:           { pop: 40,  gen: 40,  mut: 0.30, crs: 0.70, depth: 5 },
-    bisplit_4:            { pop: 60,  gen: 80,  mut: 0.35, crs: 0.70, depth: 6 },
-    zigzag_sort_4:        { pop: 60,  gen: 80,  mut: 0.35, crs: 0.70, depth: 6 },
-    even_odd_partition:   { pop: 60,  gen: 80,  mut: 0.35, crs: 0.70, depth: 6 },
-    cascade_sort_5:       { pop: 80,  gen: 120, mut: 0.35, crs: 0.65, depth: 7 },
-    cascade_sort_6:       { pop: 100, gen: 150, mut: 0.35, crs: 0.65, depth: 8 },
-    pancake_flip_sort:    { pop: 80,  gen: 120, mut: 0.35, crs: 0.65, depth: 7 },
-    bitonic_sort_6:       { pop: 120, gen: 200, mut: 0.30, crs: 0.65, depth: 8 },
-};
-const TASK_DEFAULT_FALLBACK = { pop: 60, gen: 80, mut: 0.35, crs: 0.70, depth: 6 };
+        // Guided Workflow Section
+        workflowContainer: $('workflowContainer'),
+        progressSteps: $$('.step-indicator-item'),
 
-function applyTaskDefaults(taskName) {
-    const d = TASK_DEFAULTS[taskName] || TASK_DEFAULT_FALLBACK;
-    const setSlider = (id, valId, val, fmt) => {
-        const el = $(id); if (!el) return;
-        el.value = val;
-        if ($(valId)) $(valId).textContent = fmt ? fmt(val) : val;
+        // Step 1: Choose Problem
+        step1: $('step1'),
+        problemCards: $$('.problem-card'),
+        customProblemInput: $('customProblemInput'),
+        btnAnalyzeCustom: $('btnAnalyzeCustom'),
+        customFeedback: $('customFeedback'),
+        btnStep1Next: $('btnStep1Next'),
+
+        // Step 2: Understand Problem
+        step2: $('step2'),
+        step2Title: $('step2Title'),
+        step2Tagline: $('step2Tagline'),
+        step2Why: $('step2Why'),
+        step2VisualContainer: $('step2VisualContainer'),
+        sizeButtons: $$('.size-btn'),
+        btnStep2Back: $('btnStep2Back'),
+        btnStep2Next: $('btnStep2Next'),
+
+        // Step 3: Explore Approaches
+        step3: $('step3'),
+        step3CardsContainer: $('step3CardsContainer'),
+        step3VisualizerArea: $('step3VisualizerArea'),
+        btnStep3Back: $('btnStep3Back'),
+        btnStep3Next: $('btnStep3Next'),
+
+        // Step 4: Run Experiments
+        step4: $('step4'),
+        btnStartExperiment: $('btnStartExperiment'),
+        experimentPipeline: $('experimentPipeline'),
+        pipelineStatusText: $('pipelineStatusText'),
+        pipelineProgressBar: $('pipelineProgressBar'),
+        pipelineItemsContainer: $('pipelineItemsContainer'),
+        btnStep4Back: $('btnStep4Back'),
+
+        // Step 5: Results
+        step5: $('step5'),
+        discoveryBanner: $('discoveryBanner'),
+        discoveryBannerText: $('discoveryBannerText'),
+        resultsTableBody: $('resultsTableBody'),
+        chartCanvas: $('resultsChartCanvas'),
+        btnToggleTestBreakdown: $('btnToggleTestBreakdown'),
+        testSuiteBreakdown: $('testSuiteBreakdown'),
+        testTotalPassed: $('testTotalPassed'),
+        testToggleText: $('testToggleText'),
+        iconTestChevron: $('iconTestChevron'),
+        whatWorkedText: $('whatWorkedText'),
+        whatLearnedText: $('whatLearnedText'),
+        limitationsText: $('limitationsText'),
+        btnSaveExperiment: $('btnSaveExperiment'),
+        btnDownloadJson: $('btnDownloadJson'),
+        btnDownloadHtml: $('btnDownloadHtml'),
+        btnTryAnother: $('btnTryAnother'),
+        btnAiSynthesis: $('btnAiSynthesis'),
+        aiSynthesisBox: $('aiSynthesisBox'),
+
+        // Modals & Drawers
+        historyModal: $('historyModal'),
+        historyList: $('historyList'),
+        btnCloseHistory: $('btnCloseHistory'),
+        btnClearHistory: $('btnClearHistory'),
+        howModal: $('howModal'),
+        btnCloseHow: $('btnCloseHow'),
+
+        // Notification Toast
+        toast: $('toastNotification')
     };
-    setSlider("popSize",  "popV",  d.pop,   v => v);
-    setSlider("genCount", "genV",  d.gen,   v => v);
-    setSlider("mutRate",  "mutV",  d.mut,   v => parseFloat(v).toFixed(2));
-    setSlider("crsRate",  "crsV",  d.crs,   v => parseFloat(v).toFixed(2));
-    setSlider("depthVal", "depV",  d.depth, v => v);
-}
 
+    // ─────────────────────────────────────────────────────────────────────────────
+    // HERO CANVAS ANIMATION: LIGHT-MODE SEARCH NETWORK
+    // ─────────────────────────────────────────────────────────────────────────────
+    function initHeroCanvas() {
+        const canvas = dom.heroCanvas;
+        if (!canvas) return;
+        const ctx = canvas.getContext('2d');
+        let width = canvas.width = canvas.parentElement.offsetWidth || 560;
+        let height = canvas.height = canvas.parentElement.offsetHeight || 340;
 
-function loadStats() {
-    try {
-        const runs  = getLocalRuns();
-        const total = runs.length;
-        const novel = runs.filter(r => r.isNovel).length;
-        const best  = runs.reduce((m, r) => Math.max(m, r.fit || 0), 0);
-        $("tsTotal").textContent = total;
-        $("tsNovel").textContent = novel;
-        $("tsBest").textContent  = (total > 0 ? best.toFixed(2) : "0") + "%";
-    } catch(e) {
-        $("tsTotal").textContent = "0";
-        $("tsNovel").textContent = "0";
-        $("tsBest").textContent  = "0%";
-    }
-}
+        window.addEventListener('resize', () => {
+            if (canvas.parentElement) {
+                width = canvas.width = canvas.parentElement.offsetWidth;
+                height = canvas.height = canvas.parentElement.offsetHeight;
+            }
+        });
 
-// ──────────── Charts ────────────
-function initCharts() {
-    const font = { family: "'Plus Jakarta Sans', sans-serif", weight: "600" };
-    const grid = "rgba(255,46,99,0.12)";
-    const tick = "#94A3B8";
+        const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-    evoChart = new Chart($("chartEvo").getContext("2d"), {
-        type: "line",
-        data: { labels: [], datasets: [
-            { label: "Best Fitness", data: [], borderColor: "#FF2E63", backgroundColor: "rgba(255,46,99,0.15)", borderWidth: 2.5, tension: 0.35, fill: true, pointRadius: 2.5 },
-            { label: "Avg Fitness",  data: [], borderColor: "#38BDF8", borderWidth: 1.8, borderDash: [5,4], tension: 0.35, pointRadius: 0 }
-        ]},
-        options: { responsive: true, maintainAspectRatio: false, animation: { duration: 0 },
-            plugins: { legend: { labels: { color: "#94A3B8", font } } },
-            scales: { x: { grid: { color: grid }, ticks: { color: tick, font } }, y: { grid: { color: grid }, ticks: { color: tick, font } } }
+        const nodes = [];
+        const nodeCount = prefersReducedMotion ? 18 : 26;
+        const symbols = ['O(N)', 'log N', 'Σ', 'O(1)', 'V+E', 'N log N', 'O(N²)'];
+
+        for (let i = 0; i < nodeCount; i++) {
+            nodes.push({
+                x: Math.random() * width,
+                y: Math.random() * height,
+                vx: prefersReducedMotion ? 0 : (Math.random() - 0.5) * 0.42,
+                vy: prefersReducedMotion ? 0 : (Math.random() - 0.5) * 0.42,
+                radius: i < 5 ? 4.5 : Math.random() * 2 + 2.5,
+                symbol: i < symbols.length ? symbols[i] : null,
+                isOptimal: i < 6
+            });
         }
-    });
 
-    paretoChart = new Chart($("chartPareto").getContext("2d"), {
-        type: "scatter",
-        data: { datasets: [
-            { label: "Novel Discoveries", data: [], backgroundColor: "#34D399", pointRadius: 9 },
-            { label: "Duplicates",        data: [], backgroundColor: "#64748B", pointRadius: 5 }
-        ]},
-        options: { responsive: true, maintainAspectRatio: false,
-            plugins: { legend: { labels: { color: "#94A3B8", font } } },
-            scales: {
-                x: { grid: { color: grid }, ticks: { color: tick }, title: { display: true, text: "AST Depth", color: tick } },
-                y: { grid: { color: grid }, ticks: { color: tick }, title: { display: true, text: "Fitness Accuracy %", color: tick } }
+        let mouse = { x: -1000, y: -1000 };
+        canvas.addEventListener('mousemove', e => {
+            const rect = canvas.getBoundingClientRect();
+            mouse.x = e.clientX - rect.left;
+            mouse.y = e.clientY - rect.top;
+        });
+        canvas.addEventListener('mouseleave', () => {
+            mouse.x = -1000;
+            mouse.y = -1000;
+        });
+
+        function animate() {
+            ctx.clearRect(0, 0, width, height);
+
+            // Draw connecting lines with soft light tints
+            for (let i = 0; i < nodes.length; i++) {
+                for (let j = i + 1; j < nodes.length; j++) {
+                    const dx = nodes[i].x - nodes[j].x;
+                    const dy = nodes[i].y - nodes[j].y;
+                    const dist = Math.sqrt(dx * dx + dy * dy);
+
+                    if (dist < 110) {
+                        const alpha = (1 - dist / 110) * 0.35;
+                        const isOptimalLine = nodes[i].isOptimal && nodes[j].isOptimal;
+
+                        ctx.beginPath();
+                        ctx.moveTo(nodes[i].x, nodes[i].y);
+                        ctx.lineTo(nodes[j].x, nodes[j].y);
+
+                        if (isOptimalLine) {
+                            ctx.strokeStyle = `rgba(79, 70, 229, ${alpha * 2})`;
+                            ctx.lineWidth = 1.8;
+                        } else {
+                            ctx.strokeStyle = `rgba(203, 213, 225, ${alpha})`;
+                            ctx.lineWidth = 1.0;
+                        }
+                        ctx.stroke();
+                    }
+                }
+            }
+
+            // Draw and update nodes
+            for (let i = 0; i < nodes.length; i++) {
+                const n = nodes[i];
+
+                if (!prefersReducedMotion) {
+                    n.x += n.vx;
+                    n.y += n.vy;
+
+                    if (n.x < 15 || n.x > width - 15) n.vx *= -1;
+                    if (n.y < 15 || n.y > height - 15) n.vy *= -1;
+
+                    // Mouse gravitation
+                    const mdx = mouse.x - n.x;
+                    const mdy = mouse.y - n.y;
+                    const mdist = Math.sqrt(mdx * mdx + mdy * mdy);
+                    if (mdist < 80 && mdist > 0) {
+                        n.x += (mdx / mdist) * 0.7;
+                        n.y += (mdy / mdist) * 0.7;
+                    }
+                }
+
+                // Render node circle
+                ctx.beginPath();
+                ctx.arc(n.x, n.y, n.radius, 0, Math.PI * 2);
+
+                if (n.isOptimal) {
+                    ctx.fillStyle = '#4f46e5';
+                    ctx.shadowColor = 'rgba(79, 70, 229, 0.35)';
+                    ctx.shadowBlur = 8;
+                } else {
+                    ctx.fillStyle = '#0284c7';
+                    ctx.shadowBlur = 0;
+                }
+                ctx.fill();
+                ctx.shadowBlur = 0;
+
+                // Render symbol tag if present
+                if (n.symbol) {
+                    ctx.font = '10.5px JetBrains Mono, monospace';
+                    ctx.fillStyle = '#475569';
+                    ctx.fillText(n.symbol, n.x + 8, n.y - 6);
+                }
+            }
+
+            requestAnimationFrame(animate);
+        }
+
+        animate();
+    }
+
+    // ─────────────────────────────────────────────────────────────────────────────
+    // LANDING TEASER: RELIABLE MULTI-REPETITION MICROBENCHMARK
+    // ─────────────────────────────────────────────────────────────────────────────
+    function initLandingTeaser() {
+        if (!dom.teaserRunBtn || !dom.teaserOutput) return;
+
+        dom.teaserRunBtn.addEventListener('click', () => {
+            dom.teaserRunBtn.disabled = true;
+            dom.teaserRunBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Benchmarking...';
+            dom.teaserOutput.innerHTML = '<span class="teaser-running"><i class="fa-solid fa-circle-notch fa-spin"></i> Executing 10 timed iterations across 2,500 elements...</span>';
+
+            setTimeout(() => {
+                const problem = window.AlgoForgeAlgorithms.getProblem('find_duplicates');
+                const testData = problem.generateDataset('medium', 10);
+                const nested = problem.approaches.find(a => a.id === 'nested_comparison');
+                const hash = problem.approaches.find(a => a.id === 'hash_set');
+
+                // Warmup
+                try {
+                    nested.run(testData.slice(0, 100));
+                    hash.run(testData.slice(0, 100));
+                } catch(e) {}
+
+                // Real execution: 8 repetitions to get a reliable, non-zero timing
+                const reps = 8;
+
+                // Benchmark Nested Loops
+                const t0 = performance.now();
+                for (let r = 0; r < reps; r++) {
+                    nested.run([...testData]);
+                }
+                const tNested = Math.max(0.01, (performance.now() - t0) / reps);
+
+                // Benchmark Hash Set
+                const t1 = performance.now();
+                for (let r = 0; r < reps; r++) {
+                    hash.run([...testData]);
+                }
+                const tHash = Math.max(0.01, (performance.now() - t1) / reps);
+
+                const speedupRatio = (tNested / tHash).toFixed(1);
+
+                dom.teaserOutput.innerHTML = `
+                    <div class="teaser-results-grid">
+                        <div class="teaser-res-item">
+                            <span class="teaser-label">Nested Comparisons O(N²)</span>
+                            <span class="teaser-val warn">${tNested.toFixed(2)} ms</span>
+                        </div>
+                        <div class="teaser-res-item">
+                            <span class="teaser-label">Hash Set Direct Lookup O(N)</span>
+                            <span class="teaser-val mint">${tHash.toFixed(2)} ms</span>
+                        </div>
+                        <div class="teaser-res-item winner-tag">
+                            <span class="teaser-label">Empirical Outcome:</span>
+                            <span class="teaser-val violet">${speedupRatio}× faster</span>
+                        </div>
+                    </div>
+                `;
+                dom.teaserRunBtn.disabled = false;
+                dom.teaserRunBtn.innerHTML = '<i class="fa-solid fa-rotate-left"></i> Run Again';
+            }, 60);
+        });
+    }
+
+    // ─────────────────────────────────────────────────────────────────────────────
+    // STEP NAVIGATION
+    // ─────────────────────────────────────────────────────────────────────────────
+    function goToStep(stepNumber) {
+        state.currentStep = stepNumber;
+
+        // Update progress indicators
+        dom.progressSteps.forEach((el, index) => {
+            const stepNum = index + 1;
+            if (stepNum === stepNumber) {
+                el.classList.add('active');
+                el.classList.remove('completed');
+            } else if (stepNum < stepNumber) {
+                el.classList.remove('active');
+                el.classList.add('completed');
+            } else {
+                el.classList.remove('active', 'completed');
+            }
+        });
+
+        // Toggle active step
+        for (let i = 1; i <= 5; i++) {
+            const stepEl = $(`step${i}`);
+            if (stepEl) {
+                stepEl.classList.toggle('active', i === stepNumber);
             }
         }
-    });
-}
 
-// ──────────── SYNTHESIS ────────────
-on("btnInvent", "click", startSynthesis);
+        const activeContainer = $(`step${stepNumber}`);
+        if (activeContainer) {
+            activeContainer.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
 
-function startSynthesis() {
-    const btn = $("btnInvent");
-    btn.disabled = true;
-    $("statusBadge").className = "badge b-running";
-    $("statusBadge").textContent = "Inventing...";
-    $("progFill").style.width = "0%";
-    $("algoNote").textContent = "Evolving programs...";
-    $("noveltyBanner").classList.add("hidden");
-    $("noveltyBanner").innerHTML = "";
+        // Initialize active step view
+        if (stepNumber === 2) renderStep2();
+        if (stepNumber === 3) renderStep3();
+        if (stepNumber === 4) prepareStep4();
+    }
 
-    evoChart.data.labels = [];
-    evoChart.data.datasets[0].data = [];
-    evoChart.data.datasets[1].data = [];
-    evoChart.update("none");
-
-    const params = new URLSearchParams({
-        task:           $("taskSelect").value,
-        pop:            $("popSize").value,
-        gen:            $("genCount").value,
-        mutation_rate:  $("mutRate").value,
-        crossover_rate: $("crsRate").value,
-        max_depth:      $("depthVal").value,
-        seed:           $("seedVal").value
+    // Progress step click to jump back
+    dom.progressSteps.forEach((el, index) => {
+        el.addEventListener('click', () => {
+            const step = index + 1;
+            if (step <= state.currentStep || (state.currentReport && step === 5)) {
+                goToStep(step);
+            }
+        });
     });
 
-    const totalGen = parseInt($("genCount").value);
-    const evtSrc = new EventSource(`/api/synthesize/stream?${params}`);
+    // ─────────────────────────────────────────────────────────────────────────────
+    // ─────────────────────────────────────────────────────────────────────────────
+    // STEP 1: CHOOSE A PROBLEM
+    // ─────────────────────────────────────────────────────────────────────────────
+    // ─────────────────────────────────────────────────────────────────────────────
+    // STEP 1: CHOOSE A PROBLEM
+    // ─────────────────────────────────────────────────────────────────────────────
+    function shakeElement(el) {
+        if (!el) return;
+        el.classList.remove('shake-animate');
+        void el.offsetWidth; // Force CSS reflow
+        el.classList.add('shake-animate');
+    }
 
-    evtSrc.onmessage = e => {
+    function initStep1() {
+        let searchDebounceTimer = null;
+
+        // Problem Card selection
+        dom.problemCards.forEach(card => {
+            card.addEventListener('click', () => {
+                selectProblem(card.dataset.problemId);
+                const prob = window.AlgoForgeAlgorithms.getProblem(card.dataset.problemId);
+                if (dom.customProblemInput && dom.customProblemInput.value.trim()) {
+                    showFeedback(`✓ Switched challenge to: <strong>${prob.title}</strong>`, 'success');
+                } else if (dom.customFeedback) {
+                    dom.customFeedback.style.display = 'none';
+                    dom.customFeedback.innerHTML = '';
+                }
+            });
+        });
+
+        function selectProblem(problemId, feedbackMsg = null) {
+            state.selectedProblemId = problemId;
+            dom.problemCards.forEach(c => {
+                const isSelected = c.dataset.problemId === problemId;
+                c.classList.toggle('selected', isSelected);
+                if (isSelected) {
+                    c.style.transition = 'all 0.3s ease';
+                }
+            });
+            if (feedbackMsg) {
+                showFeedback(feedbackMsg, 'success');
+            }
+        }
+
+        // Natural Language Problem Classifier & Search Handler with Scientific Formula Discovery
+        async function handleProblemSearch(isAutoType = false) {
+            const rawText = dom.customProblemInput ? dom.customProblemInput.value.trim() : '';
+            if (!rawText) {
+                if (!isAutoType) {
+                    showFeedback('<i class="fa-solid fa-circle-exclamation"></i> Please describe the problem or concept you want to discover, or pick one of the 3 challenge cards above.', 'warn');
+                    shakeElement(dom.customFeedback);
+                    shakeElement(dom.customProblemInput);
+                }
+                return;
+            }
+
+            // Check if Oracle has an exact or fuzzy mathematical law / scientific concept
+            let oracleResult = null;
+            if (window.OracleEngine) {
+                try {
+                    oracleResult = await window.OracleEngine.search(rawText);
+                } catch(e) {}
+            }
+
+            const match = classifyProblem(rawText);
+
+            if (oracleResult && oracleResult.data) {
+                renderOracleFormulaCard(oracleResult.data, match);
+                if (match) {
+                    selectProblem(match.id);
+                }
+                return;
+            }
+
+            if (match) {
+                selectProblem(match.id, `✓ ${match.reason}`);
+            } else {
+                if (window.ALGOFORGE_CONFIG && window.ALGOFORGE_CONFIG.GROQ_API_KEY) {
+                    callGroqProblemClassifier(rawText);
+                } else {
+                    renderUnmatchedGuidance(rawText);
+                    if (!isAutoType) {
+                        shakeElement(dom.customFeedback);
+                    }
+                }
+            }
+        }
+
+        if (dom.btnAnalyzeCustom) {
+            dom.btnAnalyzeCustom.addEventListener('click', () => handleProblemSearch(false));
+        }
+
+        if (dom.customProblemInput) {
+            // Live debounced classification as user types
+            dom.customProblemInput.addEventListener('input', () => {
+                clearTimeout(searchDebounceTimer);
+                const val = dom.customProblemInput.value.trim();
+                if (val.length === 0) {
+                    if (dom.customFeedback) {
+                        dom.customFeedback.style.display = 'none';
+                        dom.customFeedback.innerHTML = '';
+                    }
+                    return;
+                }
+                searchDebounceTimer = setTimeout(() => {
+                    handleProblemSearch(true);
+                }, 320);
+            });
+
+            dom.customProblemInput.addEventListener('keydown', e => {
+                if (e.key === 'Enter' && !e.shiftKey) {
+                    e.preventDefault();
+                    clearTimeout(searchDebounceTimer);
+                    handleProblemSearch(false);
+                }
+            });
+        }
+
+        // Quick Problem Example Chips
+        document.querySelectorAll('.qpc-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                if (dom.customProblemInput) {
+                    clearTimeout(searchDebounceTimer);
+                    dom.customProblemInput.value = btn.dataset.text || btn.textContent;
+                    handleProblemSearch(false);
+                    const card = document.querySelector(`.problem-card[data-problem-id="${state.selectedProblemId}"]`);
+                    if (card) {
+                        card.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                    }
+                }
+            });
+        });
+
+        // Continue to Step 2 with strict validation (prevent advancing randomly)
+        dom.btnStep1Next?.addEventListener('click', () => {
+            const rawText = dom.customProblemInput ? dom.customProblemInput.value.trim() : '';
+
+            // If the user typed an unresolved query into the search box, test it first
+            if (rawText) {
+                const match = classifyProblem(rawText);
+                if (match) {
+                    selectProblem(match.id, `✓ ${match.reason}`);
+                } else {
+                    renderUnmatchedGuidance(rawText);
+                    shakeElement(dom.customFeedback);
+                    showToast('Please pick one of our 3 verified benchmarks below.');
+                    return; // Strictly stop! Do not advance!
+                }
+            }
+
+            // Strictly check if a valid problem is selected
+            if (!state.selectedProblemId) {
+                showFeedback('<i class="fa-solid fa-triangle-exclamation"></i> Please select one of the 3 challenge cards above or choose an option below before continuing.', 'warn');
+                shakeElement(dom.customFeedback);
+                const grid = document.querySelector('.problem-cards-grid');
+                if (grid) {
+                    shakeElement(grid);
+                    grid.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                }
+                showToast('Please select a problem first.');
+                return; // Strictly stop! Do not advance!
+            }
+
+            goToStep(2);
+        });
+    }
+
+    function classifyProblem(rawText) {
+        const text = rawText.trim().toLowerCase();
+        if (!text) return null;
+
+        let dupScore = 0;
+        let pathScore = 0;
+        let schedScore = 0;
+
+        // 1. Duplicate Detection Keywords & Synonyms
+        const dupKeywords = [
+            'duplicate', 'duplicates', 'dups', 'dup', 'dupe', 'dupes', 'repeat', 'repeated',
+            'repeating', 'repeats', 'repetition', 'unique', 'distinct', 'same', 'identical',
+            'twice', 'frequency', 'count', 'counter', 'array', 'list', 'vector', 'elements',
+            'items', 'numbers', 'hash', 'set', 'hashset', 'hashmap', 'map', 'dict', 'dictionary',
+            'dedup', 'dedupe', 'deduplication', 'clones', 'pair', 'pairs', 'match', 'matches',
+            'seen', 'occurrence', 'two sum', 'index', 'lookup', 'clean data', 'frequency array'
+        ];
+        for (let kw of dupKeywords) {
+            if (text.includes(kw)) {
+                dupScore += (kw === 'duplicate' || kw === 'duplicates' || kw === 'dedup' || kw === 'dedupe' || kw === 'identical' || kw === 'unique' || kw === 'repeat') ? 4 : 1;
+            }
+        }
+
+        // 2. Shortest Path Keywords, Navigation & Graph Routing
+        const pathKeywords = [
+            'path', 'paths', 'shortest', 'short', 'route', 'routes', 'routing', 'reroute',
+            'fastest', 'quickest', 'navigation', 'navigate', 'nav', 'gps', 'map', 'maps',
+            'graph', 'graphs', 'network', 'networks', 'grid', 'nodes', 'node', 'vertex',
+            'vertices', 'edges', 'edge', 'dijkstra', 'djikstra', 'dijkstras', 'bfs', 'dfs',
+            'breadth first', 'depth first', 'distance', 'cost', 'weighted', 'unweighted',
+            'hops', 'transit', 'traffic', 'roads', 'directions', 'maze', 'waypoint',
+            'connected', 'connection', 'degrees of separation', 'flight', 'airline', 'courier', 'delivery'
+        ];
+        for (let kw of pathKeywords) {
+            if (text.includes(kw)) {
+                pathScore += (kw === 'shortest' || kw === 'dijkstra' || kw === 'djikstra' || kw === 'path' || kw === 'route' || kw === 'navigation' || kw === 'fastest') ? 4 : 1;
+            }
+        }
+
+        // 3. Task Scheduling Keywords, Intervals & Time Planning
+        const schedKeywords = [
+            'schedule', 'scheduling', 'scheduled', 'schedules', 'schedual', 'sched', 'task',
+            'tasks', 'job', 'jobs', 'calendar', 'planner', 'planning', 'timetable', 'agenda',
+            'interval', 'intervals', 'meeting', 'meetings', 'appointment', 'appointments',
+            'booking', 'bookings', 'event', 'events', 'conflict', 'conflicts', 'overlap',
+            'overlapping', 'overlaps', 'non-overlapping', 'disjoint', 'timeline', 'deadline',
+            'deadlines', 'due date', 'start time', 'end time', 'finish time', 'greedy',
+            'earliest finish', 'edf', 'slots', 'slot', 'cpu scheduling', 'shifts', 'shift', 'room'
+        ];
+        for (let kw of schedKeywords) {
+            if (text.includes(kw)) {
+                schedScore += (kw === 'schedule' || kw === 'scheduling' || kw === 'schedual' || kw === 'interval' || kw === 'conflict' || kw === 'overlap' || kw === 'meeting' || kw === 'calendar') ? 4 : 1;
+            }
+        }
+
+        const maxScore = Math.max(dupScore, pathScore, schedScore);
+        if (maxScore > 0) {
+            if (dupScore === maxScore) {
+                return {
+                    id: 'find_duplicates',
+                    reason: 'Matched to "Find duplicate values in a list" (Array & Set Theory benchmark).'
+                };
+            }
+            if (pathScore === maxScore) {
+                return {
+                    id: 'shortest_path',
+                    reason: 'Matched to "Find the shortest path in a graph" (Graph Theory & Routing benchmark).'
+                };
+            }
+            if (schedScore === maxScore) {
+                return {
+                    id: 'schedule_tasks',
+                    reason: 'Matched to "Schedule tasks under constraints" (Interval Scheduling benchmark).'
+                };
+            }
+        }
+
+        // Cross-domain CS concepts fallback
+        if (/sort|sorting|order|ordering|filter/.test(text)) {
+            return {
+                id: 'find_duplicates',
+                reason: 'Sorting & scanning is a core technique in our Duplicate Detection benchmark.'
+            };
+        }
+        if (/search|searching|binary search|find item|lookup/.test(text)) {
+            return {
+                id: 'find_duplicates',
+                reason: 'Direct hash lookup and search are benchmarked in our Duplicate Detection algorithms.'
+            };
+        }
+        if (/tree|spanning tree|flow|travel|destination|city|cities|road/.test(text)) {
+            return {
+                id: 'shortest_path',
+                reason: 'Network traversal and graph routing are benchmarked in our Shortest Path challenge.'
+            };
+        }
+        if (/prioritize|priority|time management|organize|allocation/.test(text)) {
+            return {
+                id: 'schedule_tasks',
+                reason: 'Optimal task and resource allocation are benchmarked in our Task Scheduling challenge.'
+            };
+        }
+
+        return null;
+    }
+
+    function renderOracleFormulaCard(item, benchmarkMatch) {
+        if (!dom.customFeedback) return;
+        dom.customFeedback.className = 'feedback-box';
+        dom.customFeedback.style.display = 'block';
+
+        const safeFormula = escapeHtml(item.formula || 'f(x) = ?');
+        const encodedFormula = (item.formula || '').replace(/'/g, "\\'");
+
+        dom.customFeedback.innerHTML = `
+            <div class="oracle-formula-card">
+                <div class="ofc-header">
+                    <div class="ofc-title-wrap">
+                        <span class="ofc-emoji">${item.emoji || '🔬'}</span>
+                        <span class="ofc-title">${escapeHtml(item.name)}</span>
+                    </div>
+                    <span class="ofc-domain-pill">${escapeHtml(item.domain || 'Science')}</span>
+                </div>
+
+                <div class="ofc-formula-wrap">
+                    <div>
+                        <span class="ofc-formula-label">Discovered Governing Formula:</span>
+                        <div class="ofc-formula-code">${safeFormula}</div>
+                    </div>
+                    <button class="ofc-btn-copy" id="btnCopyFormula">
+                        <i class="fa-solid fa-copy"></i> Copy Formula
+                    </button>
+                </div>
+
+                <div class="ofc-eli5">
+                    <i class="fa-solid fa-lightbulb"></i>
+                    <div><strong>In Simple English:</strong> ${escapeHtml(item.eli5 || '')}</div>
+                </div>
+
+                <p class="ofc-explanation">${escapeHtml(item.explanation || '')}</p>
+
+                ${item.complexity ? `<div class="ofc-complexity-tag"><i class="fa-solid fa-clock"></i> Computational Complexity: ${escapeHtml(item.complexity)}</div>` : ''}
+
+                ${item.code ? `
+                    <div class="ofc-code-accordion">
+                        <button class="ofc-code-toggle" id="btnToggleOfcCode">
+                            <i class="fa-solid fa-code"></i> <span id="ofcCodeBtnText">View Working Python Code</span>
+                        </button>
+                        <div class="ofc-code-box" id="ofcCodeBox">
+                            <pre><code>${escapeHtml(item.code)}</code></pre>
+                        </div>
+                    </div>
+                ` : ''}
+
+                ${benchmarkMatch ? `
+                    <div style="margin-top: 16px; padding-top: 14px; border-top: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px;">
+                        <span style="font-size: 13.5px; color: var(--emerald); font-weight: 600;"><i class="fa-solid fa-circle-check"></i> Benchmark challenge matched: <strong>${escapeHtml(window.AlgoForgeAlgorithms.getProblem(benchmarkMatch.id)?.title)}</strong></span>
+                        <button class="btn btn-primary btn-sm" id="btnOfcGoToStep2">Continue to Benchmark Lab <i class="fa-solid fa-arrow-right"></i></button>
+                    </div>
+                ` : `
+                    <div style="margin-top: 16px; padding-top: 14px; border-top: 1px solid var(--border);">
+                        <span style="font-size: 13px; color: var(--text-muted); display: block; margin-bottom: 8px;">Want to test algorithmic approaches on real data? Choose a benchmark:</span>
+                        <div class="quick-problem-chips">
+                            <button class="qpc-btn btn-ofc-pick" data-pick="find_duplicates">Find Duplicates</button>
+                            <button class="qpc-btn btn-ofc-pick" data-pick="shortest_path">Shortest Path</button>
+                            <button class="qpc-btn btn-ofc-pick" data-pick="schedule_tasks">Schedule Tasks</button>
+                        </div>
+                    </div>
+                `}
+            </div>
+        `;
+
+        // Bind interactive elements inside the card
+        document.getElementById('btnCopyFormula')?.addEventListener('click', () => {
+            navigator.clipboard.writeText(item.formula || '');
+            showToast('Formula copied to clipboard!');
+        });
+
+        const toggleCodeBtn = document.getElementById('btnToggleOfcCode');
+        const codeBox = document.getElementById('ofcCodeBox');
+        const codeBtnText = document.getElementById('ofcCodeBtnText');
+        toggleCodeBtn?.addEventListener('click', () => {
+            if (codeBox) {
+                const isOpen = codeBox.classList.contains('open');
+                codeBox.classList.toggle('open', !isOpen);
+                if (codeBtnText) codeBtnText.textContent = isOpen ? 'View Working Python Code' : 'Hide Implementation Code';
+            }
+        });
+
+        document.getElementById('btnOfcGoToStep2')?.addEventListener('click', () => {
+            goToStep(2);
+        });
+
+        document.querySelectorAll('.btn-ofc-pick').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const pid = btn.dataset.pick;
+                state.selectedProblemId = pid;
+                dom.problemCards.forEach(c => c.classList.toggle('selected', c.dataset.problemId === pid));
+                const prob = window.AlgoForgeAlgorithms.getProblem(pid);
+                showFeedback(`<i class="fa-solid fa-circle-check"></i> Selected challenge: <strong>${prob.title}</strong>. Click Continue below to proceed!`, 'success');
+                goToStep(2);
+            });
+        });
+    }
+
+    function renderUnmatchedGuidance(query) {
+        if (!dom.customFeedback) return;
+        state.selectedProblemId = null;
+        dom.problemCards.forEach(c => c.classList.remove('selected'));
+
+        dom.customFeedback.className = 'feedback-box unmatched';
+        dom.customFeedback.style.display = 'block';
+        dom.customFeedback.innerHTML = `
+            <div class="unmatched-feedback-wrap">
+                <div class="ufw-header">
+                    <i class="fa-solid fa-circle-question"></i>
+                    <span>No verified benchmark found for: <strong>"${escapeHtml(query)}"</strong></span>
+                </div>
+                <p class="ufw-desc">AlgoForge evaluates real algorithms on 3 verified computational benchmarks. Please pick the challenge you'd like to explore:</p>
+                <div class="ufw-options">
+                    <button class="btn-pick-match" data-pick="find_duplicates">
+                        <i class="fa-solid fa-copy"></i>
+                        <span class="bpm-title">Find duplicates</span>
+                        <span class="bpm-sub">Arrays, Hash Sets, O(N²) vs O(N)</span>
+                    </button>
+                    <button class="btn-pick-match" data-pick="shortest_path">
+                        <i class="fa-solid fa-route"></i>
+                        <span class="bpm-title">Find shortest path</span>
+                        <span class="bpm-sub">Graph routing, Dijkstra vs BFS</span>
+                    </button>
+                    <button class="btn-pick-match" data-pick="schedule_tasks">
+                        <i class="fa-solid fa-calendar-check"></i>
+                        <span class="bpm-title">Schedule tasks</span>
+                        <span class="bpm-sub">Interval scheduling & Greedy EDF</span>
+                    </button>
+                </div>
+            </div>
+        `;
+
+        // Bind pick buttons
+        dom.customFeedback.querySelectorAll('.btn-pick-match').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const pickId = btn.dataset.pick;
+                state.selectedProblemId = pickId;
+                dom.problemCards.forEach(c => {
+                    const isSelected = c.dataset.problemId === pickId;
+                    c.classList.toggle('selected', isSelected);
+                });
+                const prob = window.AlgoForgeAlgorithms.getProblem(pickId);
+                showFeedback(`<i class="fa-solid fa-circle-check"></i> Selected challenge: <strong>${prob.title}</strong>. Click <strong>Continue</strong> below to proceed!`, 'success');
+                const targetCard = document.querySelector(`.problem-card[data-problem-id="${pickId}"]`);
+                if (targetCard) {
+                    targetCard.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                }
+            });
+        });
+    }
+
+    async function callGroqProblemClassifier(query) {
+        showFeedback('<i class="fa-solid fa-spinner fa-spin"></i> Consulting Groq AI to map problem...', 'info');
         try {
-            const data = JSON.parse(e.data);
-            if (data.type === "gen") {
-                const pct = Math.min(100, (data.generation / totalGen) * 100);
-                $("progFill").style.width = pct + "%";
-                evoChart.data.labels.push(`G${data.generation}`);
-                evoChart.data.datasets[0].data.push(data.best_fitness);
-                evoChart.data.datasets[1].data.push(data.avg_fitness);
-                evoChart.update("none");
-                $("mGen").textContent = data.generation;
-                $("mFit").textContent = data.best_fitness + "%";
-
-            } else if (data.type === "result") {
-                $("progFill").style.width = "100%";
-                $("mFit").textContent   = data.best_fitness + "%";
-                $("mGen").textContent   = data.total_generations;
-                $("mDepth").textContent = data.ast_depth;
-                $("mTime").textContent  = data.elapsed_sec + "s";
-
-                const complex = estimateComplexity(data.best_program_ast, data.ast_depth);
-                $("mComplex").textContent = complex;
-
-                $("statusBadge").className   = "badge b-done";
-                $("statusBadge").textContent = data.converged ? "✅ Formally Proved" : "⏱ Completed";
-
-                currentAst    = data.best_program_ast;
-                currentResult = data;
-
-                renderAlgorithm(data);
-                renderNoveltyBanner(data);
-                renderExport();
-                updateAnimState();
-                loadStats();
-
-                if (data.is_novel) launchConfetti();
-
-                evtSrc.close();
-                btn.disabled = false;
-            } else if (data.type === "done") {
-                evtSrc.close();
-                btn.disabled = false;
+            const cfg = window.ALGOFORGE_CONFIG;
+            const res = await fetch(cfg.GROQ_URL, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${cfg.GROQ_API_KEY}`
+                },
+                body: JSON.stringify({
+                    model: cfg.GROQ_MODEL,
+                    messages: [
+                        { role: 'system', content: 'Classify computational problem into one of 3: find_duplicates, shortest_path, schedule_tasks. Output JSON: {"matched":"find_duplicates"|"shortest_path"|"schedule_tasks", "explanation":"sentence"}' },
+                        { role: 'user', content: query }
+                    ],
+                    response_format: { type: 'json_object' }
+                })
+            });
+            const data = await res.json();
+            const parsed = JSON.parse(data.choices[0].message.content);
+            if (parsed.matched && ['find_duplicates', 'shortest_path', 'schedule_tasks'].includes(parsed.matched)) {
+                dom.problemCards.forEach(c => c.classList.remove('selected'));
+                const targetCard = document.querySelector(`.problem-card[data-problem-id="${parsed.matched}"]`);
+                if (targetCard) targetCard.classList.add('selected');
+                state.selectedProblemId = parsed.matched;
+                showFeedback(`✓ AI mapped: ${parsed.explanation}`, 'success');
+            } else {
+                renderUnmatchedGuidance(query);
             }
-        } catch (err) { console.error("SSE Error:", err); }
-    };
-
-    evtSrc.onerror = () => {
-        evtSrc.close();
-        // Fallback to native client-side synthesis for static hosts like Netlify
-        runClientSideSynthesis(params);
-    };
-}
-
-function runClientSideSynthesis(params) {
-    if (!window.AlgoEngine) {
-        $("statusBadge").className   = "badge b-ready";
-        $("statusBadge").textContent = "Error — Engine Unavailable";
-        $("btnInvent").disabled = false;
-        return;
-    }
-
-    const taskName  = params.get("task");
-    const taskObj   = allTasks.find(t => t.name === taskName);
-    const cases     = (taskObj && taskObj.cases) ? taskObj.cases : [[[2,1],[1,2]]];
-    const maxGen    = Math.max(10, parseInt(params.get("gen"))   || 80);
-    const popSize   = Math.max(10, parseInt(params.get("pop"))   || 60);
-    const mutRate   = parseFloat(params.get("mutation_rate"))    || 0.35;
-    const crsRate   = parseFloat(params.get("crossover_rate"))   || 0.6;
-    const maxDepth  = parseInt(params.get("max_depth"))          || 6;
-    const rawSeed   = parseInt(params.get("seed"))               || 0;
-    const seed      = rawSeed === 0 ? (Math.floor(Math.random() * 99998) + 1) : rawSeed;
-
-    const startTime = Date.now();
-    let gensDone    = 0;
-    let bestFitSoFar = 0;
-
-    // Build the engine — real GP, seeded
-    const engine = new AlgoEngine.GeneticEngine({
-        popSize, maxGen, mutRate, crsRate, maxDepth, seed,
-        onGeneration(gen, bestFit, avgFit, bestProg) {
-            gensDone = gen;
-            bestFitSoFar = bestFit;
-            const pct = Math.min(100, (gen / maxGen) * 100);
-            $("progFill").style.width = pct + "%";
-            $("mGen").textContent = gen;
-            $("mFit").textContent = roundTo(Math.min(100, bestFit), 2) + "%";
-
-            evoChart.data.labels.push(`G${gen}`);
-            evoChart.data.datasets[0].data.push(roundTo(Math.min(100, bestFit), 2));
-            evoChart.data.datasets[1].data.push(roundTo(Math.max(0, Math.min(100, avgFit)), 2));
-            evoChart.update("none");
-        }
-    });
-
-    // Run in a non-blocking way using setTimeout so the UI updates
-    setTimeout(() => {
-        const { bestProg, bestFit } = engine.run(cases);
-        const elapsed = roundTo((Date.now() - startTime) / 1000, 2);
-        finishClientSynthesis(bestProg, bestFit, gensDone || maxGen, elapsed, taskName, seed, params);
-    }, 0);
-}
-
-function finishClientSynthesis(bestProg, bestFit, totalGen, elapsed, taskName, seedUsed, params) {
-    const sig      = Math.floor(Math.random() * 9000 + 1000);
-    const algoName = `${taskName.toUpperCase().replace(/_/g,"")}-GP-${sig}`;
-
-    // Novelty: compare AST signature against localStorage history
-    const reprStr  = JSON.stringify(bestProg);
-    const allRuns  = getLocalRuns();
-    const isDup    = allRuns.some(r => r.task === taskName && r.repr === reprStr);
-    const prevBest = allRuns.filter(r => r.task === taskName).reduce((m, r) => Math.max(m, r.fit || 0), 0);
-    const isBest   = bestFit > prevBest;
-    const isNovel  = !isDup;
-
-    // Formal verification for sorting tasks
-    const isSortingTask = ["sort_2","sort_3","sort_4","sort_5","sort_6","cascade_sort_5","cascade_sort_6","bisplit_4","bitonic_sort_6"].includes(taskName);
-    const fitDisplay    = roundTo(Math.min(100, bestFit), 2);
-
-    const data = {
-        type:             "result",
-        best_fitness:     fitDisplay,
-        total_generations: totalGen,
-        converged:        bestFit >= 95,
-        elapsed_sec:      elapsed,
-        ast_depth:        bestProg.getDepth(),
-        best_program_ast: bestProg,
-        best_program_repr: reprStr,
-        is_duplicate:     isDup,
-        is_novel:         isNovel,
-        is_best:          isBest,
-        algorithm_name:   algoName,
-        seed_used:        seedUsed,
-        verified:         isSortingTask && bestFit >= 95,
-        verification_msg: isSortingTask && bestFit >= 95
-            ? "Knuth 0-1 Principle: All binary input permutations passed."
-            : `Evaluated against ${(allTasks.find(t=>t.name===taskName)||{cases:[]}).cases?.length || "all"} test cases.`
-    };
-
-    $("progFill").style.width = "100%";
-    $("mFit").textContent     = fitDisplay + "%";
-    $("mGen").textContent     = totalGen;
-    $("mDepth").textContent   = data.ast_depth;
-    $("mTime").textContent    = elapsed + "s";
-
-    $("statusBadge").className   = "badge b-done";
-    $("statusBadge").textContent = data.converged ? "✅ Converged" : "⏱ Completed";
-
-    currentAst    = data.best_program_ast;
-    currentResult = data;
-
-    renderAlgorithm(data);
-    renderNoveltyBanner(data);
-    renderExport();
-    updateAnimState();
-    loadStats();
-
-    // Persist to localStorage
-    saveLocalRun(taskName, algoName, fitDisplay, data.ast_depth, elapsed, reprStr, isNovel, isBest);
-    if (isNovel) launchConfetti();
-    $("btnInvent").disabled = false;
-
-    // Trigger AI explainer
-    triggerAiExplainer(data);
-}
-
-function roundTo(num, decimals) {
-    return Math.round(num * Math.pow(10, decimals)) / Math.pow(10, decimals);
-}
-
-function saveLocalRun(task, name, fit, depth, time, repr, isNovel, isBest) {
-    try {
-        let runs = JSON.parse(localStorage.getItem("algoforge_runs") || "[]");
-        runs.push({ task, name, fit, depth, time, repr: repr || "", isNovel: !!isNovel, isBest: !!isBest, date: new Date().toISOString() });
-        // Keep only last 200 entries
-        if (runs.length > 200) runs = runs.slice(-200);
-        localStorage.setItem("algoforge_runs", JSON.stringify(runs));
-    } catch(e) {}
-}
-
-function getLocalRuns() {
-    try { return JSON.parse(localStorage.getItem("algoforge_runs") || "[]"); } catch(e) { return []; }
-}
-
-function estimateComplexity(ast, depth) {
-    if (!ast) return "";
-    const loops = countNodes(ast, "LoopNode");
-    if (loops >= 2) return "O(n²)";
-    if (loops === 1) return "O(n)";
-    return depth <= 3 ? "O(1)" : "O(n log n)";
-}
-
-function countNodes(node, type) {
-    if (!node) return 0;
-    let count = node.type === type ? 1 : 0;
-    const children = [
-        ...(node.statements || []), ...(node.body || []), ...(node.then_body || []),
-        node.idx1, node.idx2, node.value, node.condition, node.start, node.end, node.left, node.right
-    ].filter(Boolean);
-    children.forEach(c => { count += countNodes(c, type); });
-    return count;
-}
-
-// ──────────── Novelty Banner ────────────
-function renderNoveltyBanner(data) {
-    const nb = $("noveltyBanner");
-    nb.classList.remove("hidden");
-    let cls, icon, title, body, tags;
-
-    if (data.is_novel && data.is_best) {
-        cls   = "nb-best"; icon = "🏆";
-        title = `New Record! ${data.algorithm_name}`;
-        body  = `This is a BRAND NEW algorithm structure — AND the highest accuracy ever achieved for <strong>${$("taskSelect").value}</strong>! Fitness: <strong>${data.best_fitness}%</strong>`;
-        tags  = `<span class="chip c-novel">🔬 Novel</span><span class="chip c-expert">🏆 New Record</span>`;
-    } else if (data.is_novel) {
-        cls   = "nb-novel"; icon = "🔬";
-        title = `Novel Discovery: ${data.algorithm_name}`;
-        body  = `A completely NEW algorithm structure never found in any previous run! Fitness: <strong>${data.best_fitness}%</strong>. Export it from the <strong>Export &amp; Prove</strong> tab!`;
-        tags  = `<span class="chip c-novel">🔬 Novel</span><span class="chip c-medium">Depth ${data.ast_depth}</span>`;
-    } else {
-        cls   = "nb-dup"; icon = "🔁";
-        title = "Equivalent Structure Found";
-        body  = `Same program structure as a previous run. Click the <strong>🎲 dice button</strong> to roll a new random seed and discover a new algorithm!`;
-        tags  = `<span class="chip c-easy">Duplicate</span>`;
-    }
-
-    nb.className = `nbanner ${cls}`;
-    nb.innerHTML = `
-        <div class="nb-icon">${icon}</div>
-        <div style="flex:1">
-            <div class="nb-title">${title}</div>
-            <div class="nb-body">${body}</div>
-            <div class="nb-tags">${tags}</div>
-        </div>
-    `;
-}
-
-// ──────────── Render Algorithm (Plain English Story + AST) ────────────
-function renderAlgorithm(data) {
-    $("algoNameRow").classList.remove("hidden");
-    $("algoNameRow").style.display = "flex";
-    $("algoNameTxt").textContent = data.algorithm_name || "—";
-    $("algoSeedTxt").textContent = data.seed_used ? `seed:${data.seed_used}` : "seed:random";
-
-    const cb = $("algoComplexBadge");
-    const comp = estimateComplexity(data.best_program_ast, data.ast_depth);
-    if (comp) { cb.classList.remove("hidden"); cb.textContent = comp + " complexity"; }
-
-    // Plain English Story
-    const family = getAlgorithmFamily(data.algorithm_name, $("taskSelect").value, data.best_program_ast);
-    const steps = astToEnglishSteps(data.best_program_ast);
-
-    let html = `
-        <div style="margin-bottom:12px;padding:12px;background:rgba(129,140,248,0.08);border-radius:10px;border:1px solid var(--indigo-bdr)">
-            <h4 style="color:var(--indigo);font-size:13.5px;margin-bottom:4px">💡 Narrative Overview</h4>
-            <p style="font-size:12.5px;color:var(--t1);line-height:1.6">${family.story}</p>
-        </div>
-        <h4 style="color:var(--sky);font-size:12.5px;margin-bottom:8px">📋 Step-by-Step Human Breakdown:</h4>
-        <ol style="padding-left:18px">
-    `;
-    steps.forEach((s, idx) => {
-        html += `<li style="margin-bottom:8px;font-size:12.5px;line-height:1.55"><strong style="color:var(--indigo)">Step ${idx+1}:</strong> ${s}</li>`;
-    });
-    html += `</ol>`;
-    $("englishOut").innerHTML = html;
-
-    $("astOut").textContent = data.best_program_repr || "";
-    $("algoNote").style.color = "var(--mint)";
-    $("algoNote").textContent = `✅ ${data.best_fitness}% Accuracy (AST Depth ${data.ast_depth})`;
-}
-
-function getAlgorithmFamily(name, task, ast) {
-    const numStmts = ast && ast.statements ? ast.statements.length : 0;
-
-    if (task === "sort_2") {
-        return {
-            family: "Binary Comparator (N=2)",
-            story: `Synthesized 2-element binary sorting network. Executes ${numStmts || 1} compare-swap operation on indices [0, 1] to guarantee ascending numerical order in a single comparison step.`
-        };
-    } else if (task === "sort_3") {
-        return {
-            family: "Ternary Comparator Network (N=3)",
-            story: `Optimal 3-element Batcher-style comparator network. Executes ${numStmts || 3} sequential compare-swap operations across pairs (0, 1), (1, 2), and (0, 1), sorting all 3! = 6 input permutations.`
-        };
-    } else if (task === "sort_4") {
-        return {
-            family: "Quad Sorting Network (N=4)",
-            story: `4-element parallel sorting network. Applies ${numStmts || 5} compare-swap operations across array bounds, achieving 100% formal verification on all 2⁴ = 16 binary vectors under Knuth's 0-1 Principle.`
-        };
-    } else if (task === "min_first") {
-        return {
-            family: "Minimum Pivot Transposition",
-            story: `Single-pass minimum extractor. Scans initial array positions and executes compare-swap operations to isolate the absolute minimum value and place it at index 0.`
-        };
-    } else if (task === "reverse_3") {
-        return {
-            family: "In-Place Permutation Reversal",
-            story: `Symmetric reversal network. Performs direct coordinate swaps between opposing array boundaries to invert list order in-place.`
-        };
-    } else if (task === "max_last_3") {
-        return {
-            family: "Maximum Sink Propagator",
-            story: `Bubble-sink maximum propagator. Executes sequential comparator passes to float the maximum element to the rightmost index.`
-        };
-    } else if (task === "zigzag_sort_4") {
-        return {
-            family: "Alternating Peak-Valley Network",
-            story: `Non-linear valley-peak transposed comparator network. Synthesizes a non-monotonic comparator topology that enforces alternating inequality relations (a ≤ b ≥ c ≤ d).`
-        };
-    } else if (task === "even_odd_partition") {
-        return {
-            family: "Bitwise Parity Partitioning Engine",
-            story: `Parity segregation network. Evaluates numeric parity and executes conditional swaps to push all even integers to lower array bounds and odd integers to upper bounds.`
-        };
-    } else if (task.includes("pancake")) {
-        return {
-            family: "Prefix Reversal Permutation Sort",
-            story: `Prefix flip permutation network. Sorts elements using strictly prefix range reversals (ReverseRangeNode), rotating sub-array slices into correct positions.`
-        };
-    } else if (task.includes("wavelet")) {
-        return {
-            family: "Multi-Resolution Wavelet Transform",
-            story: `Haar wavelet coefficient decomposition. Replaces adjacent element pairs with their pairwise sum averages and differential detail coefficients.`
-        };
-    } else if (task.includes("compress")) {
-        return {
-            family: "Run-Length Sequence Encoder",
-            story: `Sequential run-length compressor. Detects repeated contiguous values and packs frequency counts and value pairs into compact array slots.`
-        };
-    } else if (task.includes("cascade") || task === "sort_5" || task === "sort_6") {
-        return {
-            family: "Multi-Stage Cascade Comparator Network",
-            story: `Deep multi-stage sorting network containing ${numStmts} nested execution statements. Evaluates pairwise comparisons across non-linear array bounds.`
-        };
-    } else {
-        return {
-            family: "Synthesized In-Place Comparator Network",
-            story: `Synthesized comparator network containing ${numStmts} statement nodes. Compares specific coordinate pairs and executes conditional swaps to satisfy the target objective.`
-        };
-    }
-}
-
-function astToEnglishSteps(node) {
-    if (!node) return [];
-    if (node.type === "ProgramNode") {
-        let steps = [];
-        (node.statements || []).forEach(stmt => { steps = steps.concat(stmtToText(stmt)); });
-        return steps;
-    }
-    return [stmtToText(node)];
-}
-
-function stmtToText(node) {
-    if (!node) return "Pass";
-    switch (node.type) {
-        case "CompareSwapNode": {
-            const i1 = exprToStr(node.idx1), i2 = exprToStr(node.idx2);
-            return `Compare position <strong>${i1}</strong> with position <strong>${i2}</strong>. If position <strong>${i1}</strong> is larger than position <strong>${i2}</strong>, swap them so the smaller number comes first.`;
-        }
-        case "SwapNode": {
-            const i1 = exprToStr(node.idx1), i2 = exprToStr(node.idx2);
-            return `Swap elements at position <strong>${i1}</strong> and position <strong>${i2}</strong> directly.`;
-        }
-        case "ReverseRangeNode": {
-            const s = exprToStr(node.start), e = exprToStr(node.end);
-            return `Flip (reverse) array slice starting from position <strong>${s}</strong> up to <strong>${e}</strong>.`;
-        }
-        case "ArrayAssignNode": {
-            const idx = exprToStr(node.idx), val = exprToStr(node.value);
-            return `Set array position <strong>${idx}</strong> to <strong>${val}</strong>.`;
-        }
-        case "AssignNode": return `Set counter <strong>${node.var_name}</strong> to <strong>${exprToStr(node.value)}</strong>.`;
-        case "LoopNode": {
-            const s = exprToStr(node.start), e = exprToStr(node.end);
-            let b = (node.body || []).map(b => stmtToText(b)).join(" then ");
-            return `Repeat <strong>${node.var_name}</strong> from <strong>${s}</strong> to <strong>${e}</strong>: [ ${b} ]`;
-        }
-        case "IfNode": {
-            let b = (node.then_body || []).map(b => stmtToText(b)).join(" then ");
-            return `If (<strong>${exprToStr(node.condition)}</strong>) is True: [ ${b} ]`;
-        }
-        default: return JSON.stringify(node);
-    }
-}
-
-function exprToStr(n) {
-    if (!n) return "?";
-    if (n.type === "ConstNode") return String(n.value);
-    if (n.type === "VariableNode") return n.name;
-    if (n.type === "BinaryOpNode") return `(${exprToStr(n.left)} ${n.op} ${exprToStr(n.right)})`;
-    return "?";
-}
-
-// ──────────── Export & Prove ────────────
-function renderExport() {
-    if (!currentAst || !currentResult) return;
-    $("exportEmpty").classList.add("hidden");
-    $("exportPanel").classList.remove("hidden");
-
-    const d = currentResult;
-    const vb = $("verifyBox");
-    if (d.verified) {
-        vb.className = "vbox ok";
-        vb.innerHTML = `<i class="fa-solid fa-shield-check fa-lg"></i> <div><strong>Formally Verified!</strong><br><span style="font-size:12px">${d.verification_msg}</span></div>`;
-    } else {
-        vb.className = "vbox ok";
-        vb.innerHTML = `<i class="fa-solid fa-shield-check fa-lg"></i> <div><strong>Knuth 0-1 Theorem Proved!</strong><br><span style="font-size:12px">All binary input permutations passed mathematically.</span></div>`;
-    }
-
-    const comp = estimateComplexity(currentAst, d.ast_depth);
-    $("identityBody").innerHTML = [
-        ["🏷 Algorithm Name",   d.algorithm_name || "—"],
-        ["🎯 Task",             $("taskSelect").value],
-        ["📊 Accuracy",         `<strong style="color:var(--mint)">${d.best_fitness}%</strong>`],
-        ["🌳 AST Depth",        d.ast_depth],
-        ["⏱ Complexity",       comp || "O(n log n)"],
-        ["🔄 Generations",      d.total_generations],
-        ["🎲 Random Seed",       d.seed_used || "random"],
-        ["🔬 Is Novel",         d.is_novel ? "✅ Yes — Novel Discovery!" : "🔁 Equivalent Pattern"],
-        ["⏳ Run Time",          d.elapsed_sec + "s"]
-    ].map(([k,v]) => `<tr><td style="color:var(--t3);font-weight:700;font-size:11.5px">${k}</td><td style="font-size:13px">${v}</td></tr>`).join("");
-
-    $("exportCode").textContent = generateCode(currentLang);
-}
-
-function generateCode(lang) {
-    if (!currentAst || !currentResult) return "";
-    const d = currentResult;
-    const nm = (d.algorithm_name || "algo").replace(/-/g,"_").toLowerCase();
-    const task = $("taskSelect").value;
-
-    if (lang === "python") {
-        let c = `# Algorithm: ${d.algorithm_name}\n# Task: ${task} | Fitness: ${d.best_fitness}%\n\ndef ${nm}(arr):\n    arr = list(arr)\n`;
-        c += astToPython(currentAst, 1);
-        c += `    return arr\n\nprint(${nm}([5, 2, 8, 1, 4]))\n`;
-        return c;
-    } else if (lang === "cpp") {
-        let c = `// Algorithm: ${d.algorithm_name}\n#include <iostream>\n#include <vector>\n#include <algorithm>\n\ninline void cs(std::vector<int>& a, int i, int j) {\n    if (a[i] > a[j]) std::swap(a[i], a[j]);\n}\n\nvoid ${nm}(std::vector<int>& arr) {\n`;
-        c += astToCpp(currentAst, 1);
-        c += `}\n\nint main() {\n    std::vector<int> a = {5, 2, 8, 1, 4};\n    ${nm}(a);\n    for(int x : a) std::cout << x << " ";\n    return 0;\n}\n`;
-        return c;
-    } else if (lang === "java") {
-        let c = `// Algorithm: ${d.algorithm_name}\npublic class Main {\n    static void cs(int[] a, int i, int j) {\n        if (a[i] > a[j]) { int t=a[i]; a[i]=a[j]; a[j]=t; }\n    }\n    public static void sort(int[] arr) {\n        int len = arr.length;\n`;
-        c += astToJava(currentAst, 2);
-        c += `    }\n}\n`;
-        return c;
-    } else if (lang === "rust") {
-        let c = `// Algorithm: ${d.algorithm_name}\npub fn ${nm}(arr: &mut [i32]) {\n    let len = arr.len();\n`;
-        c += astToRust(currentAst, 1);
-        c += `}\n`;
-        return c;
-    } else if (lang === "go") {
-        let c = `// Algorithm: ${d.algorithm_name}\npackage main\n\nimport "fmt"\n\nfunc ${nm}(arr []int) {\n    len := len(arr)\n`;
-        c += astToGo(currentAst, 1);
-        c += `}\n\nfunc main() {\n    a := []int{5, 2, 8, 1, 4}\n    ${nm}(a)\n    fmt.Println(a)\n}\n`;
-        return c;
-    } else if (lang === "pseudo") {
-        let c = `ALGORITHM ${d.algorithm_name}\nPROCEDURE ${nm}(arr):\n`;
-        c += astToPseudo(currentAst, 1);
-        c += `END ${nm}\n`;
-        return c;
-    } else if (lang === "json") {
-        return JSON.stringify({ algorithm: d.algorithm_name, task, fitness: d.best_fitness, ast: currentAst }, null, 2);
-    }
-    return "";
-}
-
-function astToPython(node, i) {
-    const p = "    ".repeat(i); if (!node) return "";
-    let o = "";
-    switch(node.type) {
-        case "ProgramNode": (node.statements||[]).forEach(s => o += astToPython(s, i)); break;
-        case "CompareSwapNode": o += `${p}if arr[${exprToStr(node.idx1)}] > arr[${exprToStr(node.idx2)}]: arr[${exprToStr(node.idx1)}], arr[${exprToStr(node.idx2)}] = arr[${exprToStr(node.idx2)}], arr[${exprToStr(node.idx1)}]\n`; break;
-        case "SwapNode": o += `${p}arr[${exprToStr(node.idx1)}], arr[${exprToStr(node.idx2)}] = arr[${exprToStr(node.idx2)}], arr[${exprToStr(node.idx1)}]\n`; break;
-        case "ReverseRangeNode": o += `${p}arr[${exprToStr(node.start)}:${exprToStr(node.end)}] = reversed(arr[${exprToStr(node.start)}:${exprToStr(node.end)}])\n`; break;
-        case "AssignNode": o += `${p}${node.var_name} = ${exprToStr(node.value).replace("len","len(arr)")}\n`; break;
-        case "LoopNode": o += `${p}for ${node.var_name} in range(${exprToStr(node.start)}, ${exprToStr(node.end).replace("len","len(arr)")}):\n`; (node.body||[]).forEach(s => o += astToPython(s, i+1)); break;
-    }
-    return o;
-}
-function astToCpp(node, i) {
-    const p = "    ".repeat(i); if (!node) return "";
-    let o = "";
-    switch(node.type) {
-        case "ProgramNode": (node.statements||[]).forEach(s => o += astToCpp(s, i)); break;
-        case "CompareSwapNode": o += `${p}cs(arr, ${exprToStr(node.idx1)}, ${exprToStr(node.idx2)});\n`; break;
-        case "SwapNode": o += `${p}std::swap(arr[${exprToStr(node.idx1)}], arr[${exprToStr(node.idx2)}]);\n`; break;
-        case "LoopNode": o += `${p}for (int ${node.var_name}=${exprToStr(node.start)}; ${node.var_name}<${exprToStr(node.end)}; ${node.var_name}++) {\n`; (node.body||[]).forEach(s => o += astToCpp(s, i+1)); o += `${p}}\n`; break;
-        case "AssignNode": o += `${p}int ${node.var_name} = ${exprToStr(node.value)};\n`; break;
-    }
-    return o;
-}
-function astToJava(node, i) { return astToCpp(node, i); }
-function astToRust(node, i) {
-    const p = "    ".repeat(i); if (!node) return "";
-    let o = "";
-    switch(node.type) {
-        case "ProgramNode": (node.statements||[]).forEach(s => o += astToRust(s, i)); break;
-        case "CompareSwapNode": o += `${p}if arr[${exprToStr(node.idx1)}] > arr[${exprToStr(node.idx2)}] { arr.swap(${exprToStr(node.idx1)}, ${exprToStr(node.idx2)}); }\n`; break;
-        case "LoopNode": o += `${p}for ${node.var_name} in ${exprToStr(node.start)}..${exprToStr(node.end)} {\n`; (node.body||[]).forEach(s => o += astToRust(s, i+1)); o += `${p}}\n`; break;
-    }
-    return o;
-}
-function astToGo(node, i) {
-    const p = "    ".repeat(i); if (!node) return "";
-    let o = "";
-    switch(node.type) {
-        case "ProgramNode": (node.statements||[]).forEach(s => o += astToGo(s, i)); break;
-        case "CompareSwapNode": o += `${p}if arr[${exprToStr(node.idx1)}] > arr[${exprToStr(node.idx2)}] { arr[${exprToStr(node.idx1)}], arr[${exprToStr(node.idx2)}] = arr[${exprToStr(node.idx2)}], arr[${exprToStr(node.idx1)}] }\n`; break;
-        case "LoopNode": o += `${p}for ${node.var_name} := ${exprToStr(node.start)}; ${node.var_name} < ${exprToStr(node.end)}; ${node.var_name}++ {\n`; (node.body||[]).forEach(s => o += astToGo(s, i+1)); o += `${p}}\n`; break;
-    }
-    return o;
-}
-function astToPseudo(node, i) {
-    const p = "    ".repeat(i); if (!node) return "";
-    let o = "";
-    switch(node.type) {
-        case "ProgramNode": (node.statements||[]).forEach(s => o += astToPseudo(s, i)); break;
-        case "CompareSwapNode": o += `${p}IF arr[${exprToStr(node.idx1)}] > arr[${exprToStr(node.idx2)}] THEN SWAP arr[${exprToStr(node.idx1)}] ↔ arr[${exprToStr(node.idx2)}]\n`; break;
-        case "LoopNode": o += `${p}FOR ${node.var_name} FROM ${exprToStr(node.start)} TO ${exprToStr(node.end)} DO\n`; (node.body||[]).forEach(s => o += astToPseudo(s, i+1)); o += `${p}END FOR\n`; break;
-    }
-    return o;
-}
-
-// ──────────── Step Animator ────────────
-function updateAnimState() {
-    if (currentAst) {
-        $("animEmpty").classList.add("hidden");
-        $("animPanel").classList.remove("hidden");
-    } else {
-        $("animEmpty").classList.remove("hidden");
-        $("animPanel").classList.add("hidden");
-    }
-}
-
-on("btnRunAnim", "click", () => {
-    if (!currentAst) { alert("Invent an algorithm first!"); return; }
-    let arr;
-    try { arr = JSON.parse($("animInput").value); if (!Array.isArray(arr)) throw 0; }
-    catch { alert("Invalid JSON array — enter something like [3,1,4,2]"); return; }
-
-    if (!window.AlgoEngine) { alert("Engine not loaded."); return; }
-
-    $("btnRunAnim").disabled = true;
-    try {
-        // Run the interpreter fully client-side — no API needed
-        const interp = new AlgoEngine.Interpreter(2000);
-        const result = interp.execute(currentAst, arr);
-
-        currentTrace = result.trace && result.trace.length > 0
-            ? result.trace
-            : [
-                { step: 0, action: "Initial state",                          array: arr            },
-                { step: 1, action: `Output: [${result.output_array.join(", ")}]`, array: result.output_array }
-              ];
-
-        currentStep = 0;
-        $("stepSlider").min   = 0;
-        $("stepSlider").max   = currentTrace.length - 1;
-        $("stepSlider").value = 0;
-        renderStep();
-    } catch(e) {
-        alert("Error running animator: " + e.message);
-    } finally {
-        $("btnRunAnim").disabled = false;
-    }
-});
-
-on("stepSlider", "input", () => { currentStep = parseInt($("stepSlider").value); renderStep(); });
-on("btnFirst",   "click", () => { currentStep = 0; $("stepSlider").value = 0; renderStep(); });
-on("btnPrev",    "click", () => { if (currentStep > 0) { currentStep--; $("stepSlider").value = currentStep; renderStep(); } });
-on("btnNext",    "click", () => { if (currentStep < currentTrace.length-1) { currentStep++; $("stepSlider").value = currentStep; renderStep(); } });
-on("btnLast",    "click", () => { currentStep = currentTrace.length-1; $("stepSlider").value = currentStep; renderStep(); });
-
-function renderStep() {
-    if (!currentTrace.length) return;
-    const snap = currentTrace[currentStep];
-    $("stepCount").textContent = `Step ${snap.step} / ${currentTrace.length - 1}`;
-    $("actionPill").innerHTML  = `<i class="fa-solid fa-circle-dot"></i> ${snap.action || ""}`;
-
-    const arr = snap.array || [];
-    const max = Math.max(...arr.map(Math.abs), 1);
-    const viz = $("arrayViz");
-    viz.innerHTML = "";
-    arr.forEach((val, idx) => {
-        const h   = Math.max(12, (Math.abs(val) / max) * 82);
-        const isS = snap.action && snap.action.includes("swapped") && (snap.action.includes(`(${idx},`) || snap.action.includes(`, ${idx})`));
-        const col = document.createElement("div");
-        col.className = "bar-col";
-        col.innerHTML = `<div class="bar${isS?" swap":""}" style="height:${h}%">${val}</div><span class="bar-idx">i=${idx}</span>`;
-        viz.appendChild(col);
-    });
-}
-
-// ──────────── Hall of Fame ────────────
-function loadHoF() {
-    $("hofLoading").classList.remove("hidden");
-    $("hofGrid").classList.add("hidden");
-
-    const runs  = getLocalRuns();
-    const grid  = $("hofGrid");
-    grid.innerHTML = "";
-
-    if (runs.length === 0) {
-        grid.innerHTML = `<div class="empty-state" style="grid-column:1/-1"><i class="fa-solid fa-crown"></i><p>No algorithms yet! Invent some in the Invention Lab.</p></div>`;
-        $("hofLoading").classList.add("hidden");
-        $("hofGrid").classList.remove("hidden");
-        return;
-    }
-
-    // Best entry per task
-    const byTask = {};
-    for (const r of runs) {
-        if (!byTask[r.task] || r.fit > byTask[r.task].fit) {
-            byTask[r.task] = r;
+        } catch (e) {
+            renderUnmatchedGuidance(query);
         }
     }
 
-    const hall = Object.values(byTask).sort((a, b) => b.fit - a.fit);
-
-    hall.forEach((e, i) => {
-        const fClass = e.fit >= 95 ? "perfect" : e.fit >= 60 ? "good" : "partial";
-        const medal  = i === 0 ? "🥇" : i === 1 ? "🥈" : i === 2 ? "🥉" : "🏅";
-        const card   = document.createElement("div");
-        card.className = "hof-card";
-        card.innerHTML = `
-            <div class="hof-crown">${medal}</div>
-            <div style="font-size:11px;margin-bottom:4px"><span class="chip c-easy">${e.task}</span></div>
-            <div class="hof-name">${e.name}</div>
-            <div class="hof-fitness ${fClass}">${e.fit}%</div>
-            <div style="font-size:11px;color:var(--t3);margin-top:4px">Depth: ${e.depth}</div>
-            <div style="margin-top:6px">${e.isNovel ? '<span class="chip c-novel" style="font-size:9px">🔬 Novel</span>' : ''}</div>
-        `;
-        grid.appendChild(card);
-    });
-
-    $("hofLoading").classList.add("hidden");
-    $("hofGrid").classList.remove("hidden");
-}
-
-// ──────────── Pareto Archive ────────────
-function loadArchive() {
-    const runs = getLocalRuns();
-    const body = $("archiveBody");
-    body.innerHTML = "";
-    const novel = [], dup = [];
-
-    if (runs.length === 0) {
-        body.innerHTML = `<tr><td colspan="6" style="text-align:center;color:var(--t3);padding:20px">No runs yet. Invent algorithms in the Lab!</td></tr>`;
-        $("archiveCount").textContent = "0 entries";
-        paretoChart.data.datasets[0].data = [];
-        paretoChart.data.datasets[1].data = [];
-        paretoChart.update();
-        return;
+    function showFeedback(msg, type = 'info') {
+        if (!dom.customFeedback) return;
+        dom.customFeedback.style.display = 'flex';
+        dom.customFeedback.className = `feedback-box ${type}`;
+        dom.customFeedback.innerHTML = msg;
     }
 
-    [...runs].reverse().forEach(e => {
-        const isN = e.isNovel !== false;
-        const tr  = document.createElement("tr");
-        tr.style.background = isN ? "rgba(52,211,153,0.03)" : "";
-        tr.innerHTML = `
-            <td style="font-family:var(--mono);font-size:11.5px;color:${isN?"var(--mint)":"var(--t3)"}">
-                <span style="margin-right:4px">${isN?"🔬":"🔁"}</span>${e.name}
-            </td>
-            <td><span class="chip c-easy">${e.task}</span></td>
-            <td><strong style="color:var(--mint)">${e.fit}%</strong></td>
-            <td>${e.depth}</td>
-            <td>${e.isBest?"🏆 Best":""} ${isN?"✨ Novel":""}</td>
-            <td style="color:var(--t3);font-size:11px">${new Date(e.date).toLocaleTimeString()}</td>
-        `;
-        body.appendChild(tr);
-        if (isN) novel.push({ x: e.depth, y: e.fit });
-        else      dup.push(  { x: e.depth, y: e.fit });
-    });
+    // ─────────────────────────────────────────────────────────────────────────────
+    // STEP 2: UNDERSTAND THE PROBLEM
+    // ─────────────────────────────────────────────────────────────────────────────
+    function renderStep2() {
+        const problem = window.AlgoForgeAlgorithms.getProblem(state.selectedProblemId);
+        if (!problem) return;
 
-    $("archiveCount").textContent = `${runs.length} entries`;
-    paretoChart.data.datasets[0].data = novel;
-    paretoChart.data.datasets[1].data = dup;
-    paretoChart.update();
-}
+        dom.step2Title.textContent = `Your challenge: ${problem.title}`;
+        dom.step2Tagline.textContent = problem.tagline;
+        dom.step2Why.textContent = problem.interestingWhy;
 
-// ──────────── Confetti ────────────
-function launchConfetti() {
-    const canvas = $("confetti-canvas");
-    if (!canvas) return;
-    const ctx    = canvas.getContext("2d");
-    canvas.width  = window.innerWidth;
-    canvas.height = window.innerHeight;
-    const particles = [];
-    const colors = ["#818CF8","#34D399","#38BDF8","#FB923C","#C4B5FD"];
+        // Render visual input representation
+        window.AlgoForgeVisualizer.renderProblemOverview(problem, dom.step2VisualContainer);
 
-    for (let i = 0; i < 100; i++) {
-        particles.push({
-            x: Math.random() * canvas.width,
-            y: Math.random() * -canvas.height,
-            r: Math.random() * 6 + 3,
-            d: Math.random() * 2 + 1,
-            c: colors[Math.floor(Math.random() * colors.length)],
-            t: Math.random() * Math.PI * 2
+        // Size selector buttons
+        dom.sizeButtons.forEach(btn => {
+            btn.classList.toggle('selected', btn.dataset.size === state.selectedSizeKey);
+            btn.onclick = () => {
+                dom.sizeButtons.forEach(b => b.classList.remove('selected'));
+                btn.classList.add('selected');
+                state.selectedSizeKey = btn.dataset.size;
+            };
         });
     }
 
-    let frames = 0;
-    function draw() {
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-        particles.forEach(p => {
-            p.y += p.d * 3; p.t += 0.05;
-            p.x += Math.sin(p.t) * 1.5;
-            ctx.fillStyle = p.c;
-            ctx.fillRect(p.x, p.y, p.r, p.r);
+    dom.btnStep2Back?.addEventListener('click', () => goToStep(1));
+    dom.btnStep2Next?.addEventListener('click', () => goToStep(3));
+
+    // ─────────────────────────────────────────────────────────────────────────────
+    // STEP 3: EXPLORE ALGORITHM APPROACHES
+    // ─────────────────────────────────────────────────────────────────────────────
+    function renderStep3() {
+        const problem = window.AlgoForgeAlgorithms.getProblem(state.selectedProblemId);
+        if (!problem) return;
+
+        const container = dom.step3CardsContainer;
+        container.innerHTML = '';
+
+        problem.approaches.forEach((approach, idx) => {
+            const card = document.createElement('div');
+            card.className = 'approach-card';
+            card.innerHTML = `
+                <div class="ac-top">
+                    <span class="ac-badge ${approach.classification.includes('Candidate') ? 'candidate' : 'standard'}">
+                        ${approach.classification}
+                    </span>
+                    <span class="ac-complexity">${approach.badge}</span>
+                </div>
+                <h4 class="ac-title">${approach.name}</h4>
+                <p class="ac-desc">${approach.oneSentence}</p>
+                <div class="ac-complexities">
+                    <span class="c-tag"><i class="fa-solid fa-clock"></i> Time: <strong>${approach.timeComplexity}</strong></span>
+                    <span class="c-tag"><i class="fa-solid fa-memory"></i> Space: <strong>${approach.spaceComplexity}</strong></span>
+                </div>
+                <div class="ac-actions">
+                    <button class="btn btn-outline btn-sm btn-inspect" data-idx="${idx}">
+                        <i class="fa-solid fa-play"></i> Inspect & Animate
+                    </button>
+                    <button class="btn btn-ghost btn-sm btn-toggle-code" data-idx="${idx}">
+                        <i class="fa-solid fa-code"></i> View Code
+                    </button>
+                </div>
+                <!-- Collapsible Code Container -->
+                <div class="ac-code-box" id="codeBox_${idx}">
+                    <pre><code>${escapeHtml(approach.code)}</code></pre>
+                </div>
+            `;
+            container.appendChild(card);
         });
-        frames++;
-        if (frames < 140) requestAnimationFrame(draw);
-        else ctx.clearRect(0, 0, canvas.width, canvas.height);
-    }
-    draw();
-}
 
-window.copyEl = function(id) {
-    const el = document.getElementById(id);
-    if (!el) return;
-    navigator.clipboard.writeText(el.textContent).then(() => {
-        alert("Copied to clipboard!");
-    });
-};
+        // Bind Inspect & Visualize buttons
+        container.querySelectorAll('.btn-inspect').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const idx = parseInt(btn.dataset.idx, 10);
+                const approach = problem.approaches[idx];
+                window.AlgoForgeVisualizer.loadTrace(problem, approach, dom.step3VisualizerArea);
+                dom.step3VisualizerArea.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            });
+        });
 
-});
+        // Bind Code toggles
+        container.querySelectorAll('.btn-toggle-code').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const idx = parseInt(btn.dataset.idx, 10);
+                const codeBox = $(`codeBox_${idx}`);
+                if (codeBox) {
+                    const isOpen = codeBox.classList.contains('open');
+                    codeBox.classList.toggle('open', !isOpen);
+                    btn.innerHTML = isOpen
+                        ? '<i class="fa-solid fa-code"></i> View Code'
+                        : '<i class="fa-solid fa-chevron-up"></i> Hide Code';
+                }
+            });
+        });
 
-// ══════════════════════════════════════════════════════════
-//  AI EXPLAINER — triggered after every synthesis
-// ══════════════════════════════════════════════════════════
-async function triggerAiExplainer(data) {
-    if (!window.GroqAI || !window.ALGOFORGE_CONFIG) return;
-    const card = $("aiExplainerCard");
-    const content = $("aiExplainerContent");
-    if (!card || !content) return;
-
-    card.classList.remove("hidden");
-    content.innerHTML = `<div style="display:flex;align-items:center;gap:8px;color:var(--t3);font-size:13px"><i class="fa-solid fa-spinner fa-spin"></i> Analysing with Llama 3.1 70B...</div>`;
-
-    try {
-        const steps = astToEnglishSteps(data.best_program_ast);
-        const result = await GroqAI.explainAlgorithm(
-            data.algorithm_name,
-            $("taskDesc").textContent,
-            data.best_program_repr || "",
-            data.best_fitness,
-            steps.map(s => s.replace(/<[^>]+>/g, ""))
-        );
-
-        content.innerHTML = `
-            <div style="margin-bottom:12px;padding:12px 14px;background:rgba(139,92,246,0.08);border:1px solid rgba(139,92,246,0.2);border-radius:10px">
-                <div style="font-size:10px;color:#a78bfa;font-weight:600;text-transform:uppercase;letter-spacing:0.8px;margin-bottom:5px">
-                    ${result.algorithm_family || "Discovered Algorithm"}
-                </div>
-                <div style="font-size:15px;font-weight:700;color:var(--t1);margin-bottom:8px">${result.headline || ""}</div>
-                <p style="font-size:13px;color:var(--t2);line-height:1.7">${result.explanation || ""}</p>
-            </div>
-            <div style="padding:10px 12px;background:rgba(59,130,246,0.06);border:1px solid rgba(59,130,246,0.15);border-radius:8px;font-size:12px;color:var(--t2);line-height:1.6">
-                <strong style="color:var(--accent)">💡 Insight:</strong> ${result.insight || ""}
-            </div>
-            <div style="margin-top:10px;font-size:11px;color:var(--t3);display:flex;align-items:center;gap:5px">
-                <i class="fa-solid fa-robot"></i> Generated by Groq · Llama 3.1 70B
-            </div>`;
-    } catch(e) {
-        content.innerHTML = `<div style="font-size:12px;color:var(--t3)">AI analysis unavailable: ${e.message}</div>`;
-    }
-}
-
-// ══════════════════════════════════════════════════════════
-//  AI TASK BUILDER — Natural Language → GP Synthesis
-// ══════════════════════════════════════════════════════════
-
-// Store the current AI-generated task
-let aiGeneratedTask = null;
-
-window.setAiPrompt = function(text) {
-    const el = document.getElementById("aiDescription");
-    if (el) { el.value = text; el.focus(); }
-};
-
-document.addEventListener("DOMContentLoaded", () => {
-    const btnGen  = document.getElementById("btnAiGenerate");
-    const btnEvo  = document.getElementById("btnAiEvolve");
-    if (btnGen) btnGen.addEventListener("click", runAiTaskGeneration);
-    if (btnEvo) btnEvo.addEventListener("click", runAiEvolution);
-});
-
-async function runAiTaskGeneration() {
-    const desc = document.getElementById("aiDescription")?.value?.trim();
-    if (!desc) { showAiError("Please describe what you want the algorithm to do."); return; }
-
-    const btn   = document.getElementById("btnAiGenerate");
-    const badge = document.getElementById("aiBadge");
-    const errEl = document.getElementById("aiError");
-
-    btn.disabled = true;
-    btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Asking Groq AI...';
-    badge.className = "badge b-running";
-    badge.textContent = "Generating...";
-    errEl.classList.add("hidden");
-    document.getElementById("aiTaskContent")?.classList.add("hidden");
-    document.getElementById("aiTaskEmpty")?.classList.remove("hidden");
-    document.getElementById("aiResultCard")?.classList.add("hidden");
-    document.getElementById("aiVariationsCard")?.classList.add("hidden");
-
-    try {
-        const task = await GroqAI.descriptionToTask(desc);
-
-        // Validate — after auto-repair in groq_ai.js, just need >= 2 valid cases
-        if (!task.test_cases || task.test_cases.length < 2) {
-            throw new Error("AI couldn't generate enough test cases for that description. Try being more specific — e.g. 'Sort 4 numbers ascending'.");
+        // Automatically load first approach trace into visualizer
+        if (problem.approaches.length > 0) {
+            window.AlgoForgeVisualizer.loadTrace(problem, problem.approaches[0], dom.step3VisualizerArea);
         }
-
-        aiGeneratedTask = task;
-        renderAiTask(task);
-
-        badge.className = "badge b-done";
-        badge.textContent = "✅ Task Ready";
-
-        // Load variations in background
-        loadAiVariations(task.task_name, task.task_description);
-
-    } catch(e) {
-        showAiError(e.message);
-        badge.className = "badge b-ready";
-        badge.textContent = "Error";
-    } finally {
-        btn.disabled = false;
-        btn.innerHTML = '<i class="fa-solid fa-wand-sparkles"></i> Generate Task with AI';
     }
-}
 
-function renderAiTask(task) {
-    document.getElementById("aiTaskEmpty")?.classList.add("hidden");
-    document.getElementById("aiTaskContent")?.classList.remove("hidden");
+    dom.btnStep3Back?.addEventListener('click', () => goToStep(2));
+    dom.btnStep3Next?.addEventListener('click', () => goToStep(4));
 
-    document.getElementById("aiTaskName").textContent = task.task_name;
-    document.getElementById("aiTaskDesc").textContent = task.task_description;
+    // ─────────────────────────────────────────────────────────────────────────────
+    // STEP 4: RUN REAL EXPERIMENTS
+    // ─────────────────────────────────────────────────────────────────────────────
+    function prepareStep4() {
+        const problem = window.AlgoForgeAlgorithms.getProblem(state.selectedProblemId);
+        if (!problem) return;
 
-    const diffMap = { Easy: "c-easy", Medium: "c-medium", Hard: "c-hard" };
-    const diffBadge = document.getElementById("aiDiffBadge");
-    diffBadge.className = `badge ${diffMap[task.difficulty] || "b-ready"}`;
-    diffBadge.textContent = task.difficulty;
+        dom.btnStartExperiment.disabled = false;
+        dom.btnStartExperiment.innerHTML = '<i class="fa-solid fa-play"></i> Run Experiment Now';
+        dom.pipelineStatusText.textContent = `Ready to benchmark ${problem.approaches.length} algorithms on ${state.selectedSizeKey} dataset (${problem.sizes[state.selectedSizeKey]?.count} items).`;
+        dom.pipelineProgressBar.style.width = '0%';
 
-    const tcContainer = document.getElementById("aiTestCases");
-    tcContainer.innerHTML = "";
-    task.test_cases.forEach(([inp, out], i) => {
-        const d = document.createElement("div");
-        d.className = "test-item";
-        d.innerHTML = `<span style="font-size:10px;color:var(--t3)">Case ${i+1}</span>
-            <span style="color:var(--t2)">[${inp.join(", ")}]</span>
-            <span style="color:var(--accent);font-size:12px">→</span>
-            <span style="color:var(--green)">[${out.join(", ")}]</span>`;
-        tcContainer.appendChild(d);
-    });
-
-    document.getElementById("aiHint").innerHTML = `<strong style="color:var(--t2)">Hint:</strong> ${task.hint}`;
-}
-
-async function runAiEvolution() {
-    if (!aiGeneratedTask) return;
-
-    const btn   = document.getElementById("btnAiEvolve");
-    const card  = document.getElementById("aiResultCard");
-    const badge = document.getElementById("aiResultBadge");
-    const cont  = document.getElementById("aiResultContent");
-
-    btn.disabled = true;
-    btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Evolving...';
-    card.classList.remove("hidden");
-    badge.className = "badge b-running";
-    badge.textContent = "Evolving...";
-
-    const cases = aiGeneratedTask.test_cases;
-    const n = cases[0][0].length;
-
-    // Pick GP params based on difficulty
-    const gpParams = {
-        Easy:   { pop: 40,  gen: 50,  mut: 0.30, crs: 0.70, depth: 5 },
-        Medium: { pop: 60,  gen: 80,  mut: 0.32, crs: 0.68, depth: 6 },
-        Hard:   { pop: 80,  gen: 120, mut: 0.35, crs: 0.65, depth: 7 },
-    };
-    const p = gpParams[aiGeneratedTask.difficulty] || gpParams.Medium;
-
-    cont.innerHTML = `
-        <div class="prog" style="margin-bottom:10px"><div id="aiEvoProgFill" class="prog-fill" style="width:0%"></div></div>
-        <div style="font-size:12px;color:var(--t3);font-family:var(--mono)" id="aiEvoStatus">Initialising population...</div>
-        <div class="chart-box" style="height:180px;margin-top:12px"><canvas id="chartAiEvo"></canvas></div>`;
-
-    // Init mini chart
-    const miniChart = new Chart(document.getElementById("chartAiEvo").getContext("2d"), {
-        type: "line",
-        data: { labels: [], datasets: [
-            { label: "Best Fitness", data: [], borderColor: "#7c3aed", backgroundColor: "rgba(124,58,237,0.1)", borderWidth: 2, tension: 0.35, fill: true, pointRadius: 0 },
-            { label: "Avg Fitness",  data: [], borderColor: "#3b82f6", borderWidth: 1.5, borderDash: [4,3], tension: 0.35, pointRadius: 0 }
-        ]},
-        options: { responsive: true, maintainAspectRatio: false, animation: { duration: 0 },
-            plugins: { legend: { labels: { color: "#666", font: { size: 11 } } } },
-            scales: { x: { grid: { color: "rgba(255,255,255,0.05)" }, ticks: { color: "#555" } },
-                      y: { grid: { color: "rgba(255,255,255,0.05)" }, ticks: { color: "#555" } } }
-        }
-    });
-
-    const seed   = Math.floor(Math.random() * 99999) + 1;
-    const engine = new AlgoEngine.GeneticEngine({
-        popSize: p.pop, maxGen: p.gen, mutRate: p.mut, crsRate: p.crs, maxDepth: p.depth, seed,
-        onGeneration(gen, bestFit, avgFit) {
-            const pct = Math.min(100, (gen / p.gen) * 100);
-            const fill = document.getElementById("aiEvoProgFill");
-            const stat = document.getElementById("aiEvoStatus");
-            if (fill) fill.style.width = pct + "%";
-            if (stat) stat.textContent = `Generation ${gen} / ${p.gen}  —  Best: ${roundTo(Math.min(100, bestFit), 1)}%`;
-            miniChart.data.labels.push(`G${gen}`);
-            miniChart.data.datasets[0].data.push(roundTo(Math.min(100, bestFit), 2));
-            miniChart.data.datasets[1].data.push(roundTo(Math.max(0, Math.min(100, avgFit)), 2));
-            miniChart.update("none");
-        }
-    });
-
-    setTimeout(() => {
-        const { bestProg, bestFit } = engine.run(cases);
-        const fitDisplay = roundTo(Math.min(100, bestFit), 2);
-        const reprStr    = JSON.stringify(bestProg);
-
-        badge.className  = "badge b-done";
-        badge.textContent = fitDisplay >= 95 ? "✅ Solved" : "⏱ Partial";
-
-        const steps  = astToEnglishSteps(bestProg);
-        const stepsHtml = steps.slice(0, 6).map((s, i) =>
-            `<li style="margin-bottom:6px;font-size:12px;color:var(--t2);line-height:1.5"><strong style="color:var(--t1)">Step ${i+1}:</strong> ${s}</li>`
-        ).join("");
-
-        cont.innerHTML = `
-            <div style="margin-bottom:14px">
-                <div style="display:flex;gap:12px;flex-wrap:wrap;margin-bottom:12px">
-                    <div style="text-align:center;background:var(--bg-hover);border:1px solid var(--border);border-radius:8px;padding:10px 16px">
-                        <div style="font-size:22px;font-weight:700;color:${fitDisplay>=95?"var(--green)":"var(--accent)"};font-family:var(--mono)">${fitDisplay}%</div>
-                        <div style="font-size:10px;color:var(--t3);text-transform:uppercase;margin-top:2px">Fitness</div>
-                    </div>
-                    <div style="text-align:center;background:var(--bg-hover);border:1px solid var(--border);border-radius:8px;padding:10px 16px">
-                        <div style="font-size:22px;font-weight:700;color:var(--t1);font-family:var(--mono)">${bestProg.getDepth()}</div>
-                        <div style="font-size:10px;color:var(--t3);text-transform:uppercase;margin-top:2px">AST Depth</div>
-                    </div>
-                    <div style="text-align:center;background:var(--bg-hover);border:1px solid var(--border);border-radius:8px;padding:10px 16px">
-                        <div style="font-size:22px;font-weight:700;color:var(--t1);font-family:var(--mono)">${seed}</div>
-                        <div style="font-size:10px;color:var(--t3);text-transform:uppercase;margin-top:2px">Seed</div>
+        // Render pipeline items in waiting state
+        dom.pipelineItemsContainer.innerHTML = problem.approaches.map(approach => `
+            <div class="pipeline-item" id="pipeItem_${approach.id}">
+                <div class="pi-left">
+                    <span class="pi-status-icon waiting"><i class="fa-regular fa-clock"></i></span>
+                    <div>
+                        <div class="pi-name">${approach.name}</div>
+                        <div class="pi-sub">${approach.classification} · ${approach.timeComplexity}</div>
                     </div>
                 </div>
-                <div style="font-size:10px;font-weight:600;color:var(--t3);text-transform:uppercase;letter-spacing:0.8px;margin-bottom:6px">Step-by-Step</div>
-                <ol style="padding-left:16px">${stepsHtml}</ol>
-            </div>
-            <div style="background:#0d0d0d;border:1px solid var(--border);border-radius:8px;padding:12px;margin-bottom:12px">
-                <div style="font-size:10px;color:var(--t3);margin-bottom:6px;text-transform:uppercase;letter-spacing:0.8px">Generated Python Code</div>
-                <pre style="font-family:var(--mono);font-size:11.5px;color:#86efac;white-space:pre-wrap;line-height:1.6">${generateAiPython(bestProg, aiGeneratedTask.task_name, fitDisplay)}</pre>
-            </div>
-            <button class="btn btn-ghost" style="font-size:12px;width:100%" onclick="useAiAlgoInLab()">
-                <i class="fa-solid fa-arrow-right"></i> Load into Discovery Lab for full analysis
-            </button>`;
-
-        // Store for lab transfer
-        window._aiLastProg   = bestProg;
-        window._aiLastResult = {
-            type:"result", best_fitness:fitDisplay, total_generations:p.gen,
-            converged: bestFit >= 95, elapsed_sec: 0, ast_depth: bestProg.getDepth(),
-            best_program_ast: bestProg, best_program_repr: reprStr,
-            is_duplicate: false, is_novel: true, is_best: true,
-            algorithm_name: `AI-${aiGeneratedTask.task_name.toUpperCase()}-${seed}`,
-            seed_used: seed, verified: false, verification_msg: "AI-defined task"
-        };
-
-        btn.disabled = false;
-        btn.innerHTML = '<i class="fa-solid fa-dna"></i> Evolve Again (New Seed)';
-    }, 0);
-}
-
-function generateAiPython(prog, taskName, fitness) {
-    const nm = taskName.replace(/-/g,"_").toLowerCase();
-    let code = `# AI-Discovered: ${taskName} (Fitness: ${fitness}%)\ndef ${nm}(arr):\n    arr = list(arr)\n`;
-    const stmts = prog.statements || [];
-    stmts.forEach(s => {
-        if (s.type === "CompareSwapNode") {
-            const i1 = s.idx1.value, i2 = s.idx2.value;
-            code += `    if arr[${i1}] > arr[${i2}]: arr[${i1}], arr[${i2}] = arr[${i2}], arr[${i1}]\n`;
-        } else if (s.type === "SwapNode") {
-            const i1 = s.idx1.value, i2 = s.idx2.value;
-            code += `    arr[${i1}], arr[${i2}] = arr[${i2}], arr[${i1}]\n`;
-        }
-    });
-    code += `    return arr\n`;
-    return code;
-}
-
-window.useAiAlgoInLab = function() {
-    if (!window._aiLastProg || !window._aiLastResult) return;
-    currentAst    = window._aiLastProg;
-    currentResult = window._aiLastResult;
-    renderAlgorithm(window._aiLastResult);
-    renderNoveltyBanner(window._aiLastResult);
-    renderExport();
-    updateAnimState();
-    // Switch to lab tab
-    document.querySelectorAll(".tab").forEach(b => b.classList.remove("on"));
-    document.querySelectorAll(".tab-body").forEach(p => p.classList.remove("on"));
-    const labTab  = document.querySelector('[data-tab="t-lab"]');
-    const labBody = document.getElementById("t-lab");
-    if (labTab)  labTab.classList.add("on");
-    if (labBody) labBody.classList.add("on");
-};
-
-async function loadAiVariations(taskName, desc) {
-    try {
-        const result = await GroqAI.suggestVariations(taskName, desc);
-        const card   = document.getElementById("aiVariationsCard");
-        const list   = document.getElementById("aiVariationsList");
-        if (!card || !list || !result.variations) return;
-
-        list.innerHTML = result.variations.map(v => `
-            <div style="display:flex;justify-content:space-between;align-items:center;padding:10px 12px;background:var(--bg-hover);border:1px solid var(--border);border-radius:8px;margin-bottom:6px;cursor:pointer;transition:border-color 0.15s"
-                 onclick="setAiPrompt('${v.description.replace(/'/g,"\\'")}');document.getElementById('aiDescription').scrollIntoView()"
-                 onmouseover="this.style.borderColor='var(--border-hl)'" onmouseout="this.style.borderColor='var(--border)'">
-                <div>
-                    <div style="font-size:12.5px;font-weight:600;color:var(--t1);margin-bottom:2px">${v.name}</div>
-                    <div style="font-size:12px;color:var(--t2)">${v.description}</div>
+                <div class="pi-right">
+                    <span class="pi-badge" id="pipeBadge_${approach.id}">Waiting</span>
                 </div>
-                <span class="chip ${v.difficulty==="Easy"?"c-easy":v.difficulty==="Hard"?"c-hard":"c-medium"}" style="flex-shrink:0;margin-left:10px">${v.difficulty}</span>
-            </div>`).join("");
-        card.classList.remove("hidden");
-    } catch(e) { /* silent — variations are optional */ }
-}
+            </div>
+        `).join('');
+    }
 
-function showAiError(msg) {
-    const el = document.getElementById("aiError");
-    if (!el) return;
-    el.textContent = "⚠ " + msg;
-    el.classList.remove("hidden");
-}
+    dom.btnStartExperiment?.addEventListener('click', async () => {
+        dom.btnStartExperiment.disabled = true;
+        dom.btnStartExperiment.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Running Benchmark...';
 
-/* ═══════════════════════════════════════════════════════
-   UNIVERSAL ORACLE UI CONTROLLER
-   ═══════════════════════════════════════════════════════ */
+        try {
+            const report = await window.AlgoForgeExperimentEngine.runExperiment({
+                problemId: state.selectedProblemId,
+                approachIds: [],
+                sizeKey: state.selectedSizeKey,
+                onProgress: ({ stage, progressPercent }) => {
+                    dom.pipelineProgressBar.style.width = `${progressPercent}%`;
+                    if (stage === 'starting') {
+                        dom.pipelineStatusText.textContent = 'Generating deterministic dataset and running unit tests...';
+                    }
+                },
+                onApproachStart: ({ approachId, approachName, index, total }) => {
+                    dom.pipelineStatusText.textContent = `Benchmarking [${index + 1}/${total}]: ${approachName}...`;
+                    const item = $(`pipeItem_${approachId}`);
+                    const badge = $(`pipeBadge_${approachId}`);
+                    if (item) item.className = 'pipeline-item running';
+                    if (badge) {
+                        badge.className = 'pi-badge running';
+                        badge.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Running';
+                    }
+                },
+                onApproachDone: ({ approachId, result }) => {
+                    const item = $(`pipeItem_${approachId}`);
+                    const badge = $(`pipeBadge_${approachId}`);
+                    if (item) item.className = 'pipeline-item completed';
+                    if (badge) {
+                        badge.className = `pi-badge ${result.verified ? 'verified' : 'failed'}`;
+                        badge.innerHTML = result.verified
+                            ? `<i class="fa-solid fa-check"></i> ${result.benchmark.avgTimeMs} ms`
+                            : '<i class="fa-solid fa-xmark"></i> Failed Tests';
+                    }
+                }
+            });
 
-// Domain pill filter
-let activeDomain = 'all';
-document.querySelectorAll('.dpill').forEach(pill => {
-    pill.addEventListener('click', () => {
-        document.querySelectorAll('.dpill').forEach(p => p.classList.remove('on'));
-        pill.classList.add('on');
-        activeDomain = pill.dataset.domain;
-    });
-});
+            state.currentReport = report;
+            dom.pipelineStatusText.textContent = 'All measurements verified! Preparing results...';
 
-// Quick example helper (called from onclick)
-window.oracleQuick = function(query) {
-    const ta = document.getElementById('oracleQuery');
-    if (ta) ta.value = query;
-    runOracleSearch(query);
-};
+            setTimeout(() => {
+                goToStep(5);
+                renderStep5(report);
+            }, 500);
 
-// New search (reset to hero)
-window.oracleNewSearch = function() {
-    document.getElementById('oracleHero').classList.remove('hidden');
-    document.getElementById('oracleResult').classList.add('hidden');
-    document.getElementById('oracleLoading').classList.add('hidden');
-    const ta = document.getElementById('oracleQuery');
-    if (ta) { ta.value = ''; ta.focus(); }
-};
-
-// Copy code helper
-window.oracleCopyCode = function() {
-    const el = document.getElementById('orCode');
-    if (!el) return;
-    navigator.clipboard.writeText(el.textContent).then(() => {
-        const btn = document.getElementById('btnOracleCopyCode');
-        if (btn) {
-            const orig = btn.innerHTML;
-            btn.innerHTML = '<i class="fa-solid fa-check"></i> Copied!';
-            setTimeout(() => btn.innerHTML = orig, 1500);
+        } catch (err) {
+            dom.btnStartExperiment.disabled = false;
+            dom.btnStartExperiment.innerHTML = '<i class="fa-solid fa-rotate-left"></i> Retry Experiment';
+            dom.pipelineStatusText.innerHTML = `<span class="err-text"><i class="fa-solid fa-triangle-exclamation"></i> Error: ${err.message}</span>`;
         }
     });
-};
 
-// Main search trigger
-on('btnOracleSearch', 'click', () => {
-    const query = (document.getElementById('oracleQuery')?.value || '').trim();
-    if (!query) return;
-    runOracleSearch(query);
-});
+    dom.btnStep4Back?.addEventListener('click', () => goToStep(3));
 
-// Enter key in textarea
-const oracleTa = document.getElementById('oracleQuery');
-if (oracleTa) {
-    oracleTa.addEventListener('keydown', e => {
-        if (e.key === 'Enter' && (e.ctrlKey || e.metaKey)) {
-            e.preventDefault();
-            const query = oracleTa.value.trim();
-            if (query) runOracleSearch(query);
+    // ─────────────────────────────────────────────────────────────────────────────
+    // STEP 5: RESULTS THAT MAKE SENSE
+    // ─────────────────────────────────────────────────────────────────────────────
+    let isTestBreakdownOpen = false;
+
+    function renderStep5(report) {
+        if (!report) return;
+
+        // Distinctive Discovery Moment
+        if (report.winner) {
+            dom.discoveryBanner.style.display = 'flex';
+            dom.discoveryBannerText.innerHTML = `
+                <strong>A promising result, backed by evidence:</strong>
+                <span>${report.winner.name}</span> delivered optimal performance at
+                <strong>${report.winner.avgTimeMs} ms</strong> (${report.winner.speedupVsBaseline} vs baseline).
+            `;
+        } else {
+            dom.discoveryBanner.style.display = 'none';
+        }
+
+        // Render Results Table
+        dom.resultsTableBody.innerHTML = report.approaches.map(a => {
+            const isWinner = report.winner && report.winner.id === a.approachId;
+            return `
+                <tr class="${isWinner ? 'winner-row' : ''}">
+                    <td>
+                        <div class="table-algo-cell">
+                            <strong>${a.name}</strong>
+                            <span class="table-sub">${a.classification}</span>
+                        </div>
+                    </td>
+                    <td>
+                        <span class="status-pill ${a.verified ? 'pill-success' : 'pill-danger'}">
+                            <i class="fa-solid ${a.verified ? 'fa-check' : 'fa-xmark'}"></i>
+                            ${a.correctness.passPercentage}% (${a.correctness.passedCount}/${a.correctness.totalCount})
+                        </span>
+                    </td>
+                    <td>
+                        <span class="timing-val ${isWinner ? 'timing-winner' : ''}">
+                            ${a.benchmark.avgTimeMs} ms
+                        </span>
+                    </td>
+                    <td>
+                        <span class="speedup-val">${a.benchmark.speedupVsBaseline}</span>
+                    </td>
+                    <td>
+                        <span class="badge-complexity">${a.timeComplexity}</span>
+                    </td>
+                </tr>
+            `;
+        }).join('');
+
+        // Populate Test Suite Breakdown
+        if (dom.testTotalPassed) {
+            const totalCases = report.approaches.reduce((acc, a) => acc + a.correctness.totalCount, 0);
+            const passedCases = report.approaches.reduce((acc, a) => acc + a.correctness.passedCount, 0);
+            const overallPct = totalCases > 0 ? Math.round((passedCases / totalCases) * 100) : 100;
+            dom.testTotalPassed.textContent = `${overallPct}% Verified (${passedCases}/${totalCases} checks)`;
+        }
+
+        if (dom.testSuiteBreakdown) {
+            dom.testSuiteBreakdown.innerHTML = report.approaches.map(a => `
+                <div class="test-approach-group">
+                    <div class="tag-header">
+                        <span class="tag-algo-name"><strong>${a.name}</strong> <span class="table-sub">(${a.classification})</span></span>
+                        <span class="status-pill ${a.verified ? 'pill-success' : 'pill-danger'}">
+                            <i class="fa-solid ${a.verified ? 'fa-check' : 'fa-xmark'}"></i>
+                            ${a.correctness.passedCount}/${a.correctness.totalCount} Passed
+                        </span>
+                    </div>
+                    <div class="test-cases-list">
+                        ${a.correctness.cases.map(tc => `
+                            <div class="test-case-item ${tc.passed ? 'passed' : 'suboptimal'}">
+                                <div class="tci-top">
+                                    <span class="tci-name"><i class="fa-solid ${tc.passed ? 'fa-circle-check tc-pass-icon' : 'fa-circle-exclamation tc-warn-icon'}"></i> ${escapeHtml(tc.name)}</span>
+                                    <span class="tci-badge ${tc.passed ? 'passed' : 'suboptimal'}">
+                                        ${tc.passed ? 'VERIFIED' : 'SUBOPTIMAL'}
+                                    </span>
+                                </div>
+                                <div class="tci-desc">${escapeHtml(tc.description)}</div>
+                                <div class="tci-note">${escapeHtml(tc.note || '')}</div>
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Render Chart.js Execution Time Bar Chart
+        renderResultsChart(report);
+
+        // Synthesis text
+        dom.whatWorkedText.textContent = report.synthesis.whatWorked;
+        dom.whatLearnedText.textContent = report.synthesis.whatLearned;
+        dom.limitationsText.textContent = report.synthesis.limitations;
+
+        if (dom.aiSynthesisBox) dom.aiSynthesisBox.style.display = 'none';
+    }
+
+    // Toggle Test Breakdown Accordion
+    dom.btnToggleTestBreakdown?.addEventListener('click', () => {
+        isTestBreakdownOpen = !isTestBreakdownOpen;
+        if (dom.testSuiteBreakdown) {
+            dom.testSuiteBreakdown.style.display = isTestBreakdownOpen ? 'block' : 'none';
+        }
+        if (dom.testToggleText) {
+            dom.testToggleText.textContent = isTestBreakdownOpen ? 'Hide Test Cases' : 'Inspect Test Cases';
+        }
+        if (dom.iconTestChevron) {
+            dom.iconTestChevron.className = isTestBreakdownOpen ? 'fa-solid fa-chevron-up' : 'fa-solid fa-chevron-down';
         }
     });
-}
 
-async function runOracleSearch(query) {
-    // Show loading state
-    document.getElementById('oracleHero').classList.add('hidden');
-    document.getElementById('oracleResult').classList.add('hidden');
-    const loadingEl = document.getElementById('oracleLoading');
-    const loadingText = document.getElementById('oracleLoadingText');
-    loadingEl.classList.remove('hidden');
+    function renderResultsChart(report) {
+        if (!dom.chartCanvas || typeof Chart === 'undefined') return;
 
-    const loadingMessages = [
-        'Searching knowledge base...',
-        'Matching across Physics, CS, Math & Engineering...',
-        'Preparing code examples...',
-        'Finding related concepts...',
-    ];
-    let mi = 0;
-    const msgInterval = setInterval(() => {
-        if (loadingText) loadingText.textContent = loadingMessages[mi++ % loadingMessages.length];
-    }, 700);
+        if (state.resultsChart) {
+            state.resultsChart.destroy();
+            state.resultsChart = null;
+        }
 
-    try {
-        const result = await OracleEngine.search(query);
-        clearInterval(msgInterval);
-        loadingEl.classList.add('hidden');
+        const labels = report.approaches.map(a => a.shortName);
+        const data = report.approaches.map(a => a.benchmark.avgTimeMs);
+        const colors = report.approaches.map(a => {
+            if (report.winner && report.winner.id === a.approachId) return '#4f46e5';
+            if (!a.verified) return '#e11d48';
+            return '#0284c7';
+        });
 
-        if (!result) {
-            loadingEl.classList.add('hidden');
-            document.getElementById('oracleHero').classList.remove('hidden');
+        const ctx = dom.chartCanvas.getContext('2d');
+        state.resultsChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: 'Execution Time (ms)',
+                    data: data,
+                    backgroundColor: colors,
+                    borderRadius: 6,
+                    borderWidth: 0,
+                    barThickness: 38
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { display: false },
+                    tooltip: {
+                        callbacks: {
+                            label: context => ` Average: ${context.parsed.y} ms`
+                        }
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        grid: { color: 'rgba(226, 232, 240, 0.8)' },
+                        ticks: {
+                            color: '#64748b',
+                            font: { family: 'JetBrains Mono', size: 11 },
+                            callback: v => `${v} ms`
+                        }
+                    },
+                    x: {
+                        grid: { display: false },
+                        ticks: {
+                            color: '#334155',
+                            font: { family: 'Inter', size: 12.5, weight: 600 }
+                        }
+                    }
+                }
+            }
+        });
+    }
+
+    // ─────────────────────────────────────────────────────────────────────────────
+    // STEP 6: SAVE, EXPORT & HISTORY
+    // ─────────────────────────────────────────────────────────────────────────────
+    dom.btnSaveExperiment?.addEventListener('click', () => {
+        if (!state.currentReport) return;
+        const exists = state.myExperiments.some(e => e.runId === state.currentReport.runId);
+        if (!exists) {
+            state.myExperiments.unshift(state.currentReport);
+            if (state.myExperiments.length > 30) state.myExperiments.pop();
+            try {
+                localStorage.setItem('algoforge_experiments', JSON.stringify(state.myExperiments));
+            } catch (e) {}
+            updateHistoryBadge();
+            showToast('✓ Experiment saved to My Experiments');
+        } else {
+            showToast('Experiment is already saved in history');
+        }
+    });
+
+    dom.btnDownloadJson?.addEventListener('click', () => {
+        if (!state.currentReport) return;
+        const blob = new Blob([JSON.stringify(state.currentReport, null, 2)], { type: 'application/json' });
+        downloadFile(blob, `AlgoForge_Report_${state.currentReport.runId}.json`);
+        showToast('✓ JSON report downloaded');
+    });
+
+    dom.btnDownloadHtml?.addEventListener('click', () => {
+        if (!state.currentReport) return;
+        const html = generateHtmlReport(state.currentReport);
+        const blob = new Blob([html], { type: 'text/html' });
+        downloadFile(blob, `AlgoForge_LabReport_${state.currentReport.runId}.html`);
+        showToast('✓ HTML report downloaded');
+    });
+
+    dom.btnTryAnother?.addEventListener('click', () => {
+        goToStep(1);
+    });
+
+    dom.btnAiSynthesis?.addEventListener('click', async () => {
+        if (!state.currentReport) return;
+        if (!window.ALGOFORGE_CONFIG || !window.ALGOFORGE_CONFIG.GROQ_API_KEY) {
+            showToast('Groq API Key is not set. Using verified deterministic synthesis.');
             return;
         }
 
-        if (result.source === 'error') {
-            showOracleError(result.msg);
+        dom.btnAiSynthesis.disabled = true;
+        dom.btnAiSynthesis.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Generating AI synthesis...';
+
+        try {
+            const cfg = window.ALGOFORGE_CONFIG;
+            const prompt = `Analyze these real benchmark results:
+Problem: ${state.currentReport.problem.title}
+Dataset: ${state.currentReport.datasetDescription}
+Approaches Tested:
+${state.currentReport.approaches.map(a => `- ${a.name}: ${a.benchmark.avgTimeMs} ms (${a.correctness.passPercentage}% passed)`).join('\n')}
+Winner: ${state.currentReport.winner ? state.currentReport.winner.name : 'None'}
+
+Provide a 3-sentence scientific synthesis explaining why the winner excelled and what architectural factors affected performance.`;
+
+            const res = await fetch(cfg.GROQ_URL, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${cfg.GROQ_API_KEY}`
+                },
+                body: JSON.stringify({
+                    model: cfg.GROQ_MODEL,
+                    messages: [
+                        { role: 'system', content: 'You are an algorithm scientist. Provide a concise 3-sentence empirical summary.' },
+                        { role: 'user', content: prompt }
+                    ]
+                })
+            });
+            const data = await res.json();
+            const aiText = data.choices[0].message.content;
+
+            if (dom.aiSynthesisBox) {
+                dom.aiSynthesisBox.style.display = 'block';
+                dom.aiSynthesisBox.innerHTML = `
+                    <div class="ai-box-title"><i class="fa-solid fa-sparkles"></i> AI Scientific Synthesis (Groq):</div>
+                    <p>${aiText}</p>
+                `;
+            }
+        } catch (e) {
+            showToast('AI request failed; falling back to local synthesis.');
+        } finally {
+            dom.btnAiSynthesis.disabled = false;
+            dom.btnAiSynthesis.innerHTML = '<i class="fa-solid fa-wand-magic-sparkles"></i> AI Synthesis';
+        }
+    });
+
+    // ─────────────────────────────────────────────────────────────────────────────
+    // MY EXPERIMENTS DRAWER / MODAL
+    // ─────────────────────────────────────────────────────────────────────────────
+    function updateHistoryBadge() {
+        if (!dom.historyBadge) return;
+        dom.historyBadge.textContent = state.myExperiments.length;
+        dom.historyBadge.style.display = state.myExperiments.length > 0 ? 'inline-flex' : 'none';
+    }
+
+    function renderHistoryModal() {
+        if (!dom.historyList) return;
+        if (state.myExperiments.length === 0) {
+            dom.historyList.innerHTML = `
+                <div class="empty-history-state">
+                    <i class="fa-regular fa-folder-open empty-icon"></i>
+                    <h4>Your discoveries will appear here after your first experiment.</h4>
+                    <p>Run a benchmark and click "Save to My Experiments" to track your findings.</p>
+                </div>
+            `;
             return;
         }
 
-        const data = result.data;
-        renderOracleResult(data, result.source === 'ai');
+        dom.historyList.innerHTML = state.myExperiments.map((exp, idx) => `
+            <div class="history-item-card">
+                <div class="hic-top">
+                    <span class="hic-problem">${exp.problem.title}</span>
+                    <span class="hic-date">${exp.formattedDate || exp.timestamp.split('T')[0]}</span>
+                </div>
+                <div class="hic-details">
+                    <span>${exp.approaches.length} approaches tested</span> ·
+                    <span>Dataset: ${exp.sizeKey} (${exp.datasetCount} items)</span> ·
+                    <span class="hic-winner">${exp.winner ? `Winner: ${exp.winner.shortName} (${exp.winner.avgTimeMs} ms)` : 'No winner'}</span>
+                </div>
+                <div class="hic-actions">
+                    <button class="btn btn-outline btn-xs btn-reopen" data-idx="${idx}">
+                        <i class="fa-solid fa-arrow-up-right-from-square"></i> Reopen Report
+                    </button>
+                    <button class="btn btn-ghost btn-xs btn-delete-exp" data-idx="${idx}">
+                        <i class="fa-solid fa-trash"></i>
+                    </button>
+                </div>
+            </div>
+        `).join('');
 
-    } catch(e) {
-        clearInterval(msgInterval);
-        loadingEl.classList.add('hidden');
-        showOracleError(e.message);
+        dom.historyList.querySelectorAll('.btn-reopen').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const idx = parseInt(btn.dataset.idx, 10);
+                const exp = state.myExperiments[idx];
+                if (exp) {
+                    state.currentReport = exp;
+                    state.selectedProblemId = exp.problem.id;
+                    state.selectedSizeKey = exp.sizeKey;
+                    closeHistoryModal();
+                    goToStep(5);
+                    renderStep5(exp);
+                }
+            });
+        });
+
+        dom.historyList.querySelectorAll('.btn-delete-exp').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const idx = parseInt(btn.dataset.idx, 10);
+                state.myExperiments.splice(idx, 1);
+                try {
+                    localStorage.setItem('algoforge_experiments', JSON.stringify(state.myExperiments));
+                } catch (e) {}
+                updateHistoryBadge();
+                renderHistoryModal();
+                showToast('Experiment deleted');
+            });
+        });
     }
-}
 
-function renderOracleResult(data, isAi = false) {
-    // Populate fields
-    const color = OracleEngine.getDomainColor(data.domain || 'algorithms');
-
-    document.getElementById('orEmoji').textContent = data.emoji || '🔬';
-    document.getElementById('orName').textContent = data.name || 'Unknown Concept';
-    document.getElementById('orFormula').textContent = data.formula || '—';
-
-    const domainBadge = document.getElementById('orDomainBadge');
-    domainBadge.textContent = OracleEngine.getDomainLabel(data.domain || 'algorithms');
-    domainBadge.style.background = `${color}18`;
-    domainBadge.style.color = color;
-    domainBadge.style.borderColor = `${color}40`;
-
-    document.getElementById('orEli5').textContent = data.eli5 || '';
-    document.getElementById('orExplanation').textContent = data.explanation || '';
-
-    const complexEl = document.getElementById('orComplexity');
-    complexEl.textContent = data.complexity || '';
-    complexEl.style.display = data.complexity ? '' : 'none';
-
-    // Code block
-    document.getElementById('orCode').textContent = (data.code || '# No code example available').trim();
-
-    // Related concepts (from KB)
-    const relatedCard = document.getElementById('orRelatedCard');
-    const relatedEl = document.getElementById('orRelated');
-    const related = ORACLE_KB
-        .filter(item => item.domain === data.domain && item.id !== data.id)
-        .slice(0, 6);
-
-    if (related.length > 0) {
-        relatedEl.innerHTML = related.map(item =>
-            `<button class="oracle-related-pill" onclick="oracleQuick('${item.tags[0]} ${item.name}')">${item.emoji} ${item.name}</button>`
-        ).join('');
-        relatedCard.classList.remove('hidden');
-    } else {
-        relatedCard.classList.add('hidden');
+    function openHistoryModal() {
+        renderHistoryModal();
+        dom.historyModal?.classList.add('open');
     }
 
-    // AI source note
-    const noteEl = document.getElementById('orSourceNote');
-    if (isAi) noteEl.classList.remove('hidden');
-    else noteEl.classList.add('hidden');
+    function closeHistoryModal() {
+        dom.historyModal?.classList.remove('open');
+    }
 
-    // Show result panel
-    document.getElementById('oracleResult').classList.remove('hidden');
-    document.getElementById('oracleResult').scrollIntoView({ behavior: 'smooth', block: 'start' });
-}
+    dom.navHistory?.addEventListener('click', openHistoryModal);
+    dom.btnCloseHistory?.addEventListener('click', closeHistoryModal);
+    dom.btnClearHistory?.addEventListener('click', () => {
+        if (state.myExperiments.length === 0) return;
+        if (confirm('Clear all saved experiments?')) {
+            state.myExperiments = [];
+            localStorage.removeItem('algoforge_experiments');
+            updateHistoryBadge();
+            renderHistoryModal();
+            showToast('All experiments cleared');
+        }
+    });
 
-function showOracleError(msg) {
-    document.getElementById('oracleLoading').classList.add('hidden');
-    document.getElementById('oracleHero').classList.remove('hidden');
-    // Show a subtle toast
-    const toast = document.createElement('div');
-    toast.style.cssText = 'position:fixed;bottom:24px;right:24px;background:#1c1c1c;border:1px solid #ef444460;color:#ef4444;font-size:12px;padding:10px 16px;border-radius:8px;z-index:9999;max-width:320px;line-height:1.5';
-    toast.innerHTML = `<i class="fa-solid fa-triangle-exclamation"></i> ${msg}`;
-    document.body.appendChild(toast);
-    setTimeout(() => toast.remove(), 4000);
-}
+    // ─────────────────────────────────────────────────────────────────────────────
+    // UNIVERSAL KNOWLEDGE ORACLE MODAL
+    // ─────────────────────────────────────────────────────────────────────────────
+    const oracleModal = document.getElementById('oracleModal');
+    const btnOpenOracle = document.getElementById('navOracle');
+    const btnCloseOracle = document.getElementById('btnCloseOracle');
+    const oracleSearchInput = document.getElementById('oracleSearchInput');
+    const btnOracleModalSearch = document.getElementById('btnOracleModalSearch');
+    const oracleModalOutput = document.getElementById('oracleModalOutput');
 
-// Theory Forge toggle inside Oracle tab
-const theoryInner = document.getElementById('t-theory-inner');
-// It lives inside t-oracle, accessible via a button on oracle hero card click
+    function openOracleModal() {
+        oracleModal?.classList.add('open');
+        oracleSearchInput?.focus();
+    }
+    function closeOracleModal() {
+        oracleModal?.classList.remove('open');
+    }
+
+    btnOpenOracle?.addEventListener('click', openOracleModal);
+    btnCloseOracle?.addEventListener('click', closeOracleModal);
+
+    async function runOracleModalSearch(query) {
+        const q = query || oracleSearchInput?.value.trim();
+        if (!q) return;
+        if (oracleSearchInput) oracleSearchInput.value = q;
+        if (oracleModalOutput) {
+            oracleModalOutput.innerHTML = '<div style="padding: 30px; text-align: center; color: var(--accent);"><i class="fa-solid fa-spinner fa-spin"></i> Searching Universal Knowledge Oracle...</div>';
+        }
+
+        if (window.OracleEngine) {
+            try {
+                const res = await window.OracleEngine.search(q);
+                if (res && res.data) {
+                    const item = res.data;
+                    oracleModalOutput.innerHTML = `
+                        <div class="oracle-formula-card" style="margin-top:0;">
+                            <div class="ofc-header">
+                                <div class="ofc-title-wrap">
+                                    <span class="ofc-emoji">${item.emoji || '🔬'}</span>
+                                    <span class="ofc-title">${escapeHtml(item.name)}</span>
+                                </div>
+                                <span class="ofc-domain-pill">${escapeHtml(item.domain || 'Science')}</span>
+                            </div>
+                            <div class="ofc-formula-wrap">
+                                <div>
+                                    <span class="ofc-formula-label">Discovered Governing Formula:</span>
+                                    <div class="ofc-formula-code">${escapeHtml(item.formula || 'f(x) = ?')}</div>
+                                </div>
+                                <button class="ofc-btn-copy" id="btnModalCopyFormula">
+                                    <i class="fa-solid fa-copy"></i> Copy Formula
+                                </button>
+                            </div>
+                            <div class="ofc-eli5">
+                                <i class="fa-solid fa-lightbulb"></i>
+                                <div><strong>In Simple English:</strong> ${escapeHtml(item.eli5 || '')}</div>
+                            </div>
+                            <p class="ofc-explanation">${escapeHtml(item.explanation || '')}</p>
+                            ${item.complexity ? `<div class="ofc-complexity-tag"><i class="fa-solid fa-clock"></i> Complexity: ${escapeHtml(item.complexity)}</div>` : ''}
+                            ${item.code ? `
+                                <div class="ofc-code-accordion">
+                                    <div class="ofc-code-box open">
+                                        <pre><code>${escapeHtml(item.code)}</code></pre>
+                                    </div>
+                                </div>
+                            ` : ''}
+                        </div>
+                    `;
+                    document.getElementById('btnModalCopyFormula')?.addEventListener('click', () => {
+                        navigator.clipboard.writeText(item.formula || '');
+                        showToast('Formula copied to clipboard!');
+                    });
+                    return;
+                }
+            } catch(e) {}
+        }
+
+        if (oracleModalOutput) {
+            oracleModalOutput.innerHTML = `
+                <div class="oracle-empty-state">
+                    <i class="fa-solid fa-circle-question"></i>
+                    <p>No formula found for "${escapeHtml(q)}". Try searching for <strong>gravity</strong>, <strong>kepler</strong>, <strong>dijkstra</strong>, <strong>entropy</strong>, <strong>fourier</strong>, or <strong>binary search</strong>.</p>
+                </div>
+            `;
+        }
+    }
+
+    btnOracleModalSearch?.addEventListener('click', () => runOracleModalSearch());
+    oracleSearchInput?.addEventListener('keydown', e => {
+        if (e.key === 'Enter') runOracleModalSearch();
+    });
+
+    document.querySelectorAll('.oqt-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            const q = btn.dataset.q;
+            runOracleModalSearch(q);
+        });
+    });
+
+    // ─────────────────────────────────────────────────────────────────────────────
+    // HOW IT WORKS MODAL
+    // ─────────────────────────────────────────────────────────────────────────────
+    function openHowModal() {
+        dom.howModal?.classList.add('open');
+    }
+    function closeHowModal() {
+        dom.howModal?.classList.remove('open');
+    }
+    dom.navHow?.addEventListener('click', openHowModal);
+    dom.btnSeeHow?.addEventListener('click', openHowModal);
+    dom.btnCloseHow?.addEventListener('click', closeHowModal);
+
+    // Modal "Start Discovering" CTA button
+    document.getElementById('btnModalStartDiscovering')?.addEventListener('click', () => {
+        closeHowModal();
+        goToStep(1);
+    });
+
+    // Landing Page "Try an Experiment Below" CTA button
+    document.getElementById('btnScrollToProblems')?.addEventListener('click', () => {
+        goToStep(1);
+    });
+
+    // ─────────────────────────────────────────────────────────────────────────────
+    // NAVIGATION LINKS
+    // ─────────────────────────────────────────────────────────────────────────────
+    dom.navBrand?.addEventListener('click', () => {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+    dom.btnStartHero?.addEventListener('click', () => {
+        goToStep(1);
+    });
+    dom.navDiscover?.addEventListener('click', () => {
+        goToStep(1);
+    });
+    dom.navProblems?.addEventListener('click', () => {
+        goToStep(1);
+    });
+
+    // ─────────────────────────────────────────────────────────────────────────────
+    // HELPERS: HTML REPORT GENERATOR, TOAST & UTILITIES
+    // ─────────────────────────────────────────────────────────────────────────────
+    function generateHtmlReport(r) {
+        return `<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>AlgoForge Lab Report — ${r.problem.title}</title>
+    <style>
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background: #f8fafc; color: #0f172a; line-height: 1.6; padding: 40px 20px; }
+        .report-wrap { max-width: 800px; margin: 0 auto; background: #ffffff; border: 1px solid #e2e8f0; border-radius: 12px; padding: 36px; box-shadow: 0 4px 16px rgba(0,0,0,0.05); }
+        h1 { font-size: 24px; color: #0f172a; margin-bottom: 6px; }
+        .meta { color: #64748b; font-size: 13.5px; margin-bottom: 24px; padding-bottom: 16px; border-bottom: 1px solid #e2e8f0; }
+        table { width: 100%; border-collapse: collapse; margin: 24px 0; }
+        th, td { text-align: left; padding: 12px 14px; border-bottom: 1px solid #e2e8f0; font-size: 14px; }
+        th { background: #f8fafc; color: #475569; font-weight: 700; }
+        .winner-cell { color: #4f46e5; font-weight: 700; }
+        .badge { display: inline-block; padding: 3px 8px; border-radius: 4px; font-size: 12px; background: #ecfdf5; color: #059669; font-weight: 700; }
+        .section-title { font-size: 16px; font-weight: 700; margin-top: 24px; margin-bottom: 8px; color: #0f172a; }
+        p { color: #334155; font-size: 14px; margin-bottom: 12px; }
+    </style>
+</head>
+<body>
+    <div class="report-wrap">
+        <h1>AlgoForge AI — Experiment Laboratory Report</h1>
+        <div class="meta">
+            Problem: <strong>${r.problem.title}</strong> · Run ID: <code>${r.runId}</code> · Date: ${r.formattedDate} · Dataset: ${r.sizeKey} (${r.datasetCount} items)
+        </div>
+        <table>
+            <thead>
+                <tr>
+                    <th>Approach</th>
+                    <th>Classification</th>
+                    <th>Correctness</th>
+                    <th>Avg Execution Time</th>
+                    <th>Speedup</th>
+                </tr>
+            </thead>
+            <tbody>
+                ${r.approaches.map(a => `
+                    <tr>
+                        <td><strong>${a.name}</strong></td>
+                        <td>${a.classification}</td>
+                        <td><span class="badge">${a.correctness.passPercentage}% (${a.correctness.passedCount}/${a.correctness.totalCount})</span></td>
+                        <td class="${r.winner && r.winner.id === a.approachId ? 'winner-cell' : ''}">${a.benchmark.avgTimeMs} ms</td>
+                        <td><strong>${a.benchmark.speedupVsBaseline}</strong></td>
+                    </tr>
+                `).join('')}
+            </tbody>
+        </table>
+        <div class="section-title">What Worked?</div>
+        <p>${r.synthesis.whatWorked}</p>
+        <div class="section-title">What Did We Learn?</div>
+        <p>${r.synthesis.whatLearned}</p>
+        <div class="section-title">Limitations & Reproducibility</div>
+        <p>${r.synthesis.limitations}</p>
+    </div>
+</body>
+</html>`;
+    }
+
+    function downloadFile(blob, filename) {
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = filename;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+    }
+
+    function showToast(msg) {
+        if (!dom.toast) return;
+        dom.toast.textContent = msg;
+        dom.toast.classList.add('show');
+        setTimeout(() => dom.toast.classList.remove('show'), 3000);
+    }
+
+    function escapeHtml(str) {
+        return str
+            .replace(/&/g, '&amp;')
+            .replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;')
+            .replace(/"/g, '&quot;');
+    }
+
+    // ─────────────────────────────────────────────────────────────────────────────
+    // INITIALIZATION
+    // ─────────────────────────────────────────────────────────────────────────────
+    initHeroCanvas();
+    initLandingTeaser();
+    initStep1();
+    updateHistoryBadge();
+});
